@@ -25,7 +25,7 @@ public class NanobrowserApplication extends WebApplication {
 	}
 
 	public Class<? extends Page> getHomePage() {
-		return TestPage.class;
+		return MainPage.class;
 	}
 
 }
