@@ -1,6 +1,9 @@
 package ch.tkuhn.nanobrowser;
 
 import java.net.URLDecoder;
+import java.util.List;
+
+import org.openrdf.model.Statement;
 
 public class Utils {
 	
@@ -18,6 +21,40 @@ public class Utils {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String getGraphSummary(List<Statement> graph) {
+		String out = "";
+		String subject = "";
+		String predicate = "";
+		
+		for (Statement t : graph) {
+			String s = t.getSubject().stringValue();
+			String p = t.getPredicate().stringValue();
+			String o = t.getObject().stringValue();
+			
+			if (p.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) continue;
+			if (p.equals("http://www.w3.org/2000/01/rdf-schema#comment")) continue;
+			
+			String sl = " " + getLastPartOfURI(s);
+			String pl = " " + getLastPartOfURI(p);
+			String ol = " " + getLastPartOfURI(o);
+			
+			if ((subject + " " + predicate).equals(s + " " + p)) {
+				out += " ," + ol;
+			} else if (subject.equals(s)) {
+				out += " ;" + pl + ol;
+			} else {
+				out += " ." + sl + pl + ol;
+			}
+			
+			subject = s;
+			predicate = p;
+		}
+		
+		out = out.replaceFirst("^ \\. ", "") + " .";
+		
+		return out;
 	}
 
 }

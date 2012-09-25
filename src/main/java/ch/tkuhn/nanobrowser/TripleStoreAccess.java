@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openrdf.OpenRDFException;
+import org.openrdf.model.Statement;
 import org.openrdf.query.BindingSet;
+import org.openrdf.query.GraphQuery;
+import org.openrdf.query.GraphQueryResult;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
@@ -25,8 +28,7 @@ public class TripleStoreAccess {
 		try {
 			RepositoryConnection connection = repo.getConnection();
 			try {
-				String queryString = sparqlQuery;
-				TupleQuery tupleQuery = connection.prepareTupleQuery(lang, queryString);
+				TupleQuery tupleQuery = connection.prepareTupleQuery(lang, sparqlQuery);
 				TupleQueryResult result = tupleQuery.evaluate();
 				try {
 					while (result.hasNext()) {
@@ -42,6 +44,30 @@ public class TripleStoreAccess {
 			ex.printStackTrace();
 		}
 		return tuples;
+	}
+
+	public static List<Statement> getGraph(String graphURI) {
+		List<Statement> triples = new ArrayList<Statement>();
+		try {
+			RepositoryConnection connection = repo.getConnection();
+			try {
+				String query = "construct {?a ?b ?c} where { graph <" + graphURI + "> {?a ?b ?c} }";
+				GraphQuery graphQuery = connection.prepareGraphQuery(lang, query);
+				GraphQueryResult result = graphQuery.evaluate();
+				try {
+					while (result.hasNext()) {
+						triples.add(result.next());
+					}
+				} finally {
+					result.close();
+				}
+			} finally {
+				connection.close();
+			}
+		} catch (OpenRDFException ex) {
+			ex.printStackTrace();
+		}
+		return triples;
 	}
 
 }
