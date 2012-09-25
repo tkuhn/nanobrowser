@@ -4,10 +4,21 @@ body {
 	font-family: Verdana, Helvetica, sans-serif;
 	font-size: 12pt;
 	text-align: justify;
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
+	margin: 0px;
+}
+
+#content {
+	margin: 20px;
+}
+
+#nav {
+	color: #fff;
+	background-color: #000;
+	width: 100%;
+	margin: 0;
+	padding: 5px 20px;
+	font-size: 10pt;
+	font-weight: bold;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -16,19 +27,14 @@ h1, h2, h3, h4, h5, h6 {
 	clear: both;
 }
 
-h1 { font-size: 130%; }
-h2 { font-size: 120%; }
-h3 { font-size: 110%; }
-h4 { font-size: 100%; }
-h5 { font-size: 100%; }
-h6 { font-size: 100%; }
-
 h1 {
+	font-size: 130%;
 	margin-top: 0em;
-	margin-bottom: 1em;
+	margin-bottom: 0.75em;
 }
 
 h2, h3, h4, h5, h6 {
+	font-size: 100%;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
@@ -38,27 +44,50 @@ p {
 	margin-bottom: 0.5em;
 }
 
+p.subtitle {
+	margin-bottom: 2em;
+}
+
 p.indented {
 	padding-left: 3em;
 }
 
 a {
 	text-decoration: none;
+	background-color: transparent;
 }
 
 a:link {
 	color: #55F;
-	background-color: transparent
 }
 
 a:visited { 
 	color: #22D;
-	background-color: transparent
 }
 
 a:active {
 	color: #000;
-	background-color: transparent
+}
+
+a.navlink {
+	text-decoration: none;
+	background-color: transparent;
+}
+
+a.navlink:link {
+	color: #ccc;
+}
+
+a.navlink:visited { 
+	color: #ccc;
+}
+
+a.navlink:hover { 
+	color: #fff;
+}
+
+a.navlink:active {
+	color: #fff;
 }
 
 td {
