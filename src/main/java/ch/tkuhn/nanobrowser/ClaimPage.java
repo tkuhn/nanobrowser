@@ -1,5 +1,6 @@
 package ch.tkuhn.nanobrowser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
@@ -22,16 +23,12 @@ public class ClaimPage extends WebPage {
 		
 		add(new Label("uri", uri));
 		
-		String claimQuery = "select distinct ?p where {?p <http://www.nanopub.org/nschema#hasAssertion> ?a . ?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + uri + ">}";
-		List<BindingSet> claims = TripleStoreAccess.getTuples(claimQuery);
-		
-		ListView<BindingSet> claimList = new ListView<BindingSet>("nanopubs", claims) {
+		add(new ListView<String>("nanopubs", getNanopubs(uri)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 
-			protected void populateItem(ListItem<BindingSet> item) {
-				BindingSet b = item.getModelObject();
-				String uri = b.getValue("p").stringValue();
+			protected void populateItem(ListItem<String> item) {
+				String uri = item.getModelObject();
 				String s = Utils.getLastPartOfURI(uri);
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
@@ -40,9 +37,21 @@ public class ClaimPage extends WebPage {
 				link.add(new Label("nanopub", s));
 			}
 			
-		};
-		add(claimList);
+		});
 		
+	}
+	
+	public static List<String> getNanopubs(String claimURI) {
+		String query = "select distinct ?p where {" +
+			"?p <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
+			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + claimURI + "> . " +
+			"}";
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<String> nanopubs = new ArrayList<String>();
+		for (BindingSet bs : result) {
+			nanopubs.add(bs.getValue("p").stringValue());
+		}
+		return nanopubs;
 	}
 
 }

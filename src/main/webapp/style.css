@@ -35,7 +35,7 @@ h1 {
 
 h2, h3, h4, h5, h6 {
 	font-size: 100%;
-	margin-top: 0.5em;
+	margin-top: 0.75em;
 	margin-bottom: 0.5em;
 }
 
@@ -58,15 +58,19 @@ a {
 }
 
 a:link {
-	color: #55F;
+	color: #222;
 }
 
 a:visited { 
-	color: #22D;
+	color: #222;
+}
+
+a:hover {
+	color: #33f;
 }
 
 a:active {
-	color: #000;
+	color: #33f;
 }
 
 a.navlink {
