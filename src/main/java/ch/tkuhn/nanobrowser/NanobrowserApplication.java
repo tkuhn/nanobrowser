@@ -23,6 +23,12 @@ public class NanobrowserApplication extends WebApplication {
 	public static String getProperty(String propertyName) {
 		return properties.getProperty(propertyName);
 	}
+	
+	protected void internalInit() {
+		super.internalInit();
+		this.mountPage("/pub", PubPage.class);
+		this.mountPage("/claim", ClaimPage.class);
+	}
 
 	public Class<? extends Page> getHomePage() {
 		return MainPage.class;

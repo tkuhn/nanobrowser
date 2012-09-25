@@ -1,0 +1,82 @@
+body {
+	color: black;
+	background-color: white;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 12pt;
+	text-align: justify;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: black;
+	background-color: inherit;
+	clear: both;
+}
+
+h1 { font-size: 130%; }
+h2 { font-size: 120%; }
+h3 { font-size: 110%; }
+h4 { font-size: 100%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; }
+
+h1 {
+	margin-top: 0em;
+	margin-bottom: 1em;
+}
+
+h2, h3, h4, h5, h6 {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+p.indented {
+	padding-left: 3em;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: #55F;
+	background-color: transparent
+}
+
+a:visited { 
+	color: #22D;
+	background-color: transparent
+}
+
+a:active {
+	color: #000;
+	background-color: transparent
+}
+
+td {
+	padding-right: 10px;
+	padding-bottom: 5px;
+	vertical-align: top;
+}
+
+span.uri {
+	background-color: #eee;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+	font-size: 10px;
+	border-radius: 5px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	padding: 3px 5px;
+	margin: 0 3px;
+}

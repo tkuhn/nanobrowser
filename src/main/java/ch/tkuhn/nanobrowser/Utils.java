@@ -7,13 +7,13 @@ public class Utils {
 	// No instances allowed:
 	private Utils() {}
 	
-	public static String getLastPartOfURL(String urlString) {
-		return urlString.replaceFirst("^.*[/#]([^/#]*)$", "$1");
+	public static String getLastPartOfURI(String uriString) {
+		return uriString.replaceFirst("^.*[/#]([^/#]*)$", "$1");
 	}
 	
-	public static String getSentenceFromURL(String urlString) {
+	public static String getSentenceFromURI(String uriString) {
 		try {
-			return URLDecoder.decode(getLastPartOfURL(urlString), "UTF8");
+			return URLDecoder.decode(getLastPartOfURI(uriString), "UTF8");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
