@@ -19,7 +19,11 @@ public class ClaimPage extends WebPage {
 		
 		String uri = parameters.get("uri").toString();
 		
-		add(new Label("title", Utils.getSentenceFromURI(uri)));
+		if (uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/")) {
+			add(new Label("title", Utils.getSentenceFromURI(uri)));
+		} else {
+			add(new Label("title", Utils.getGraphSummary(TripleStoreAccess.getGraph(uri))));
+		}
 		
 		add(new Label("uri", uri));
 		
@@ -42,10 +46,12 @@ public class ClaimPage extends WebPage {
 	}
 	
 	public static List<String> getNanopubs(String claimURI) {
-		String query = "select distinct ?p where {" +
+		String query = "select distinct ?p where { { " +
 			"?p <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
 			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + claimURI + "> . " +
-			"}";
+			"} union { " +
+			"?p <http://www.nanopub.org/nschema#hasAssertion> <" + claimURI + "> . " +
+			" } }";
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> nanopubs = new ArrayList<String>();
 		for (BindingSet bs : result) {

@@ -41,6 +41,22 @@ public class PubPage extends WebPage {
 			
 		});
 		
+		add(new ListView<String>("formulas", getFormulas(uri)) {
+			
+			private static final long serialVersionUID = 3911519757128281636L;
+
+			protected void populateItem(ListItem<String> item) {
+				String uri = item.getModelObject();
+				String s = Utils.getGraphSummary(TripleStoreAccess.getGraph(uri));
+				PageParameters params = new PageParameters();
+				params.add("uri", uri);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("formulalink", ClaimPage.class, params);
+				item.add(link);
+				link.add(new Label("formula", s));
+			}
+			
+		});
+		
 	}
 	
 	public static List<String> getClaims(String pubURI) {
@@ -54,6 +70,20 @@ public class PubPage extends WebPage {
 			claims.add(bs.getValue("c").stringValue());
 		}
 		return claims;
+	}
+	
+	public static List<String> getFormulas(String pubURI) {
+		String formulaQuery = "select distinct ?f where { { " +
+			"{<" + pubURI + "> <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
+			" union " +
+			"{<" + pubURI + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
+			" } graph ?f {?a ?b ?c} }";
+		List<BindingSet> result = TripleStoreAccess.getTuples(formulaQuery);
+		List<String> formulas = new ArrayList<String>();
+		for (BindingSet bs : result) {
+			formulas.add(bs.getValue("f").stringValue());
+		}
+		return formulas;
 	}
 	
 	public static String getCreateDateString(String pubURI) {

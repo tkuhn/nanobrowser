@@ -1,6 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
 import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.openrdf.model.Statement;
@@ -24,6 +26,8 @@ public class Utils {
 	}
 	
 	public static String getGraphSummary(List<Statement> graph) {
+		Collections.sort(graph, triplesComparator);
+		
 		String out = "";
 		String subject = "";
 		String predicate = "";
@@ -41,20 +45,33 @@ public class Utils {
 			String ol = " " + getLastPartOfURI(o);
 			
 			if ((subject + " " + predicate).equals(s + " " + p)) {
-				out += " ," + ol;
+				out += "," + ol;
 			} else if (subject.equals(s)) {
-				out += " ;" + pl + ol;
+				out += ";" + pl + ol;
 			} else {
-				out += " ." + sl + pl + ol;
+				out += "." + sl + pl + ol;
 			}
 			
 			subject = s;
 			predicate = p;
 		}
 		
-		out = out.replaceFirst("^ \\. ", "") + " .";
+		out = out.replaceFirst("^\\. ", "") + ".";
 		
 		return out;
 	}
+	
+	public static Comparator<Statement> triplesComparator = new Comparator<Statement>() {
+		public int compare(Statement o1, Statement o2) {
+			int d = o1.getSubject().stringValue().compareTo(o2.getSubject().stringValue());
+			if (d == 0) {
+				d = o1.getPredicate().stringValue().compareTo(o2.getPredicate().stringValue());
+			}
+			if (d == 0) {
+				d = o1.getObject().stringValue().compareTo(o2.getObject().stringValue());
+			}
+			return d;
+		};
+	};
 
 }
