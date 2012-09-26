@@ -1,8 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
-import static ch.tkuhn.nanobrowser.NanopubAccess.getClaims;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getSentenceAssertions;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getCreateDateString;
-import static ch.tkuhn.nanobrowser.NanopubAccess.getFormulas;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getFormulaAssertions;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -25,7 +25,7 @@ public class PubPage extends WebPage {
 
 		add(new Label("created", getCreateDateString(uri)));
 		
-		add(new ListView<String>("claims", getClaims(uri)) {
+		add(new ListView<String>("sassertions", getSentenceAssertions(uri)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 
@@ -34,14 +34,14 @@ public class PubPage extends WebPage {
 				String s = Utils.getSentenceFromURI(uri);
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
-				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("claimlink", ClaimPage.class, params);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("sassertionlink", AssertionPage.class, params);
 				item.add(link);
-				link.add(new Label("claim", s));
+				link.add(new Label("sassertion", s));
 			}
 			
 		});
 		
-		add(new ListView<String>("formulas", getFormulas(uri)) {
+		add(new ListView<String>("fassertions", getFormulaAssertions(uri)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 
@@ -50,9 +50,9 @@ public class PubPage extends WebPage {
 				String s = Utils.getGraphSummary(TripleStoreAccess.getGraph(uri));
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
-				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("formulalink", ClaimPage.class, params);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("fassertionlink", AssertionPage.class, params);
 				item.add(link);
-				link.add(new Label("formula", s));
+				link.add(new Label("fassertion", s));
 			}
 			
 		});

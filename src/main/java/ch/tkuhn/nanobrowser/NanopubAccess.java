@@ -21,12 +21,12 @@ public class NanopubAccess {
 		return nanopubs;
 	}
 	
-	public static List<String> getNanopubs(String claimURI) {
+	public static List<String> getNanopubs(String assertionURI) {
 		String query = "select distinct ?p where { { " +
 			"?p <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
-			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + claimURI + "> . " +
+			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + assertionURI + "> . " +
 			"} union { " +
-			"?p <http://www.nanopub.org/nschema#hasAssertion> <" + claimURI + "> . " +
+			"?p <http://www.nanopub.org/nschema#hasAssertion> <" + assertionURI + "> . " +
 			" } }";
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> nanopubs = new ArrayList<String>();
@@ -36,57 +36,57 @@ public class NanopubAccess {
 		return nanopubs;
 	}
 	
-	public static List<String> getAllClaims(int limit) {
-		String claimQuery = "select distinct ?c where {?s <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c}";
-		if (limit >= 0) claimQuery += " limit " + limit;
-		List<BindingSet> result = TripleStoreAccess.getTuples(claimQuery);
-		List<String> claims = new ArrayList<String>();
+	public static List<String> getAllSentenceAssertions(int limit) {
+		String query = "select distinct ?c where {?s <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c}";
+		if (limit >= 0) query += " limit " + limit;
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			claims.add(bs.getValue("c").stringValue());
+			l.add(bs.getValue("c").stringValue());
 		}
-		return claims;
+		return l;
 	}
 	
-	public static List<String> getClaims(String pubURI) {
+	public static List<String> getSentenceAssertions(String pubURI) {
 		String query = "select distinct ?c where {" +
 			"<" + pubURI + "> <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
 			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c . " +
 			"}";
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<String> claims = new ArrayList<String>();
+		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			claims.add(bs.getValue("c").stringValue());
+			l.add(bs.getValue("c").stringValue());
 		}
-		return claims;
+		return l;
 	}
 	
-	public static List<String> getAllFormulas(int limit) {
-		String formulaQuery = "select distinct ?f where { { " +
+	public static List<String> getAllFormulaAssertions(int limit) {
+		String query = "select distinct ?f where { { " +
 			"{?s <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
 			" union " +
 			"{?s <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
 			" } graph ?f {?a ?b ?c} }";
-		if (limit >= 0) formulaQuery += " limit " + limit;
-		List<BindingSet> result = TripleStoreAccess.getTuples(formulaQuery);
-		List<String> formulas = new ArrayList<String>();
+		if (limit >= 0) query += " limit " + limit;
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			formulas.add(bs.getValue("f").stringValue());
+			l.add(bs.getValue("f").stringValue());
 		}
-		return formulas;
+		return l;
 	}
 	
-	public static List<String> getFormulas(String pubURI) {
-		String formulaQuery = "select distinct ?f where { { " +
+	public static List<String> getFormulaAssertions(String pubURI) {
+		String query = "select distinct ?f where { { " +
 			"{<" + pubURI + "> <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
 			" union " +
 			"{<" + pubURI + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
 			" } graph ?f {?a ?b ?c} }";
-		List<BindingSet> result = TripleStoreAccess.getTuples(formulaQuery);
-		List<String> formulas = new ArrayList<String>();
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			formulas.add(bs.getValue("f").stringValue());
+			l.add(bs.getValue("f").stringValue());
 		}
-		return formulas;
+		return l;
 	}
 	
 	public static String getCreateDateString(String pubURI) {

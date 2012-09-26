@@ -1,7 +1,7 @@
 package ch.tkuhn.nanobrowser;
 
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllClaims;
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllFormulas;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllSentenceAssertions;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllFormulaAssertions;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getAllNanopubs;
 
 import org.apache.wicket.markup.html.WebPage;
@@ -33,7 +33,7 @@ public class MainPage extends WebPage {
 			
 		});
 		
-		add(new ListView<String>("claims", getAllClaims(20)) {
+		add(new ListView<String>("sassertions", getAllSentenceAssertions(20)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
@@ -42,14 +42,14 @@ public class MainPage extends WebPage {
 				String s = Utils.getSentenceFromURI(uri);
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
-				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("claimlink", ClaimPage.class, params);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("sassertionlink", AssertionPage.class, params);
 				item.add(link);
-				link.add(new Label("claim", s));
+				link.add(new Label("sassertion", s));
 			}
 			
 		});
 		
-		add(new ListView<String>("formulas", getAllFormulas(20)) {
+		add(new ListView<String>("fassertions", getAllFormulaAssertions(20)) {
 			
 			private static final long serialVersionUID = 1323106346907312283L;
 			
@@ -58,9 +58,9 @@ public class MainPage extends WebPage {
 				String s = Utils.getGraphSummary(TripleStoreAccess.getGraph(uri));
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
-				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("formulalink", ClaimPage.class, params);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("fassertionlink", AssertionPage.class, params);
 				item.add(link);
-				link.add(new Label("formula", s));
+				link.add(new Label("fassertion", s));
 			}
 			
 		});
