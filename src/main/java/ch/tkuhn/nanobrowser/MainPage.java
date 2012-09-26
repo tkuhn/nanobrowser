@@ -1,7 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
-import java.util.ArrayList;
-import java.util.List;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllClaims;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllFormulas;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllNanopubs;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -9,7 +10,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.openrdf.query.BindingSet;
 
 public class MainPage extends WebPage {
 
@@ -17,7 +17,7 @@ public class MainPage extends WebPage {
 
 	public MainPage(final PageParameters parameters) {
 		
-		add(new ListView<String>("nanopubs", getAllNanopubs()) {
+		add(new ListView<String>("nanopubs", getAllNanopubs(20)) {
 			
 			private static final long serialVersionUID = 1587686459411075758L;
 			
@@ -33,7 +33,7 @@ public class MainPage extends WebPage {
 			
 		});
 		
-		add(new ListView<String>("claims", getAllClaims()) {
+		add(new ListView<String>("claims", getAllClaims(20)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
@@ -49,7 +49,7 @@ public class MainPage extends WebPage {
 			
 		});
 		
-		add(new ListView<String>("formulas", getAllFormulas()) {
+		add(new ListView<String>("formulas", getAllFormulas(20)) {
 			
 			private static final long serialVersionUID = 1323106346907312283L;
 			
@@ -65,40 +65,6 @@ public class MainPage extends WebPage {
 			
 		});
 		
-	}
-	
-	public static List<String> getAllNanopubs() {
-		String nanopubsQuery = "select distinct ?p where {?p a <http://www.nanopub.org/nschema#Nanopublication>}";
-		List<BindingSet> result = TripleStoreAccess.getTuples(nanopubsQuery);
-		List<String> nanopubs = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			nanopubs.add(bs.getValue("p").stringValue());
-		}
-		return nanopubs;
-	}
-	
-	public static List<String> getAllClaims() {
-		String claimQuery = "select distinct ?c where {?s <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c}";
-		List<BindingSet> result = TripleStoreAccess.getTuples(claimQuery);
-		List<String> claims = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			claims.add(bs.getValue("c").stringValue());
-		}
-		return claims;
-	}
-	
-	public static List<String> getAllFormulas() {
-		String formulaQuery = "select distinct ?f where { { " +
-			"{?s <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
-			" union " +
-			"{?s <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
-			" } graph ?f {?a ?b ?c} }";
-		List<BindingSet> result = TripleStoreAccess.getTuples(formulaQuery);
-		List<String> formulas = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			formulas.add(bs.getValue("f").stringValue());
-		}
-		return formulas;
 	}
 
 }

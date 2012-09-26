@@ -1,7 +1,6 @@
 package ch.tkuhn.nanobrowser;
 
-import java.util.ArrayList;
-import java.util.List;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getNanopubs;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -9,7 +8,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.openrdf.query.BindingSet;
 
 public class ClaimPage extends WebPage {
 
@@ -43,21 +41,6 @@ public class ClaimPage extends WebPage {
 			
 		});
 		
-	}
-	
-	public static List<String> getNanopubs(String claimURI) {
-		String query = "select distinct ?p where { { " +
-			"?p <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
-			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + claimURI + "> . " +
-			"} union { " +
-			"?p <http://www.nanopub.org/nschema#hasAssertion> <" + claimURI + "> . " +
-			" } }";
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<String> nanopubs = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			nanopubs.add(bs.getValue("p").stringValue());
-		}
-		return nanopubs;
 	}
 
 }

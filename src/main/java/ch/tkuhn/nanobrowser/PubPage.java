@@ -1,7 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
-import java.util.ArrayList;
-import java.util.List;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getClaims;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getCreateDateString;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getFormulas;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -9,7 +10,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.openrdf.query.BindingSet;
 
 public class PubPage extends WebPage {
 
@@ -57,42 +57,6 @@ public class PubPage extends WebPage {
 			
 		});
 		
-	}
-	
-	public static List<String> getClaims(String pubURI) {
-		String query = "select distinct ?c where {" +
-			"<" + pubURI + "> <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
-			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c . " +
-			"}";
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<String> claims = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			claims.add(bs.getValue("c").stringValue());
-		}
-		return claims;
-	}
-	
-	public static List<String> getFormulas(String pubURI) {
-		String formulaQuery = "select distinct ?f where { { " +
-			"{<" + pubURI + "> <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
-			" union " +
-			"{<" + pubURI + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
-			" } graph ?f {?a ?b ?c} }";
-		List<BindingSet> result = TripleStoreAccess.getTuples(formulaQuery);
-		List<String> formulas = new ArrayList<String>();
-		for (BindingSet bs : result) {
-			formulas.add(bs.getValue("f").stringValue());
-		}
-		return formulas;
-	}
-	
-	public static String getCreateDateString(String pubURI) {
-		String query = "select ?d where {" +
-			"<" + pubURI + "> <http://purl.org/dc/terms/created> ?d . " +
-			"}";
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		if (result.size() == 0) return "(unknown)";
-		return result.get(0).getValue("d").stringValue();
 	}
 
 }
