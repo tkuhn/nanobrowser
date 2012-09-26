@@ -21,7 +21,7 @@ public class PubPage extends WebPage {
 		
 		add(new Label("title", Utils.getLastPartOfURI(uri)));
 		
-		add(new Label("uri", uri));
+		//add(new Label("uri", uri));
 
 		add(new Label("created", getCreateDateString(uri)));
 		

@@ -23,7 +23,7 @@ public class AssertionPage extends WebPage {
 			add(new Label("title", Utils.getGraphSummary(TripleStoreAccess.getGraph(uri))));
 		}
 		
-		add(new Label("uri", uri));
+		//add(new Label("uri", uri));
 		
 		add(new ListView<String>("nanopubs", getNanopubs(uri)) {
 			
