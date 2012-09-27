@@ -3,6 +3,8 @@ package ch.tkuhn.nanobrowser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openrdf.model.BNode;
+import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
 public class NanopubAccess {
@@ -16,7 +18,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(nanopubsQuery);
 		List<String> nanopubs = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			nanopubs.add(bs.getValue("p").stringValue());
+			Value v = bs.getValue("p");
+			if (v instanceof BNode) continue;
+			nanopubs.add(v.stringValue());
 		}
 		return nanopubs;
 	}
@@ -31,7 +35,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> nanopubs = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			nanopubs.add(bs.getValue("p").stringValue());
+			Value v = bs.getValue("p");
+			if (v instanceof BNode) continue;
+			nanopubs.add(v.stringValue());
 		}
 		return nanopubs;
 	}
@@ -42,7 +48,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			l.add(bs.getValue("c").stringValue());
+			Value v = bs.getValue("c");
+			if (v instanceof BNode) continue;
+			l.add(v.stringValue());
 		}
 		return l;
 	}
@@ -55,7 +63,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			l.add(bs.getValue("c").stringValue());
+			Value v = bs.getValue("c");
+			if (v instanceof BNode) continue;
+			l.add(v.stringValue());
 		}
 		return l;
 	}
@@ -70,7 +80,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			l.add(bs.getValue("f").stringValue());
+			Value v = bs.getValue("f");
+			if (v instanceof BNode) continue;
+			l.add(v.stringValue());
 		}
 		return l;
 	}
@@ -84,7 +96,9 @@ public class NanopubAccess {
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<String> l = new ArrayList<String>();
 		for (BindingSet bs : result) {
-			l.add(bs.getValue("f").stringValue());
+			Value v = bs.getValue("f");
+			if (v instanceof BNode) continue;
+			l.add(v.stringValue());
 		}
 		return l;
 	}
