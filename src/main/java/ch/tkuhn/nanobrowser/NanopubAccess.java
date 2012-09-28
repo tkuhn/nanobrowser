@@ -112,8 +112,23 @@ public class NanopubAccess {
 		return result.get(0).getValue("d").stringValue();
 	}
 	
+	public static List<String> getAllPersons(int limit) {
+		String query = "select distinct ?a where {" +
+			"?p <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> ?a . " +
+			"}";
+		if (limit >= 0) query += " limit " + limit;
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<String> l = new ArrayList<String>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("a");
+			if (v instanceof BNode) continue;
+			l.add(v.stringValue());
+		}
+		return l;
+	}
+	
 	public static List<String> getAuthors(String pubURI) {
-		String query = "select ?a where {" +
+		String query = "select distinct ?a where {" +
 			"<" + pubURI + "> <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> ?a . " +
 			"}";
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);

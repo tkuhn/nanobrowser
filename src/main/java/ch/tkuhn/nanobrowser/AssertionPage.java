@@ -4,7 +4,6 @@ import static ch.tkuhn.nanobrowser.NanopubAccess.getNanopubs;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -31,12 +30,7 @@ public class AssertionPage extends WebPage {
 
 			protected void populateItem(ListItem<String> item) {
 				String uri = item.getModelObject();
-				String s = Utils.getLastPartOfURI(uri);
-				PageParameters params = new PageParameters();
-				params.add("uri", uri);
-				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("nanopublink", PubPage.class, params);
-				item.add(link);
-				link.add(new Label("nanopub", s));
+				item.add(new PubItem("nanopub", uri));
 			}
 			
 		});
