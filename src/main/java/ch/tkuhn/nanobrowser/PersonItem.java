@@ -13,7 +13,7 @@ public class PersonItem extends Panel {
 	public PersonItem(String id, String uri) {
 		super(id);
 
-		String s = Utils.getLastPartOfURI(uri);
+		String s = NanopubAccess.getPersonName(uri);
 		PageParameters params = new PageParameters();
 		params.add("uri", uri);
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("personlink", PersonPage.class, params);

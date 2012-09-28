@@ -1,9 +1,10 @@
 package ch.tkuhn.nanobrowser;
 
-import static ch.tkuhn.nanobrowser.NanopubAccess.getNanopubs;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getNanopubsForAssertion;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -21,10 +22,10 @@ public class AssertionPage extends WebPage {
 		} else {
 			add(new Label("title", Utils.getGraphSummary(uri)));
 		}
+
+		add(new ExternalLink("uri", uri, uri));
 		
-		//add(new Label("uri", uri));
-		
-		add(new ListView<String>("nanopubs", getNanopubs(uri)) {
+		add(new ListView<String>("nanopubs", getNanopubsForAssertion(uri)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 
