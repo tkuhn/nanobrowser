@@ -55,7 +55,7 @@ public class MainPage extends WebPage {
 			
 			protected void populateItem(ListItem<String> item) {
 				String uri = item.getModelObject();
-				String s = Utils.getGraphSummary(TripleStoreAccess.getGraph(uri));
+				String s = Utils.getGraphSummary(uri);
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
 				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("fassertionlink", AssertionPage.class, params);

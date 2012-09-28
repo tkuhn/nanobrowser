@@ -25,7 +25,8 @@ public class Utils {
 		return null;
 	}
 	
-	public static String getGraphSummary(List<Statement> graph) {
+	public static String getGraphSummary(String uri) {
+		List<Statement> graph = TripleStoreAccess.getGraph(uri);
 		Collections.sort(graph, triplesComparator);
 		
 		String out = "";

@@ -20,7 +20,7 @@ public class AssertionPage extends WebPage {
 		if (uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/")) {
 			add(new Label("title", Utils.getSentenceFromURI(uri)));
 		} else {
-			add(new Label("title", Utils.getGraphSummary(TripleStoreAccess.getGraph(uri))));
+			add(new Label("title", Utils.getGraphSummary(uri)));
 		}
 		
 		//add(new Label("uri", uri));

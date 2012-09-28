@@ -3,6 +3,7 @@ package ch.tkuhn.nanobrowser;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getSentenceAssertions;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getCreateDateString;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getFormulaAssertions;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAuthors;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -47,12 +48,28 @@ public class PubPage extends WebPage {
 
 			protected void populateItem(ListItem<String> item) {
 				String uri = item.getModelObject();
-				String s = Utils.getGraphSummary(TripleStoreAccess.getGraph(uri));
+				String s = Utils.getGraphSummary(uri);
 				PageParameters params = new PageParameters();
 				params.add("uri", uri);
 				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("fassertionlink", AssertionPage.class, params);
 				item.add(link);
 				link.add(new Label("fassertion", s));
+			}
+			
+		});
+		
+		add(new ListView<String>("authors", getAuthors(uri)) {
+
+			private static final long serialVersionUID = 6872614881667929445L;
+
+			protected void populateItem(ListItem<String> item) {
+				String uri = item.getModelObject();
+				String s = Utils.getLastPartOfURI(uri);
+				PageParameters params = new PageParameters();
+				params.add("uri", uri);
+				BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("authorlink", PersonPage.class, params);
+				item.add(link);
+				link.add(new Label("author", s));
 			}
 			
 		});
