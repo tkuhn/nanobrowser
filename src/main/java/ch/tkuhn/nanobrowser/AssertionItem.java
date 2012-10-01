@@ -13,12 +13,7 @@ public class AssertionItem extends Panel {
 	public AssertionItem(String id, String uri) {
 		super(id);
 		
-		String s;
-		if (uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/")) {
-			s = Utils.getSentenceFromURI(uri);
-		} else {
-			s = Utils.getGraphSummary(uri);
-		}
+		String s = Utils.getSentenceFromURI(uri);
 		PageParameters params = new PageParameters();
 		params.add("uri", uri);
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("assertionlink", AssertionPage.class, params);

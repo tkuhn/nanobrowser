@@ -17,11 +17,7 @@ public class AssertionPage extends WebPage {
 		
 		String uri = parameters.get("uri").toString();
 		
-		if (uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/")) {
-			add(new Label("title", Utils.getSentenceFromURI(uri)));
-		} else {
-			add(new Label("title", Utils.getGraphSummary(uri)));
-		}
+		add(new Label("title", Utils.getSentenceFromURI(uri)));
 
 		add(new ExternalLink("uri", uri, uri));
 		

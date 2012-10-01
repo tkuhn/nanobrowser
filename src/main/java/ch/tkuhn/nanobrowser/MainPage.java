@@ -1,9 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllFormulaAssertions;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getAllNanopubs;
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllSentenceAssertions;
 import static ch.tkuhn.nanobrowser.NanopubAccess.getAllPersons;
+import static ch.tkuhn.nanobrowser.NanopubAccess.getAllSentenceAssertions;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -45,17 +44,6 @@ public class MainPage extends WebPage {
 			protected void populateItem(ListItem<String> item) {
 				String uri = item.getModelObject();
 				item.add(new AssertionItem("sassertion", uri));
-			}
-			
-		});
-		
-		add(new ListView<String>("fassertions", getAllFormulaAssertions(20)) {
-			
-			private static final long serialVersionUID = 1323106346907312283L;
-			
-			protected void populateItem(ListItem<String> item) {
-				String uri = item.getModelObject();
-				item.add(new AssertionItem("fassertion", uri));
 			}
 			
 		});
