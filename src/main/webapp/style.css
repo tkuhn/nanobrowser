@@ -104,6 +104,7 @@ a.uri {
 	color: #888;
 	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 	font-size: 10px;
+	word-wrap: break-word;
 }
 
 span.hlistitem {
