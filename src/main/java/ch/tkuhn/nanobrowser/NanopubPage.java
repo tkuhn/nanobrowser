@@ -53,7 +53,7 @@ public class NanopubPage extends WebPage {
 			
 		});
 		
-		add(new ListView<Statement>("assertion", pub.getAssertionTriples()) {
+		add(new ListView<Statement>("assertion", TripleStoreAccess.sortTriples(pub.getAssertionTriples())) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 

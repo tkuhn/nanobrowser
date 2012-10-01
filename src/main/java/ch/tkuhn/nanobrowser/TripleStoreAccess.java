@@ -1,6 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.openrdf.OpenRDFException;
@@ -68,5 +70,31 @@ public class TripleStoreAccess {
 		}
 		return triples;
 	}
+	
+	public static List<Statement> sortTriples(List<Statement> triples) {
+		Collections.sort(triples, tripleComparator);
+		return triples;
+	}
+	
+	public static Comparator<Statement> tripleComparator = new Comparator<Statement>() {
+		
+		public int compare(Statement o1, Statement o2) {
+			int d = o1.getSubject().stringValue().compareTo(o2.getSubject().stringValue());
+			if (d == 0) {
+				String p1 = o1.getPredicate().stringValue();
+				String p2 = o2.getPredicate().stringValue();
+				d = p1.compareTo(p2);
+				if (d != 0) {
+					if (p1.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) d = -1;
+					if (p2.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) d = 1;
+				}
+			}
+			if (d == 0) {
+				d = o1.getObject().stringValue().compareTo(o2.getObject().stringValue());
+			}
+			return d;
+		};
+		
+	};
 
 }
