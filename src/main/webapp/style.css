@@ -39,6 +39,10 @@ h2, h3, h4, h5, h6 {
 	margin-bottom: 0.5em;
 }
 
+table {
+	font-size: inherit;
+}
+
 p {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
@@ -105,6 +109,14 @@ a.uri {
 	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 	font-size: 10px;
 	word-wrap: break-word;
+}
+
+p.formula {
+	font-size: 10pt;
+}
+
+span.rdfpredicate {
+	font-weight: bold;
 }
 
 span.hlistitem {
