@@ -10,15 +10,14 @@ public class PersonItem extends Panel {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public PersonItem(String id, String uri) {
+	public PersonItem(String id, Person p) {
 		super(id);
-
-		String s = NanopubAccess.getPersonName(uri);
+		
 		PageParameters params = new PageParameters();
-		params.add("uri", uri);
+		params.add("uri", p.getURI());
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("personlink", PersonPage.class, params);
 		add(link);
-		link.add(new Label("person", s));
+		link.add(new Label("person", p.getName()));
 	}
 
 }

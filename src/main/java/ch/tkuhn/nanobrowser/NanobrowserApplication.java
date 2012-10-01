@@ -26,8 +26,8 @@ public class NanobrowserApplication extends WebApplication {
 	
 	protected void internalInit() {
 		super.internalInit();
-		this.mountPage("/pub", PubPage.class);
-		this.mountPage("/ass", AssertionPage.class);
+		this.mountPage("/nanopub", NanopubPage.class);
+		this.mountPage("/sentence", SentencePage.class);
 		this.mountPage("/person", PersonPage.class);
 	}
 

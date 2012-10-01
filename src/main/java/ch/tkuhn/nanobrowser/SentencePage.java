@@ -7,19 +7,19 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class PersonPage extends WebPage {
+public class SentencePage extends WebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 
-	public PersonPage(final PageParameters parameters) {
+	public SentencePage(final PageParameters parameters) {
 		
-		Person p = new Person(parameters.get("uri").toString());
+		Sentence s = new Sentence(parameters.get("uri").toString());
 		
-		add(new Label("title", p.getName()));
+		add(new Label("title", s.getSentenceText()));
 
-		add(new ExternalLink("uri", p.getURI(), p.getURI()));
+		add(new ExternalLink("uri", s.getURI(), s.getURI()));
 		
-		add(new ListView<Nanopub>("nanopubs", p.getAuthoredNanopubs()) {
+		add(new ListView<Nanopub>("nanopubs", s.getNanopubs()) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 

@@ -11,9 +11,9 @@ public class TriplePanel extends Panel {
 	public TriplePanel(String id, Statement triple) {
 		super(id);
 		
-		add(new Label("subject", Utils.getLastPartOfURI(triple.getSubject().stringValue())));
-		add(new Label("predicate", Utils.getLastPartOfURI(triple.getPredicate().stringValue())));
-		add(new Label("object", Utils.getLastPartOfURI(triple.getObject().stringValue())));
+		add(new Label("subject", Thing.getLastPartOfURI(triple.getSubject().stringValue())));
+		add(new Label("predicate", Thing.getLastPartOfURI(triple.getPredicate().stringValue())));
+		add(new Label("object", Thing.getLastPartOfURI(triple.getObject().stringValue())));
 	}
 
 }

@@ -46,12 +46,11 @@ public class TripleStoreAccess {
 		return tuples;
 	}
 
-	public static List<Statement> getGraph(String graphURI) {
+	public static List<Statement> getGraph(String query) {
 		List<Statement> triples = new ArrayList<Statement>();
 		try {
 			RepositoryConnection connection = repo.getConnection();
 			try {
-				String query = "construct {?a ?b ?c} where { graph <" + graphURI + "> {?a ?b ?c} }";
 				GraphQuery graphQuery = connection.prepareGraphQuery(lang, query);
 				GraphQueryResult result = graphQuery.evaluate();
 				try {

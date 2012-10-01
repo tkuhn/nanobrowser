@@ -1,9 +1,5 @@
 package ch.tkuhn.nanobrowser;
 
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllNanopubs;
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllPersons;
-import static ch.tkuhn.nanobrowser.NanopubAccess.getAllSentenceAssertions;
-
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -15,35 +11,32 @@ public class MainPage extends WebPage {
 
 	public MainPage(final PageParameters parameters) {
 		
-		add(new ListView<String>("nanopubs", getAllNanopubs(20)) {
+		add(new ListView<Nanopub>("nanopubs", Nanopub.getAllNanopubs(20)) {
 			
 			private static final long serialVersionUID = 1587686459411075758L;
 			
-			protected void populateItem(ListItem<String> item) {
-				String uri = item.getModelObject();
-				item.add(new PubItem("nanopub", uri));
+			protected void populateItem(ListItem<Nanopub> item) {
+				item.add(new NanopubItem("nanopub", item.getModelObject()));
 			}
 			
 		});
 		
-		add(new ListView<String>("persons", getAllPersons(20)) {
+		add(new ListView<Person>("persons", Person.getAllPersons(20)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
-			protected void populateItem(ListItem<String> item) {
-				String uri = item.getModelObject();
-				item.add(new PersonItem("person", uri));
+			protected void populateItem(ListItem<Person> item) {
+				item.add(new PersonItem("person", item.getModelObject()));
 			}
 			
 		});
 		
-		add(new ListView<String>("sassertions", getAllSentenceAssertions(20)) {
+		add(new ListView<Sentence>("sentences", Sentence.getAllSentences(20)) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
-			protected void populateItem(ListItem<String> item) {
-				String uri = item.getModelObject();
-				item.add(new AssertionItem("sassertion", uri));
+			protected void populateItem(ListItem<Sentence> item) {
+				item.add(new SentenceItem("sentence", item.getModelObject()));
 			}
 			
 		});
