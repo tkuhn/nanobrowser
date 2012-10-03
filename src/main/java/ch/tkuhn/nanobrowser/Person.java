@@ -54,8 +54,7 @@ public class Person extends Thing {
 	
 	public void publishAgreement(Sentence sentence) {
 		// TODO publish as proper nanopublication
-		TripleStoreAccess.runUpdateQuery("insert data " +
-			"into graph identified by <http://foo.com> " +
+		TripleStoreAccess.runUpdateQuery("insert data into graph <http://foo.com> " +
 			"{ <" + getURI() + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/agreeswith> <" + sentence.getURI() + "> . }\n");
 	}
 

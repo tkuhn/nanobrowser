@@ -1,7 +1,9 @@
 package ch.tkuhn.nanobrowser;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,9 +79,13 @@ public class TripleStoreAccess {
 	public static void runUpdateQuery(String query) {
 		// SPARQLRepository does not implement update queries
 		try {
-			// TODO use post instead of get request
-			URL url = new URL(endpointURL + "?query=" + URLEncoder.encode(query, "UTF8"));
-			url.openStream().close();
+			URL url = new URL(endpointURL);
+		    URLConnection connection = url.openConnection();
+		    connection.setDoOutput(true);
+		    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+		    wr.write("query=" + URLEncoder.encode(query, "UTF8"));
+		    wr.flush();
+		    connection.getInputStream().close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
