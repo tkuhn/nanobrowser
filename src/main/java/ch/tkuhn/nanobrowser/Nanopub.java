@@ -46,7 +46,8 @@ public class Nanopub extends Thing {
 		String query = "construct {?a ?b ?c} where { { " +
 			"{<" + getURI() + "> <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
 			" union " +
-			"{<" + getURI() + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
+			"{ <" + getURI() + "> <http://www.nanopub.org/nschema#hasAssertion> ?g . " +
+			  "?g <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
 			" } graph ?f {?a ?b ?c} }";
 		return TripleStoreAccess.getGraph(query);
 	}
