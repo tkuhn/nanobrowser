@@ -111,6 +111,20 @@ a.uri {
 	word-wrap: break-word;
 }
 
+a.button {
+	padding: 1px 4px;
+	margin: 0 0 0 3px;
+	background-color: #aaa;
+	color: #fff;
+	font-size: 11pt;
+	font-weight: bold;
+	border-radius: 2px;
+}
+
+a.button:hover {
+	background-color: #33f;
+}
+
 p.formula {
 	font-size: 10pt;
 }

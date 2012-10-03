@@ -1,5 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,8 +24,8 @@ public class TripleStoreAccess {
 	// No instances allowed:
 	private TripleStoreAccess() {}
 	
-	private static String url = NanobrowserApplication.getProperty("sparql-endpoint-url");
-	private static SPARQLRepository repo = new SPARQLRepository(url);
+	private static String endpointURL = NanobrowserApplication.getProperty("sparql-endpoint-url");
+	private static SPARQLRepository repo = new SPARQLRepository(endpointURL);
 	private static QueryLanguage lang = QueryLanguage.SPARQL;
 	
 	public static List<BindingSet> getTuples(String sparqlQuery) {
@@ -69,6 +72,17 @@ public class TripleStoreAccess {
 			ex.printStackTrace();
 		}
 		return triples;
+	}
+	
+	public static void runUpdateQuery(String query) {
+		// SPARQLRepository does not implement update queries
+		try {
+			// TODO use post instead of get request
+			URL url = new URL(endpointURL + "?query=" + URLEncoder.encode(query, "UTF8"));
+			url.openStream().close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public static List<Statement> sortTriples(List<Statement> triples) {

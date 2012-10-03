@@ -52,5 +52,20 @@ public class Sentence extends Thing {
 		}
 		return nanopubs;
 	}
+	
+	public List<Person> getAgreers() {
+		// TODO replace by more general method like getOpinions
+		String query = "select distinct ?p where { " +
+			"?p <http://krauthammerlab.med.yale.edu/nanopub/extensions/agreeswith> <" + getURI() + "> ." +
+			" }";
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<Person> persons = new ArrayList<Person>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("p");
+			if (v instanceof BNode) continue;
+			persons.add(new Person(v.stringValue()));
+		}
+		return persons;
+	}
 
 }
