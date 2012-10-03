@@ -14,10 +14,12 @@ public class Sentence extends Thing {
 		super(uri);
 	}
 	
+	private static final String allSentencesQuery =
+		"select distinct ?s where {?a ex:asSentence ?s}";
+	
 	public static List<Sentence> getAllSentences(int limit) {
-		String query = "select distinct ?s where {?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?s}";
-		if (limit >= 0) query += " limit " + limit;
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		String lm = (limit >= 0) ? " limit " + limit : "";
+		List<BindingSet> result = TripleStoreAccess.getTuples(allSentencesQuery + lm);
 		List<Sentence> l = new ArrayList<Sentence>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("s");
@@ -27,22 +29,12 @@ public class Sentence extends Thing {
 		return l;
 	}
 	
-	public String getSentenceText() {
-		try {
-			return URLDecoder.decode(getLastPartOfURI(), "UTF8");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
+	private static final String nanopubsQuery =
+		"select distinct ?p where { { ?p np:hasAssertion ?a . ?a ex:asSentence <@> } union { " +
+		"?p np:hasAssertion <@> . } }";
 	
 	public List<Nanopub> getNanopubs() {
-		String query = "select distinct ?p where { { " +
-			"?p <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
-			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> <" + getURI() + "> . " +
-			"} union { " +
-			"?p <http://www.nanopub.org/nschema#hasAssertion> <" + getURI() + "> . " +
-			" } }";
+		String query = nanopubsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<Nanopub> nanopubs = new ArrayList<Nanopub>();
 		for (BindingSet bs : result) {
@@ -52,12 +44,14 @@ public class Sentence extends Thing {
 		}
 		return nanopubs;
 	}
+
+	// TODO replace by something more general like "opinions"
+	
+	private static final String agreersQuery =
+		"select distinct ?p where { ?p ex:agreeswith <@> }";
 	
 	public List<Person> getAgreers() {
-		// TODO replace by more general method like getOpinions
-		String query = "select distinct ?p where { " +
-			"?p <http://krauthammerlab.med.yale.edu/nanopub/extensions/agreeswith> <" + getURI() + "> ." +
-			" }";
+		String query = agreersQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<Person> persons = new ArrayList<Person>();
 		for (BindingSet bs : result) {
@@ -66,6 +60,15 @@ public class Sentence extends Thing {
 			persons.add(new Person(v.stringValue()));
 		}
 		return persons;
+	}
+	
+	public String getSentenceText() {
+		try {
+			return URLDecoder.decode(getLastPartOfURI(), "UTF8");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -25,8 +25,11 @@ public class Thing {
 		return getLastPartOfURI(uri);
 	}
 	
+	private static final String labelsQuery =
+		"select ?l where { <@> rdfs:label ?l }";
+	
 	public List<String> getLabels() {
-		String query = "select ?l where { <" + getURI() + "> <http://www.w3.org/2000/01/rdf-schema#label> ?l }";
+		String query = labelsQuery.replaceAll("@", getURI());
 		List<String> labels = new ArrayList<String>();
 		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
 			labels.add(bs.getValue("l").stringValue());

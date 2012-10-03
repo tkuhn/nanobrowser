@@ -29,13 +29,21 @@ public class TripleStoreAccess {
 	private static String endpointURL = NanobrowserApplication.getProperty("sparql-endpoint-url");
 	private static SPARQLRepository repo = new SPARQLRepository(endpointURL);
 	private static QueryLanguage lang = QueryLanguage.SPARQL;
+	private static String sparqlPrefixes = 
+		"prefix ex: <http://krauthammerlab.med.yale.edu/nanopub/extensions/> " +
+		"prefix np: <http://www.nanopub.org/nschema#> " +
+		"prefix cl: <http://krauthammerlab.med.yale.edu/nanopub/claims/en/> " +
+		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
+		"prefix dc: <http://purl.org/dc/terms/> " +
+		"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ";
+		
 	
-	public static List<BindingSet> getTuples(String sparqlQuery) {
+	public static List<BindingSet> getTuples(String query) {
 		List<BindingSet> tuples = new ArrayList<BindingSet>();
 		try {
 			RepositoryConnection connection = repo.getConnection();
 			try {
-				TupleQuery tupleQuery = connection.prepareTupleQuery(lang, sparqlQuery);
+				TupleQuery tupleQuery = connection.prepareTupleQuery(lang, sparqlPrefixes + query);
 				TupleQueryResult result = tupleQuery.evaluate();
 				try {
 					while (result.hasNext()) {
@@ -58,7 +66,7 @@ public class TripleStoreAccess {
 		try {
 			RepositoryConnection connection = repo.getConnection();
 			try {
-				GraphQuery graphQuery = connection.prepareGraphQuery(lang, query);
+				GraphQuery graphQuery = connection.prepareGraphQuery(lang, sparqlPrefixes + query);
 				GraphQueryResult result = graphQuery.evaluate();
 				try {
 					while (result.hasNext()) {
@@ -83,7 +91,7 @@ public class TripleStoreAccess {
 		    URLConnection connection = url.openConnection();
 		    connection.setDoOutput(true);
 		    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-		    wr.write("query=" + URLEncoder.encode(query, "UTF8"));
+		    wr.write("query=" + URLEncoder.encode(sparqlPrefixes + query, "UTF8"));
 		    wr.flush();
 		    connection.getInputStream().close();
 		} catch (IOException ex) {

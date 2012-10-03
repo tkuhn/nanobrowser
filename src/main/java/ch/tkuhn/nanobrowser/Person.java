@@ -13,12 +13,12 @@ public class Person extends Thing {
 		super(uri);
 	}
 	
+	private static final String allPersonsQuery =
+		"select distinct ?p where { ?a pav:authoredBy ?p }";
+	
 	public static List<Person> getAllPersons(int limit) {
-		String query = "select distinct ?p where {" +
-			"?a <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> ?p . " +
-			"}";
-		if (limit >= 0) query += " limit " + limit;
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		String lm = (limit >= 0) ? " limit " + limit : "";
+		List<BindingSet> result = TripleStoreAccess.getTuples(allPersonsQuery + lm);
 		List<Person> l = new ArrayList<Person>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
@@ -28,14 +28,13 @@ public class Person extends Thing {
 		return l;
 	}
 	
+	private static final String authoredNanopubsQuery =
+		"select distinct ?pub where { { ?pub pav:authoredBy <@> } union { " +
+		"?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"graph ?att { ?p pav:authoredBy <@> } } }";
+	
 	public List<Nanopub> getAuthoredNanopubs() {
-		String query = "select distinct ?pub where { { " +
-			"{ ?pub <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> <" + getURI() + "> . }" +
-			" } union { " +
-			"{ ?pub <http://www.nanopub.org/nschema#hasProvenance> ?prov } " +
-			"{ ?prov <http://www.nanopub.org/nschema#hasAttribution> ?att } " +
-			"graph ?att { ?p <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> <" + getURI() + "> } " +
-			" } }";
+		String query = authoredNanopubsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<Nanopub> l = new ArrayList<Nanopub>();
 		for (BindingSet bs : result) {
@@ -51,11 +50,16 @@ public class Person extends Thing {
 		if (name == null) name = getLastPartOfURI();
 		return name;
 	}
+
+	// TODO publish as proper nanopublication
+	private static final String publishAgreementQuery =
+		"insert data into graph <http://foo.com> { <@P> ex:agreeswith <@S> }";
 	
 	public void publishAgreement(Sentence sentence) {
-		// TODO publish as proper nanopublication
-		TripleStoreAccess.runUpdateQuery("insert data into graph <http://foo.com> " +
-			"{ <" + getURI() + "> <http://krauthammerlab.med.yale.edu/nanopub/extensions/agreeswith> <" + sentence.getURI() + "> . }\n");
+		String query = publishAgreementQuery
+				.replaceAll("@P", getURI())
+				.replaceAll("@S", sentence.getURI());
+		TripleStoreAccess.runUpdateQuery(query);
 	}
 
 }

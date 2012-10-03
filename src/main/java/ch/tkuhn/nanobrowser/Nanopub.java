@@ -13,11 +13,13 @@ public class Nanopub extends Thing {
 	public Nanopub(String uri) {
 		super(uri);
 	}
+
+	private static final String allNanopubsQuery =
+		"select distinct ?p where { ?p a np:Nanopublication }";
 	
 	public static List<Nanopub> getAllNanopubs(int limit) {
-		String nanopubsQuery = "select distinct ?p where {?p a <http://www.nanopub.org/nschema#Nanopublication>}";
-		if (limit >= 0) nanopubsQuery += " limit " + limit;
-		List<BindingSet> result = TripleStoreAccess.getTuples(nanopubsQuery);
+		String lm = (limit >= 0) ? " limit " + limit : "";
+		List<BindingSet> result = TripleStoreAccess.getTuples(allNanopubsQuery + lm);
 		List<Nanopub> nanopubs = new ArrayList<Nanopub>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
@@ -27,11 +29,11 @@ public class Nanopub extends Thing {
 		return nanopubs;
 	}
 	
+	private static final String sentenceAssertionsQuery =
+		"select distinct ?c where { <@> np:hasAssertion ?a . ?a ex:asSentence ?c }";
+	
 	public List<Sentence> getSentenceAssertions() {
-		String query = "select distinct ?c where {" +
-			"<" + getURI() + "> <http://www.nanopub.org/nschema#hasAssertion> ?a . " +
-			"?a <http://krauthammerlab.med.yale.edu/nanopub/extensions/asSentence> ?c . " +
-			"}";
+		String query = sentenceAssertionsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<Sentence> l = new ArrayList<Sentence>();
 		for (BindingSet bs : result) {
@@ -42,37 +44,32 @@ public class Nanopub extends Thing {
 		return l;
 	}
 	
+	private static final String assertionTriplesQuery =
+		"construct {?a ?b ?c} where { { <@> np:hasAssertion ?f } union " +
+		"{ <@> np:hasAssertion ?g . ?g ex:asFormula ?f } . graph ?f {?a ?b ?c} }";
+	
 	public List<Statement> getAssertionTriples() {
-		String query = "construct {?a ?b ?c} where { { " +
-			"{<" + getURI() + "> <http://www.nanopub.org/nschema#hasAssertion> ?f}" +
-			" union " +
-			"{ <" + getURI() + "> <http://www.nanopub.org/nschema#hasAssertion> ?g . " +
-			  "?g <http://krauthammerlab.med.yale.edu/nanopub/extensions/asFormula> ?f}" +
-			" } graph ?f {?a ?b ?c} }";
+		String query = assertionTriplesQuery.replaceAll("@", getURI());
 		return TripleStoreAccess.getGraph(query);
 	}
 	
+	private static final String createDateQuery =
+		"select ?d where { { <@> dc:created ?d } union { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"graph ?att { ?p dc:created ?d } } }";
+	
 	public String getCreateDateString() {
-		String query = "select ?d where { { " +
-			"{ <" + getURI() + "> <http://purl.org/dc/terms/created> ?d . }" +
-			" } union { " +
-			"{ <" + getURI() + "> <http://www.nanopub.org/nschema#hasProvenance> ?prov } " +
-			"{ ?prov <http://www.nanopub.org/nschema#hasAttribution> ?att } " +
-			"graph ?att { ?p <http://purl.org/dc/terms/created> ?d } " +
-			" } }";
+		String query = createDateQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		if (result.size() == 0) return null;
 		return result.get(0).getValue("d").stringValue().substring(0, 10);
 	}
 	
+	private static final String authorsQuery =
+		"select distinct ?a where { { <@> pav:authoredBy ?a } union { <@> np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?p pav:authoredBy ?a } } }";
+	
 	public List<Person> getAuthors() {
-		String query = "select distinct ?a where { { " +
-			"{ <" + getURI() + "> <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> ?a . }" +
-			" } union { " +
-			"{ <" + getURI() + "> <http://www.nanopub.org/nschema#hasProvenance> ?prov } " +
-			"{ ?prov <http://www.nanopub.org/nschema#hasAttribution> ?att } " +
-			"graph ?att { ?p <http://swan.mindinformatics.org/ontologies/1.2/pav/authoredBy> ?a } " +
-			" } }";
+		String query = authorsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<Person> l = new ArrayList<Person>();
 		for (BindingSet bs : result) {
