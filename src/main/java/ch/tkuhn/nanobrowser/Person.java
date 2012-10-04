@@ -2,6 +2,7 @@ package ch.tkuhn.nanobrowser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
@@ -50,13 +51,16 @@ public class Person extends Thing {
 		if (name == null) name = getLastPartOfURI();
 		return name;
 	}
-
-	// TODO publish as proper nanopublication
+	
 	private static final String publishAgreementQuery =
-		"insert data into graph <http://foo.com> { <@P> ex:agreeswith <@S> }";
+		"prefix : <@I> insert data into graph : { :Pub np:hasAssertion :Ass . :Pub np:hasProvenance :Prov . " +
+		":Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
+		"prefix : <@I> insert data into graph :Ass { <@P> ex:agreeswith <@S> } \n\n" +
+		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> }";
 	
 	public void publishAgreement(Sentence sentence) {
 		String query = publishAgreementQuery
+				.replaceAll("@I", "http://foo.org/" + (new Random()).nextInt(1000000000))
 				.replaceAll("@P", getURI())
 				.replaceAll("@S", sentence.getURI());
 		TripleStoreAccess.runUpdateQuery(query);

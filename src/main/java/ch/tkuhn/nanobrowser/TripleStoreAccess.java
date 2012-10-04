@@ -85,17 +85,19 @@ public class TripleStoreAccess {
 	}
 	
 	public static void runUpdateQuery(String query) {
-		// SPARQLRepository does not implement update queries
-		try {
-			URL url = new URL(endpointURL);
-		    URLConnection connection = url.openConnection();
-		    connection.setDoOutput(true);
-		    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-		    wr.write("query=" + URLEncoder.encode(sparqlPrefixes + query, "UTF8"));
-		    wr.flush();
-		    connection.getInputStream().close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		for (String qu : query.split("\n\n")) {
+			// SPARQLRepository does not implement update queries
+			try {
+				URL url = new URL(endpointURL);
+			    URLConnection connection = url.openConnection();
+			    connection.setDoOutput(true);
+			    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+			    wr.write("query=" + URLEncoder.encode(sparqlPrefixes + qu, "UTF8"));
+			    wr.flush();
+			    connection.getInputStream().close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 	
