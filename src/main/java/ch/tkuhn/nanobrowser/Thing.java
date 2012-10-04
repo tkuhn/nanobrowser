@@ -3,11 +3,23 @@ package ch.tkuhn.nanobrowser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openrdf.model.Resource;
 import org.openrdf.query.BindingSet;
 
 public class Thing {
 	
+	public static final String TYPE_URI = "http://www.w3.org/2002/07/owl#Thing";
+	
 	private final String uri;
+	
+	public static Thing getThing(Resource r) {
+		String uri = r.stringValue();
+		List<String> types = getTypes(uri);
+		if (types.contains(Person.TYPE_URI)) return new Person(uri);
+		if (types.contains(Sentence.TYPE_URI)) return new Sentence(uri);
+		if (types.contains(Nanopub.TYPE_URI)) return new Nanopub(uri);
+		return new Thing(uri);
+	}
 	
 	public Thing(String uri) {
 		this.uri = uri;
@@ -41,6 +53,19 @@ public class Thing {
 		List<String> labels = getLabels();
 		if (labels.size() == 0) return null;
 		return labels.get(0);
+	}
+	
+	public ThingItem createGUIItem(String id) {
+		return new ThingItem(id, this);
+	}
+	
+	public static List<String> getTypes(String uri) {
+		// TODO improve this; should be just one SPARQL query
+		List<String> types = new ArrayList<String>();
+		if (Sentence.isSentence(uri)) types.add(Sentence.TYPE_URI);
+		if (Person.isPerson(uri)) types.add(Person.TYPE_URI);
+		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
+		return types;
 	}
 
 }

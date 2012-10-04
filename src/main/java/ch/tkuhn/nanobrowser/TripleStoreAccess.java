@@ -13,6 +13,7 @@ import java.util.List;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.Statement;
 import org.openrdf.query.BindingSet;
+import org.openrdf.query.BooleanQuery;
 import org.openrdf.query.GraphQuery;
 import org.openrdf.query.GraphQueryResult;
 import org.openrdf.query.QueryLanguage;
@@ -35,8 +36,24 @@ public class TripleStoreAccess {
 		"prefix cl: <http://krauthammerlab.med.yale.edu/nanopub/claims/en/> " +
 		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
 		"prefix dc: <http://purl.org/dc/terms/> " +
-		"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ";
-		
+		"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+		"prefix foaf: <http://xmlns.com/foaf/0.1/> ";
+
+	public static boolean isTrue(String query) {
+		boolean isTrue = false;
+		try {
+			RepositoryConnection connection = repo.getConnection();
+			try {
+				BooleanQuery booleanQuery = connection.prepareBooleanQuery(lang, sparqlPrefixes + query);
+				isTrue = booleanQuery.evaluate();
+			} finally {
+				connection.close();
+			}
+		} catch (OpenRDFException ex) {
+			ex.printStackTrace();
+		}
+		return isTrue;
+	}
 	
 	public static List<BindingSet> getTuples(String query) {
 		List<BindingSet> tuples = new ArrayList<BindingSet>();

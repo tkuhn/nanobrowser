@@ -10,12 +10,14 @@ import org.openrdf.query.BindingSet;
 
 public class Person extends Thing {
 	
+	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Person";
+	
 	public Person(String uri) {
 		super(uri);
 	}
 	
 	private static final String allPersonsQuery =
-		"select distinct ?p where { ?a pav:authoredBy ?p }";
+		"select distinct ?p where { { ?a pav:authoredBy ?p } union { ?p a foaf:Person } }";
 	
 	public static List<Person> getAllPersons(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -27,6 +29,13 @@ public class Person extends Thing {
 			l.add(new Person(v.stringValue()));
 		}
 		return l;
+	}
+
+	private static final String isPersonQuery =
+		"ask { { ?a pav:authoredBy <@> } union { <@> a foaf:Person } }";
+	
+	public static boolean isPerson(String uri) {
+		return TripleStoreAccess.isTrue(isPersonQuery.replaceAll("@", uri));
 	}
 	
 	private static final String authoredNanopubsQuery =
@@ -53,8 +62,8 @@ public class Person extends Thing {
 	}
 	
 	private static final String publishAgreementQuery =
-		"prefix : <@I> insert data into graph : { :Pub np:hasAssertion :Ass . :Pub np:hasProvenance :Prov . " +
-		":Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
+		"prefix : <@I> insert data into graph : { :Pub a np:Nanopublication . :Pub np:hasAssertion :Ass . " +
+		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
 		"prefix : <@I> insert data into graph :Ass { <@P> ex:agreeswith <@S> } \n\n" +
 		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> }";
 	
@@ -64,6 +73,10 @@ public class Person extends Thing {
 				.replaceAll("@P", getURI())
 				.replaceAll("@S", sentence.getURI());
 		TripleStoreAccess.runUpdateQuery(query);
+	}
+	
+	public PersonItem createGUIItem(String id) {
+		return new PersonItem(id, this);
 	}
 
 }

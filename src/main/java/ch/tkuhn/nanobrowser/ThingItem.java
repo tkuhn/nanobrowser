@@ -9,6 +9,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class ThingItem extends Panel {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
+	
+	protected ThingItem(String id) {
+		super(id);
+	}
 
 	public ThingItem(String id, Thing th) {
 		super(id);

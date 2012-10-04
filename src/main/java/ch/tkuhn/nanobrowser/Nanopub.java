@@ -10,6 +10,8 @@ import org.openrdf.query.BindingSet;
 
 public class Nanopub extends Thing {
 	
+	public static final String TYPE_URI = "http://www.nanopub.org/nschema#Nanopublication";
+	
 	public Nanopub(String uri) {
 		super(uri);
 	}
@@ -27,6 +29,13 @@ public class Nanopub extends Thing {
 			nanopubs.add(new Nanopub(v.stringValue()));
 		}
 		return nanopubs;
+	}
+
+	private static final String isNanopubQuery =
+		"ask { <@> a np:Nanopublication }";
+	
+	public static boolean isNanopub(String uri) {
+		return TripleStoreAccess.isTrue(isNanopubQuery.replaceAll("@", uri));
 	}
 	
 	private static final String sentenceAssertionsQuery =
@@ -78,6 +87,10 @@ public class Nanopub extends Thing {
 			l.add(new Person(v.stringValue()));
 		}
 		return l;
+	}
+	
+	public NanopubItem createGUIItem(String id) {
+		return new NanopubItem(id, this);
 	}
 
 }

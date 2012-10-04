@@ -3,10 +3,9 @@ package ch.tkuhn.nanobrowser;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class NanopubItem extends Panel {
+public class NanopubItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 

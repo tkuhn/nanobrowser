@@ -2,7 +2,7 @@ body {
 	color: black;
 	background-color: white;
 	font-family: Verdana, Helvetica, sans-serif;
-	font-size: 12pt;
+	font-size: 11pt;
 	margin: 0px;
 }
 
@@ -34,7 +34,7 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-	font-size: 100%;
+	font-size: 110%;
 	margin-top: 1em;
 	margin-bottom: 0.75em;
 }
@@ -54,6 +54,10 @@ p.subtitle {
 
 p.indented {
 	padding-left: 3em;
+}
+
+img {
+	vertical-align: middle;
 }
 
 a {
@@ -125,12 +129,9 @@ a.button:hover {
 	background-color: #33f;
 }
 
-p.formula {
-	font-size: 10pt;
-}
-
 span.rdfpredicate {
 	font-weight: bold;
+	padding: 0 8px;
 }
 
 span.hlistitem {

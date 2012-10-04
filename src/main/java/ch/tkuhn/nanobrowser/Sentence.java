@@ -10,6 +10,8 @@ import org.openrdf.query.BindingSet;
 
 public class Sentence extends Thing {
 	
+	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/claims/claim";
+	
 	public Sentence(String uri) {
 		super(uri);
 	}
@@ -27,6 +29,10 @@ public class Sentence extends Thing {
 			l.add(new Sentence(v.stringValue()));
 		}
 		return l;
+	}
+	
+	public static boolean isSentence(String uri) {
+		return uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/");
 	}
 	
 	private static final String nanopubsQuery =
@@ -69,6 +75,10 @@ public class Sentence extends Thing {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+	
+	public SentenceItem createGUIItem(String id) {
+		return new SentenceItem(id, this);
 	}
 
 }
