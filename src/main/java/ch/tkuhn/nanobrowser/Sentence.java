@@ -36,8 +36,8 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String nanopubsQuery =
-		"select distinct ?p where { { ?p np:hasAssertion ?a . ?a ex:asSentence <@> } union { " +
-		"?p np:hasAssertion <@> . } }";
+		"select distinct ?p where { ?p np:hasAssertion ?a . ?a ex:asSentence <@> . ?p np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } }";
 	
 	public List<Nanopub> getNanopubs() {
 		String query = nanopubsQuery.replaceAll("@", getURI());

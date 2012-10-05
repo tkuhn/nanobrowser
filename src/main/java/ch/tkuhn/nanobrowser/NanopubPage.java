@@ -43,6 +43,18 @@ public class NanopubPage extends WebPage {
 			
 		});
 		
+		List<Person> creators = pub.getCreators();
+		add(new Label("creatorsempty", creators.size() == 0 ? "(unknown)" : ""));
+		add(new ListView<Person>("creators", creators) {
+			
+			private static final long serialVersionUID = 4928584915881911596L;
+
+			protected void populateItem(ListItem<Person> item) {
+				item.add(new PersonItem("creator", item.getModelObject()));
+			}
+			
+		});
+		
 		add(new ListView<Sentence>("sentences", pub.getSentenceAssertions()) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;

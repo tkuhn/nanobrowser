@@ -16,6 +16,12 @@ public class NanopubItem extends ThingItem {
 		params.add("uri", n.getURI());
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("nanopublink", NanopubPage.class, params);
 		add(link);
+		String date = n.getCreateDateString();
+		if (date == null) {
+			link.add(new Label("nanopubdate", ""));
+		} else {
+			link.add(new Label("nanopubdate", "[" + n.getCreateDateString() + "]"));
+		}
 		link.add(new Label("nanopubname", n.getLastPartOfURI()));
 	}
 

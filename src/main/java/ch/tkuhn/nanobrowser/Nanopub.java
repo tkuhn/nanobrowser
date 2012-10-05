@@ -17,7 +17,8 @@ public class Nanopub extends Thing {
 	}
 
 	private static final String allNanopubsQuery =
-		"select distinct ?p where { ?p a np:Nanopublication }";
+		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } } order by desc(?d)";
 	
 	public static List<Nanopub> getAllNanopubs(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -63,19 +64,24 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String createDateQuery =
-		"select ?d where { { <@> dc:created ?d } union { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { ?p dc:created ?d } } }";
+		"select ?d where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"graph ?att { ?p dc:created ?d } }";
+		//"select ?d where { <@> dc:created ?d }";
 	
 	public String getCreateDateString() {
 		String query = createDateQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		if (result.size() == 0) return null;
-		return result.get(0).getValue("d").stringValue().substring(0, 10);
+		String s = result.get(0).getValue("d").stringValue();
+		if (s.equals("null")) return null;
+		if (s.length() > 16) return s.substring(0, 16);
+		return s;
 	}
 	
 	private static final String authorsQuery =
-		"select distinct ?a where { { <@> pav:authoredBy ?a } union { <@> np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?p pav:authoredBy ?a } } }";
+		"select distinct ?a where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"graph ?att { ?p pav:authoredBy ?a } }";
+		//"select distinct ?a where { <@> pav:authoredBy ?a }";
 	
 	public List<Person> getAuthors() {
 		String query = authorsQuery.replaceAll("@", getURI());
@@ -83,6 +89,23 @@ public class Nanopub extends Thing {
 		List<Person> l = new ArrayList<Person>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("a");
+			if (v instanceof BNode) continue;
+			l.add(new Person(v.stringValue()));
+		}
+		return l;
+	}
+	
+	private static final String creatorsQuery =
+		"select distinct ?c where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"graph ?att { ?p pav:createdBy ?c } }";
+		//"select distinct ?a where { <@> pav:createdBy ?a }";
+	
+	public List<Person> getCreators() {
+		String query = creatorsQuery.replaceAll("@", getURI());
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<Person> l = new ArrayList<Person>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("c");
 			if (v instanceof BNode) continue;
 			l.add(new Person(v.stringValue()));
 		}

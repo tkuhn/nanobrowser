@@ -19,7 +19,7 @@ public class TriplePanel extends Panel {
 		if (ov instanceof Resource) {
 			add(Thing.getThing((Resource) ov).createGUIItem("object"));
 		} else {
-			add(new Label("object", ov.stringValue()));
+			add(new Label("object", "\"" + ov.stringValue() + "\""));
 		}
 	}
 

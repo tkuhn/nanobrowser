@@ -1,6 +1,8 @@
 package ch.tkuhn.nanobrowser;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.wicket.Page;
@@ -34,6 +36,10 @@ public class NanobrowserApplication extends WebApplication {
 
 	public Class<? extends Page> getHomePage() {
 		return MainPage.class;
+	}
+	
+	public static String getTimestamp() {
+		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(new Date()).replaceFirst("(..)$", ":$1");
 	}
 
 }
