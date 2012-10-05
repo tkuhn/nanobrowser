@@ -14,7 +14,7 @@ public class SentencePage extends WebPage {
 	private static final long serialVersionUID = -4673886567380719848L;
 
 	private Sentence sentence;
-	private ListModel<Person> agreerModel = new ListModel<Person>();
+	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 
 	public SentencePage(final PageParameters parameters) {
 		
@@ -41,18 +41,41 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = 8608371149183694875L;
 
 			public void onClick() {
-				(new Person("http://www.example.org/somebody")).publishAgreement(sentence);
+				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.AGREEMENT_TYPE);
 				update();
 			}
 			
 		});
 		
-		add(new ListView<Person>("persons", agreerModel) {
+		add(new Link<Object>("disagree") {
+			
+			private static final long serialVersionUID = 6155018832205809659L;
+
+			public void onClick() {
+				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.DISAGREEMENT_TYPE);
+				update();
+			}
+			
+		});
+		
+		add(new Link<Object>("noopinion") {
+
+			private static final long serialVersionUID = -731806526201590205L;
+
+			public void onClick() {
+				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.NULL_TYPE);
+				update();
+			}
+			
+		});
+		
+		add(new ListView<Opinion>("opinions", opinionModel) {
 			
 			private static final long serialVersionUID = 5235305068010085751L;
 			
-			protected void populateItem(ListItem<Person> item) {
-				item.add(new PersonItem("person", item.getModelObject()));
+			protected void populateItem(ListItem<Opinion> item) {
+				item.add(new PersonItem("person", item.getModelObject().getPerson()));
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType())));
 			}
 			
 		});
@@ -60,7 +83,7 @@ public class SentencePage extends WebPage {
 	}
 	
 	private void update() {
-		agreerModel.setObject(sentence.getAgreers());
+		opinionModel.setObject(sentence.getOpinions(true));
 	}
 
 }

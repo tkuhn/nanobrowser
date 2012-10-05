@@ -129,7 +129,7 @@ a.button:hover {
 	background-color: #33f;
 }
 
-span.rdfpredicate {
+span.predicate {
 	font-weight: bold;
 	padding: 0 8px;
 }

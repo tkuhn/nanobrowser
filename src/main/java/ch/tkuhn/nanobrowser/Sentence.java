@@ -2,7 +2,9 @@ package ch.tkuhn.nanobrowser;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
@@ -51,21 +53,28 @@ public class Sentence extends Thing {
 		return nanopubs;
 	}
 
-	// TODO replace by something more general like "opinions"
+	private static final String opinionsQuery =
+		"select ?p ?t where { " +
+		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn <@> } } order by asc(?d)";
 	
-	private static final String agreersQuery =
-		"select distinct ?p where { ?p ex:agreeswith <@> }";
-	
-	public List<Person> getAgreers() {
-		String query = agreersQuery.replaceAll("@", getURI());
+	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
+		String query = opinionsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Person> persons = new ArrayList<Person>();
+		Map<String, Opinion> opinionMap = new HashMap<String, Opinion>();
 		for (BindingSet bs : result) {
-			Value v = bs.getValue("p");
-			if (v instanceof BNode) continue;
-			persons.add(new Person(v.stringValue()));
+			Value p = bs.getValue("p");
+			Value t = bs.getValue("t");
+			if (p instanceof BNode || t instanceof BNode) continue;
+			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
+				opinionMap.remove(p.stringValue());
+			} else {
+				Opinion opinion = new Opinion(new Person(p.stringValue()), t.stringValue(), this);
+				opinionMap.put(p.stringValue(), opinion);
+			}
 		}
-		return persons;
+		return new ArrayList<Opinion>(opinionMap.values());
 	}
 	
 	public String getSentenceText() {

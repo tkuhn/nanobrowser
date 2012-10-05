@@ -60,17 +60,18 @@ public class Person extends Thing {
 		return name;
 	}
 	
-	private static final String publishAgreementQuery =
+	private static final String publishOpinionQuery =
 		"prefix : <@I> insert data into graph : { :Pub a np:Nanopublication . :Pub np:hasAssertion :Ass . " +
 		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
-		"prefix : <@I> insert data into graph :Ass { <@P> ex:agreeswith <@S> } \n\n" +
+		"prefix : <@I> insert data into graph :Ass { <@P> ex:hasOpinion :Op . :Op ex:opinionType <@T> . :Op ex:opinionOn <@S> } \n\n" +
 		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub dc:created \"@D\"^^xsd:dateTime }";
 	
-	public void publishAgreement(Sentence sentence) {
-		String query = publishAgreementQuery
+	public void publishOpinion(Sentence sentence, String opinionType) {
+		String query = publishOpinionQuery
 				.replaceAll("@I", "http://foo.org/" + (new Random()).nextInt(1000000000))
 				.replaceAll("@P", getURI())
 				.replaceAll("@S", sentence.getURI())
+				.replaceAll("@T", opinionType)
 				.replaceAll("@D", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
 	}

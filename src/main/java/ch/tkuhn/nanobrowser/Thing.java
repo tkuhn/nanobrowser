@@ -67,5 +67,17 @@ public class Thing {
 		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
 		return types;
 	}
+	
+	public String toString() {
+		return getURI();
+	}
+	
+	public boolean equals(Object other) {
+		if (other instanceof Thing) {
+			return getURI().equals(((Thing) other).getURI());
+		} else {
+			return false;
+		}
+	}
 
 }

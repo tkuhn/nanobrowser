@@ -19,6 +19,12 @@
 
 <p class="subtitle"><a href="#" target="_new" class="uri" wicket:id="uri"></a></p>
 
+<p>
+<a href="#" wicket:id="agree" class="button">I agree!</a>
+<a href="#" wicket:id="disagree" class="button">I disagree!</a>
+<a href="#" wicket:id="noopinion" class="button">No opinion!</a>
+</p>
+
 <h4>Nanopublications</h4>
 
 <table>
@@ -29,14 +35,12 @@
 </tr>
 </table>
 
-<h4>Agreers</h4>
-
-<p><a href="#" wicket:id="agree" class="button">I agree!</a></p>
+<h4>Opinions</h4>
 
 <table>
-<tr wicket:id="persons">
+<tr wicket:id="opinions">
 <td>
-<div wicket:id="person"></div>
+<span wicket:id="person"></span> <span class="predicate" wicket:id="opinion"></span>
 </td>
 </tr>
 </table>
