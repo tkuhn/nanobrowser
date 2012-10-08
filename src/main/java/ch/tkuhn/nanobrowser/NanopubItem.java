@@ -10,6 +10,10 @@ public class NanopubItem extends ThingItem {
 	private static final long serialVersionUID = -5109507637942030910L;
 
 	public NanopubItem(String id, Nanopub n) {
+		this(id, n, true);
+	}
+
+	public NanopubItem(String id, Nanopub n, boolean showLabel) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -17,12 +21,17 @@ public class NanopubItem extends ThingItem {
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("nanopublink", NanopubPage.class, params);
 		add(link);
 		String date = n.getCreateDateString();
+		Label dateLabel;
 		if (date == null) {
-			link.add(new Label("nanopubdate", ""));
+			dateLabel = new Label("nanopubdate", "");
 		} else {
-			link.add(new Label("nanopubdate", "[" + n.getCreateDateString() + "]"));
+			dateLabel = new Label("nanopubdate", n.getCreateDateString());
 		}
-		link.add(new Label("nanopubname", n.getLastPartOfURI()));
+		dateLabel.setVisible(showLabel);
+		link.add(dateLabel);
+		Label nameLabel = new Label("nanopubname", " " + n.getLastPartOfURI() + " ");
+		nameLabel.setVisible(showLabel);
+		link.add(nameLabel);
 	}
 
 }

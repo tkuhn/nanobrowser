@@ -54,7 +54,7 @@ public class Sentence extends Thing {
 	}
 
 	private static final String opinionsQuery =
-		"select ?p ?t where { " +
+		"select ?p ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
 		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn <@> } } order by asc(?d)";
@@ -66,11 +66,14 @@ public class Sentence extends Thing {
 		for (BindingSet bs : result) {
 			Value p = bs.getValue("p");
 			Value t = bs.getValue("t");
-			if (p instanceof BNode || t instanceof BNode) continue;
+			Value pub = bs.getValue("pub");
+			if (p instanceof BNode || t instanceof BNode || pub instanceof BNode) continue;
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(p.stringValue());
 			} else {
-				Opinion opinion = new Opinion(new Person(p.stringValue()), t.stringValue(), this);
+				Person person = new Person(p.stringValue());
+				Nanopub nanopub = new Nanopub(pub.stringValue());
+				Opinion opinion = new Opinion(person, t.stringValue(), this, nanopub);
 				opinionMap.put(p.stringValue(), opinion);
 			}
 		}

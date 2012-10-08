@@ -13,11 +13,17 @@ public class Opinion {
 	private final Person person;
 	private final String opinionType;
 	private final Sentence sentence;
+	private Nanopub nanopub;
 	
-	public Opinion(Person person, String opinionType, Sentence sentence) {
+	public Opinion(Person person, String opinionType, Sentence sentence, Nanopub nanopub) {
 		this.person = person;
 		this.opinionType = opinionType;
 		this.sentence = sentence;
+		this.nanopub = nanopub;
+	}
+
+	public Opinion(Person person, String opinionType, Sentence sentence) {
+		this(person, opinionType, sentence, null);
 	}
 	
 	public Person getPerson() {
@@ -30,6 +36,14 @@ public class Opinion {
 	
 	public Sentence getSentence() {
 		return sentence;
+	}
+	
+	public Nanopub getNanopub() {
+		return nanopub;
+	}
+	
+	private void setNanopub(Nanopub nanopub) {
+		this.nanopub = nanopub;
 	}
 	
 	public String getVerbPhrase() {
@@ -54,13 +68,15 @@ public class Opinion {
 		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub dc:created \"@D\"^^xsd:dateTime }";
 	
 	public void publish() {
+		String pubURI = "http://foo.org/" + (new Random()).nextInt(1000000000);
 		String query = publishOpinionQuery
-				.replaceAll("@I", "http://foo.org/" + (new Random()).nextInt(1000000000))
+				.replaceAll("@I", pubURI)
 				.replaceAll("@P", person.getURI())
 				.replaceAll("@S", sentence.getURI())
 				.replaceAll("@T", opinionType)
 				.replaceAll("@D", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
+		setNanopub(new Nanopub(pubURI));
 	}
 	
 	private static final String getAllOpinionGraphsQuery =

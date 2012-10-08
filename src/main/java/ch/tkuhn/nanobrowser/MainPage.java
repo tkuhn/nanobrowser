@@ -1,13 +1,12 @@
 package ch.tkuhn.nanobrowser;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class MainPage extends WebPage {
+public class MainPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = 6634220350799250923L;
 

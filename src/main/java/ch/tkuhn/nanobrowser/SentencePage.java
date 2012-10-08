@@ -1,6 +1,5 @@
 package ch.tkuhn.nanobrowser;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -9,7 +8,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class SentencePage extends WebPage {
+public class SentencePage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 
@@ -41,7 +40,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = 8608371149183694875L;
 
 			public void onClick() {
-				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.AGREEMENT_TYPE, sentence)).publish();
+				(new Opinion(getUser(), Opinion.AGREEMENT_TYPE, sentence)).publish();
 				update();
 			}
 			
@@ -52,7 +51,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = 6155018832205809659L;
 
 			public void onClick() {
-				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.DISAGREEMENT_TYPE, sentence)).publish();
+				(new Opinion(getUser(), Opinion.DISAGREEMENT_TYPE, sentence)).publish();
 				update();
 			}
 			
@@ -63,7 +62,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = -731806526201590205L;
 
 			public void onClick() {
-				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.NULL_TYPE, sentence)).publish();
+				(new Opinion(getUser(), Opinion.NULL_TYPE, sentence)).publish();
 				update();
 			}
 			
@@ -75,7 +74,8 @@ public class SentencePage extends WebPage {
 			
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new PersonItem("person", item.getModelObject().getPerson()));
-				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType())));
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType()) + "."));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
 			}
 			
 		});

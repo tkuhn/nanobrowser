@@ -26,6 +26,16 @@ public class NanobrowserApplication extends WebApplication {
 		return properties.getProperty(propertyName);
 	}
 	
+	private Person user = new Person("http://www.example.org/somebody");
+	
+	public Person getUser() {
+		return user;
+	}
+	
+	public void setUser(Person user) {
+		this.user = user;
+	}
+	
 	protected void internalInit() {
 		super.internalInit();
 		this.mountPage("/nanopub", NanopubPage.class);
