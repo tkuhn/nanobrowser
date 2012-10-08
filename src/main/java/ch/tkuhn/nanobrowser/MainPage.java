@@ -1,17 +1,25 @@
 package ch.tkuhn.nanobrowser;
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class MainPage extends WebPage {
 
 	private static final long serialVersionUID = 6634220350799250923L;
 
+	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
+	private ListModel<Person> personModel = new ListModel<Person>();
+	private ListModel<Sentence> sentenceModel = new ListModel<Sentence>();
+
 	public MainPage(final PageParameters parameters) {
 		
-		add(new ListView<Nanopub>("nanopubs", Nanopub.getAllNanopubs(20)) {
+		update();
+		
+		add(new ListView<Nanopub>("nanopubs", nanopubModel) {
 			
 			private static final long serialVersionUID = 1587686459411075758L;
 			
@@ -21,7 +29,7 @@ public class MainPage extends WebPage {
 			
 		});
 		
-		add(new ListView<Person>("persons", Person.getAllPersons(20)) {
+		add(new ListView<Person>("persons", personModel) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
@@ -31,7 +39,7 @@ public class MainPage extends WebPage {
 			
 		});
 		
-		add(new ListView<Sentence>("sentences", Sentence.getAllSentences(20)) {
+		add(new ListView<Sentence>("sentences", sentenceModel) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
@@ -41,6 +49,23 @@ public class MainPage extends WebPage {
 			
 		});
 		
+		add(new Link<Object>("deleteopinions") {
+			
+			private static final long serialVersionUID = -3387170765807183435L;
+
+			public void onClick() {
+				Opinion.deleteAllOpinionNanopubs();
+				update();
+			}
+			
+		});
+		
+	}
+	
+	private void update() {
+		nanopubModel.setObject(Nanopub.getAllNanopubs(20));
+		personModel.setObject(Person.getAllPersons(20));
+		sentenceModel.setObject(Sentence.getAllSentences(20));
 	}
 
 }

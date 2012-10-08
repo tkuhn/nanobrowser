@@ -41,7 +41,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = 8608371149183694875L;
 
 			public void onClick() {
-				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.AGREEMENT_TYPE);
+				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.AGREEMENT_TYPE, sentence)).publish();
 				update();
 			}
 			
@@ -52,7 +52,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = 6155018832205809659L;
 
 			public void onClick() {
-				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.DISAGREEMENT_TYPE);
+				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.DISAGREEMENT_TYPE, sentence)).publish();
 				update();
 			}
 			
@@ -63,7 +63,7 @@ public class SentencePage extends WebPage {
 			private static final long serialVersionUID = -731806526201590205L;
 
 			public void onClick() {
-				(new Person("http://www.example.org/somebody")).publishOpinion(sentence, Opinion.NULL_TYPE);
+				(new Opinion(new Person("http://www.example.org/somebody"), Opinion.NULL_TYPE, sentence)).publish();
 				update();
 			}
 			
