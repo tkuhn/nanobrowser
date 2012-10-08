@@ -12,6 +12,8 @@ public class ThingPage extends NanobrowserWebPage {
 		
 		Thing th = new Thing(parameters.get("uri").toString());
 		
+		add(new MenuBar("menubar"));
+		
 		add(new Label("title", th.getLastPartOfURI()));
 
 		add(new ExternalLink("uri", th.getURI(), th.getURI()));

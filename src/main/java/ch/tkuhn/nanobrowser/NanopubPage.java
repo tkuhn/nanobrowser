@@ -17,6 +17,8 @@ public class NanopubPage extends NanobrowserWebPage {
 		
 		Nanopub pub = new Nanopub(parameters.get("uri").toString());
 		
+		add(new MenuBar("menubar"));
+		
 		add(new Label("title", pub.getLastPartOfURI()));
 		
 		add(new ExternalLink("uri", pub.getURI(), pub.getURI()));

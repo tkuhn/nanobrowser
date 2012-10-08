@@ -18,6 +18,8 @@ public class MainPage extends NanobrowserWebPage {
 		
 		update();
 		
+		add(new MenuBar("menubar"));
+		
 		add(new ListView<Nanopub>("nanopubs", nanopubModel) {
 			
 			private static final long serialVersionUID = 1587686459411075758L;

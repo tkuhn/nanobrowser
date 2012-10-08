@@ -21,6 +21,8 @@ public class PersonPage extends NanobrowserWebPage {
 		
 		update();
 		
+		add(new MenuBar("menubar"));
+		
 		add(new Label("title", person.getName()));
 
 		add(new ExternalLink("uri", person.getURI(), person.getURI()));
