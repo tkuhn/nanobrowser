@@ -16,13 +16,14 @@ public class Nanopub extends Thing {
 		super(uri);
 	}
 
-	private static final String allNanopubsQuery =
+	private static final String nonmetaNanopubsQuery =
 		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } } order by desc(?d)";
+		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } ." +
+		"filter not exists { ?p a ex:MetaNanopub } } order by desc(?d)";
 	
-	public static List<Nanopub> getAllNanopubs(int limit) {
+	public static List<Nanopub> getNonmetaNanopubs(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
-		List<BindingSet> result = TripleStoreAccess.getTuples(allNanopubsQuery + lm);
+		List<BindingSet> result = TripleStoreAccess.getTuples(nonmetaNanopubsQuery + lm);
 		List<Nanopub> nanopubs = new ArrayList<Nanopub>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");

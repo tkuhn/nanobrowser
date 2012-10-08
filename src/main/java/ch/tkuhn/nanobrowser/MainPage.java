@@ -62,7 +62,7 @@ public class MainPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(Nanopub.getAllNanopubs(20));
+		nanopubModel.setObject(Nanopub.getNonmetaNanopubs(20));
 		personModel.setObject(Person.getAllPersons(20));
 		sentenceModel.setObject(Sentence.getAllSentences(20));
 	}
