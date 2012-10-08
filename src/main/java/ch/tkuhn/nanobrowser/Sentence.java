@@ -12,6 +12,8 @@ import org.openrdf.query.BindingSet;
 
 public class Sentence extends Thing {
 	
+	private static final long serialVersionUID = -7967327315454171639L;
+	
 	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/claims/claim";
 	
 	public Sentence(String uri) {

@@ -9,6 +9,8 @@ import org.openrdf.query.BindingSet;
 
 public class Person extends Thing {
 	
+	private static final long serialVersionUID = -4281747788959702687L;
+	
 	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Person";
 	
 	public Person(String uri) {

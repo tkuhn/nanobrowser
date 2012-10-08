@@ -6,6 +6,8 @@ public class MenuBar extends ThingItem {
 
 	public MenuBar(String id) {
 		super(id);
+		
+		add(new PersonItem("user", getNanobrowserApp().getUser()));
 	}
 
 }

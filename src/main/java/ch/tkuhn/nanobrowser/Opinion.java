@@ -65,7 +65,8 @@ public class Opinion {
 		"prefix : <@I> insert data into graph : { :Pub a ex:MetaNanopub . :Pub np:hasAssertion :Ass . " +
 		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
 		"prefix : <@I> insert data into graph :Ass { <@P> ex:hasOpinion :Op . :Op ex:opinionType <@T> . :Op ex:opinionOn <@S> } \n\n" +
-		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub dc:created \"@D\"^^xsd:dateTime }";
+		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
+		":Pub dc:created \"@D\"^^xsd:dateTime }";
 	
 	public void publish() {
 		String pubURI = "http://foo.org/" + (new Random()).nextInt(1000000000);

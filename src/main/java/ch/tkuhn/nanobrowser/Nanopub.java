@@ -10,6 +10,8 @@ import org.openrdf.query.BindingSet;
 
 public class Nanopub extends Thing {
 	
+	private static final long serialVersionUID = -62516765710631807L;
+	
 	public static final String TYPE_URI = "http://www.nanopub.org/nschema#Nanopublication";
 	
 	public Nanopub(String uri) {

@@ -7,17 +7,21 @@ body {
 }
 
 #content {
+	clear: both;
 	margin: 20px;
 }
 
-#nav {
-	color: #fff;
+#navbar {
+	color: #ccc;
 	background-color: #000;
 	width: 100%;
-	margin: 0;
-	padding: 5px 20px;
+	height: 32px;
 	font-size: 10pt;
 	font-weight: bold;
+}
+
+#navcontent {
+	margin: 0 20px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -61,16 +65,9 @@ img {
 }
 
 a {
+	color: inherit;
 	text-decoration: none;
 	background-color: transparent;
-}
-
-a:link {
-	color: #222;
-}
-
-a:visited { 
-	color: #222;
 }
 
 a:hover {
@@ -154,4 +151,12 @@ span.ref {
 strong {
 	color: black;
 	font-weight: bold;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
 }

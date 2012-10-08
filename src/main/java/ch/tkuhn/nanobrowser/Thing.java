@@ -1,13 +1,16 @@
 package ch.tkuhn.nanobrowser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openrdf.model.Resource;
 import org.openrdf.query.BindingSet;
 
-public class Thing {
+public class Thing implements Serializable {
 	
+	private static final long serialVersionUID = -6229734698248756258L;
+
 	public static final String TYPE_URI = "http://www.w3.org/2002/07/owl#Thing";
 	
 	private final String uri;

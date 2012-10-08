@@ -23,5 +23,13 @@ public class ThingItem extends Panel {
 		add(link);
 		link.add(new Label("thing", th.getLastPartOfURI()));
 	}
+	
+	public NanobrowserApplication getNanobrowserApp() {
+		return (NanobrowserApplication) getApplication();
+	}
+	
+	public Person getUser() {
+		return getNanobrowserApp().getUser();
+	}
 
 }
