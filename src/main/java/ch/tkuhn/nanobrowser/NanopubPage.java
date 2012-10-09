@@ -77,6 +77,18 @@ public class NanopubPage extends NanobrowserWebPage {
 			
 		});
 		
+		add(new ListView<Opinion>("opinions", pub.getOpinions(true)) {
+			
+			private static final long serialVersionUID = 6804591967140101102L;
+
+			protected void populateItem(ListItem<Opinion> item) {
+				item.add(new PersonItem("opinionperson", item.getModelObject().getPerson()));
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType()) + "."));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
+			}
+			
+		});
+		
 	}
 
 }
