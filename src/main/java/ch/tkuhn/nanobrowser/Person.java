@@ -1,7 +1,9 @@
 package ch.tkuhn.nanobrowser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
@@ -40,8 +42,9 @@ public class Person extends Thing {
 	}
 	
 	private static final String authoredNanopubsQuery =
-		"select distinct ?pub where { ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { ?p pav:authoredBy <@> . ?p dc:created ?d } } order by desc(?d)";
+		"select distinct ?pub where { ?pub a np:Nanopublication . ?pub np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?p pav:authoredBy <@> . ?p dc:created ?d } " +
+		"filter not exists { ?pub a ex:MetaNanopub } } order by desc(?d)";
 	
 	public List<Nanopub> getAuthoredNanopubs() {
 		String query = authoredNanopubsQuery.replaceAll("@", getURI());
@@ -53,6 +56,33 @@ public class Person extends Thing {
 			l.add(new Nanopub(v.stringValue()));
 		}
 		return l;
+	}
+
+	private static final String opinionsQuery =
+		"select ?s ?t ?pub where { " +
+		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"graph ?ass { <@> ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } } order by asc(?d)";
+	
+	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
+		String query = opinionsQuery.replaceAll("@", getURI());
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		Map<String, Opinion> opinionMap = new HashMap<String, Opinion>();
+		for (BindingSet bs : result) {
+			Value s = bs.getValue("s");
+			Value t = bs.getValue("t");
+			Value pub = bs.getValue("pub");
+			if (s instanceof BNode || t instanceof BNode || pub instanceof BNode) continue;
+			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
+				opinionMap.remove(s.stringValue());
+			} else {
+				Sentence sentence = new Sentence(s.stringValue());
+				Nanopub nanopub = new Nanopub(pub.stringValue());
+				Opinion opinion = new Opinion(this, t.stringValue(), sentence, nanopub);
+				opinionMap.put(s.stringValue(), opinion);
+			}
+		}
+		return new ArrayList<Opinion>(opinionMap.values());
 	}
 	
 	public String getName() {

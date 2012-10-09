@@ -131,6 +131,11 @@ span.predicate {
 	padding: 0 5px;
 }
 
+span.predicatefirst {
+	font-weight: bold;
+	padding: 0 5px 0 0;
+}
+
 span.hlistitem {
 	margin: 0 3px;
 }

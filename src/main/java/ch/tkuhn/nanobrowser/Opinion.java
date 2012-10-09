@@ -46,17 +46,17 @@ public class Opinion {
 		this.nanopub = nanopub;
 	}
 	
-	public String getVerbPhrase() {
-		return getVerbPhrase(opinionType);
+	public String getVerbPhrase(boolean withObject) {
+		return getVerbPhrase(opinionType, withObject);
 	}
 	
-	public static String getVerbPhrase(String opinionType) {
+	public static String getVerbPhrase(String opinionType, boolean withObject) {
 		if (opinionType.equals(AGREEMENT_TYPE)) {
-			return "agrees";
+			return "agrees" + (withObject ? " with" : "");
 		} else if (opinionType.equals(DISAGREEMENT_TYPE)) {
-			return "disagrees";
+			return "disagrees" + (withObject ? " with" : "");
 		} else if (opinionType.equals(NULL_TYPE)) {
-			return "has no opinion";
+			return "has no opinion" + (withObject ? " on" : "");
 		}
 		return null;
 	}

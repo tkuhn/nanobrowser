@@ -83,7 +83,7 @@ public class NanopubPage extends NanobrowserWebPage {
 
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new PersonItem("opinionperson", item.getModelObject().getPerson()));
-				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType()) + "."));
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
 				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
 			}
 			

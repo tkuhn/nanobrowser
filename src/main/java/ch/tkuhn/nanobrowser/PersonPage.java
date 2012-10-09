@@ -14,6 +14,7 @@ public class PersonPage extends NanobrowserWebPage {
 
 	private Person person;
 	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
+	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 	
 	public PersonPage(final PageParameters parameters) {
 		
@@ -48,10 +49,23 @@ public class PersonPage extends NanobrowserWebPage {
 			
 		});
 		
+		add(new ListView<Opinion>("opinions", opinionModel) {
+			
+			private static final long serialVersionUID = -4257147575068849793L;
+
+			protected void populateItem(ListItem<Opinion> item) {
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), true)));
+				item.add(new SentenceItem("opinionsentence", item.getModelObject().getSentence()));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
+			}
+			
+		});
+		
 	}
 	
 	private void update() {
 		nanopubModel.setObject(person.getAuthoredNanopubs());
+		opinionModel.setObject(person.getOpinions(true));
 	}
 
 }
