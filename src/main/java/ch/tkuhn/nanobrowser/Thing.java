@@ -32,6 +32,14 @@ public class Thing implements Serializable {
 		return uri;
 	}
 	
+	public String getTruncatedURI() {
+		if (uri.length() > 120) {
+			return uri.substring(0, 117) + "...";
+		} else {
+			return uri;
+		}
+	}
+	
 	public static String getLastPartOfURI(String uri) {
 		return uri.replaceFirst("^.*[/#]([^/#]*)$", "$1");
 	}

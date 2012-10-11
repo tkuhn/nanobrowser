@@ -16,7 +16,7 @@ public class ThingPage extends NanobrowserWebPage {
 		
 		add(new Label("title", th.getLastPartOfURI()));
 
-		add(new ExternalLink("uri", th.getURI(), th.getURI()));
+		add(new ExternalLink("uri", th.getURI(), th.getTruncatedURI()));
 		
 	}
 

@@ -21,7 +21,7 @@ public class NanopubPage extends NanobrowserWebPage {
 		
 		add(new Label("title", pub.getLastPartOfURI()));
 		
-		add(new ExternalLink("uri", pub.getURI(), pub.getURI()));
+		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
 
 		String dateString = pub.getCreateDateString();
 		if (dateString == null) {

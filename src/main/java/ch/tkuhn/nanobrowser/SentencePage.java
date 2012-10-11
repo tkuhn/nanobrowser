@@ -25,7 +25,7 @@ public class SentencePage extends NanobrowserWebPage {
 		
 		add(new Label("title", sentence.getSentenceText()));
 		
-		add(new ExternalLink("uri", sentence.getURI(), sentence.getURI()));
+		add(new ExternalLink("uri", sentence.getURI(), sentence.getTruncatedURI()));
 		
 		add(new ListView<Nanopub>("nanopubs", sentence.getNanopubs()) {
 			

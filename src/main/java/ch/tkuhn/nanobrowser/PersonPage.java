@@ -26,7 +26,7 @@ public class PersonPage extends NanobrowserWebPage {
 		
 		add(new Label("title", person.getName()));
 
-		add(new ExternalLink("uri", person.getURI(), person.getURI()));
+		add(new ExternalLink("uri", person.getURI(), person.getTruncatedURI()));
 		
 		add(new Link<Object>("thatsme") {
 			
