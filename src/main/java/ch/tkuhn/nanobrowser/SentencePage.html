@@ -19,12 +19,6 @@
 
 <p class="subtitle"><a href="#" target="_new" class="uri" wicket:id="uri"></a></p>
 
-<p>
-<a href="#" wicket:id="agree" class="button">I agree!</a>
-<a href="#" wicket:id="disagree" class="button">I disagree!</a>
-<a href="#" wicket:id="noopinion" class="button">No opinion!</a>
-</p>
-
 <h4>Nanopublications</h4>
 
 <table>
@@ -37,10 +31,26 @@
 
 <h4>Opinions</h4>
 
+<p>
+<a href="#" wicket:id="agree" class="button">I agree!</a>
+<a href="#" wicket:id="disagree" class="button">I disagree!</a>
+<a href="#" wicket:id="noopinion" class="button">No opinion!</a>
+</p>
+
 <table>
 <tr wicket:id="opinions">
 <td>
 <span wicket:id="person"></span> <span class="predicate" wicket:id="opinion"></span> <span class="ref">[<span wicket:id="opinionpub"></span>]</span>
+</td>
+</tr>
+</table>
+
+<h4>Same Meaning</h4>
+
+<table>
+<tr wicket:id="samemeanings">
+<td>
+<span wicket:id="samemeaning"></span> <span class="ref">[<span wicket:id="samemeaningpub"></span>]</span>
 </td>
 </tr>
 </table>

@@ -1,5 +1,6 @@
 package ch.tkuhn.nanobrowser;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -14,6 +15,7 @@ public class SentencePage extends NanobrowserWebPage {
 
 	private Sentence sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
+	private ListModel<Pair<Sentence,Nanopub>> sameMeaningsModel = new ListModel<Pair<Sentence,Nanopub>>();
 
 	public SentencePage(final PageParameters parameters) {
 		
@@ -82,10 +84,22 @@ public class SentencePage extends NanobrowserWebPage {
 			
 		});
 		
+		add(new ListView<Pair<Sentence,Nanopub>>("samemeanings", sameMeaningsModel) {
+			
+			private static final long serialVersionUID = 1L;
+
+			protected void populateItem(ListItem<Pair<Sentence,Nanopub>> item) {
+				item.add(new SentenceItem("samemeaning", item.getModelObject().getLeft()));
+				item.add(new NanopubItem("samemeaningpub", item.getModelObject().getRight(), false));
+			}
+			
+		});
+		
 	}
 	
 	private void update() {
 		opinionModel.setObject(sentence.getOpinions(true));
+		sameMeaningsModel.setObject(sentence.getSameMeaningSentences());
 	}
 
 }

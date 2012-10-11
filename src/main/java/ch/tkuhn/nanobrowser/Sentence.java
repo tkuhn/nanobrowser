@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
@@ -59,7 +61,8 @@ public class Sentence extends Thing {
 		"select ?p ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
-		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn <@> } } order by asc(?d)";
+		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
+		"?ass2 ex:asSentence <@> . ?ass2 ex:asSentence ?s } order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
 		String query = opinionsQuery.replaceAll("@", getURI());
@@ -80,6 +83,26 @@ public class Sentence extends Thing {
 			}
 		}
 		return new ArrayList<Opinion>(opinionMap.values());
+	}
+	
+	private static final String sameMeaningSentencesQuery =
+		"select ?s ?pub where { ?pub np:hasAssertion ?a . ?a ex:asSentence <@> . ?a ex:asSentence ?s }";
+	
+	public List<Pair<Sentence,Nanopub>> getSameMeaningSentences() {
+		String query = sameMeaningSentencesQuery.replaceAll("@", getURI());
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<Pair<Sentence,Nanopub>> sentences = new ArrayList<Pair<Sentence,Nanopub>>();
+		for (BindingSet bs : result) {
+			Value s = bs.getValue("s");
+			Value pub = bs.getValue("pub");
+			if (s instanceof BNode || pub instanceof BNode) continue;
+			if (!s.stringValue().equals(getURI())) {
+				Sentence sentence = new Sentence(s.stringValue());
+				Nanopub nanopub = new Nanopub(pub.stringValue());
+				sentences.add(new ImmutablePair<Sentence,Nanopub>(sentence, nanopub));
+			}
+		}
+		return sentences;
 	}
 	
 	public String getSentenceText() {
