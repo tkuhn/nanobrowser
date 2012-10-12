@@ -28,7 +28,7 @@ public class NanopubItem extends ThingItem {
 			dateLabel = new Label("nanopubdate", n.getCreateDateString());
 		}
 		dateLabel.setVisible(showLabel);
-		link.add(dateLabel);
+		add(dateLabel);
 		Label nameLabel = new Label("nanopubname", " " + n.getLastPartOfURI() + " ");
 		nameLabel.setVisible(showLabel);
 		link.add(nameLabel);

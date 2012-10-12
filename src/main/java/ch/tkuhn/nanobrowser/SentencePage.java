@@ -108,10 +108,12 @@ public class SentencePage extends NanobrowserWebPage {
 			protected void onSubmit() {
 				String s = newSameMeaningField.getModelObject();
 				Sentence other = null;
-				if (Sentence.isSentenceURI(s)) {
-					other = new Sentence(s);
-				} else if (Sentence.isSentenceText(s)) {
-					other = Sentence.withText(s);
+				if (s != null) {
+					if (Sentence.isSentenceURI(s)) {
+						other = new Sentence(s);
+					} else if (Sentence.isSentenceText(s)) {
+						other = Sentence.withText(s);
+					}
 				}
 				if (other != null) {
 					sentence.publishSameMeaning(other, getUser());
