@@ -147,11 +147,32 @@ public class Nanopub extends Thing {
 		return new ArrayList<Opinion>(opinionMap.values());
 	}
 	
+	private static final String getNanopubGraphsQuery =
+		"select ?g ?ass ?att ?supp ?f where { " +
+		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
+		"optional { ?prov np:hasSupporting ?supp } . optional { ?ass np:containsGraph ?f } } }";
+	private static final String deleteGraphQuery =
+		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
+	
+	public void delete() {
+		String query = getNanopubGraphsQuery.replaceAll("@", getURI());
+		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
+			Value g = bs.getValue("g");
+			Value ass = bs.getValue("ass");
+			Value att = bs.getValue("att");
+			Value supp = bs.getValue("supp");
+			Value f = bs.getValue("f");
+			if (g != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
+			if (ass != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", ass.stringValue()));
+			if (att != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", att.stringValue()));
+			if (supp != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", supp.stringValue()));
+			if (f != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", f.stringValue()));
+		}
+	}
+	
 	private static final String getNanopubGraphsWithPropertyQuery =
 		"select ?g ?ass ?att where { graph ?ass { ?x @P ?y } . " +
 		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
-	private static final String deleteGraphQuery =
-		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
 	
 	public static void deleteAllNanopubsWithProperty(String propertyURI) {
 		if (propertyURI.matches("^[a-z]+://")) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -12,10 +13,12 @@ import org.openrdf.model.Statement;
 public class NanopubPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
+	
+	Nanopub pub;
 
 	public NanopubPage(final PageParameters parameters) {
 		
-		Nanopub pub = new Nanopub(parameters.get("uri").toString());
+		pub = new Nanopub(parameters.get("uri").toString());
 		
 		add(new MenuBar("menubar"));
 		
@@ -85,6 +88,17 @@ public class NanopubPage extends NanobrowserWebPage {
 				item.add(new PersonItem("opinionperson", item.getModelObject().getPerson()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
 				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
+			}
+			
+		});
+		
+		add(new Link<Object>("delete") {
+			
+			private static final long serialVersionUID = 8608371149183694875L;
+
+			public void onClick() {
+				pub.delete();
+				setResponsePage(MainPage.class);
 			}
 			
 		});

@@ -35,6 +35,7 @@ public class PersonPage extends NanobrowserWebPage {
 			public void onClick() {
 				PersonPage.this.getNanobrowserApp().setUser(person);
 				update();
+				setResponsePage(PersonPage.class, getPageParameters());
 			}
 			
 		});
