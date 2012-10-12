@@ -1,10 +1,13 @@
 package ch.tkuhn.nanobrowser;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -17,9 +20,19 @@ public class Sentence extends Thing {
 	private static final long serialVersionUID = -7967327315454171639L;
 	
 	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/claims/claim";
+	public static final String CLAIM_URI_BASE = "http://krauthammerlab.med.yale.edu/nanopub/claims/";
 	
 	public Sentence(String uri) {
 		super(uri);
+	}
+	
+	public static Sentence withText(String sentenceText) {
+		try {
+			return new Sentence(CLAIM_URI_BASE + "en/" + URLEncoder.encode(sentenceText, "UTF8"));
+		} catch (UnsupportedEncodingException ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 	
 	private static final String allSentencesQuery =
@@ -37,8 +50,15 @@ public class Sentence extends Thing {
 		return l;
 	}
 	
-	public static boolean isSentence(String uri) {
-		return uri.startsWith("http://krauthammerlab.med.yale.edu/nanopub/claims/");
+	public static boolean isSentenceURI(String uri) {
+		return uri.startsWith(CLAIM_URI_BASE);
+	}
+	
+	public static boolean isSentenceText(String text) {
+		if (text.indexOf("/") > -1) return false;
+		if (text.indexOf(" ") == -1) return false;
+		if (text.length() < 10 || text.length() > 500) return false;
+		return text.substring(text.length()-1).equals(".");
 	}
 	
 	private static final String nanopubsQuery =
@@ -62,7 +82,9 @@ public class Sentence extends Thing {
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
 		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
-		"?ass2 ex:asSentence <@> . ?ass2 ex:asSentence ?s } order by asc(?d)";
+		"{ ?ass2 ex:asSentence <@> . ?ass2 ex:asSentence ?s } union " +
+		"{ <@> ex:hasSameMeaning ?s } union { ?s ex:hasSameMeaning <@> } " +
+		"} order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
 		String query = opinionsQuery.replaceAll("@", getURI());
@@ -86,12 +108,17 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String sameMeaningSentencesQuery =
-		"select ?s ?pub where { ?pub np:hasAssertion ?a . ?a ex:asSentence <@> . ?a ex:asSentence ?s }";
+		"select ?s ?pub where { { " +
+		"{ ?pub np:hasAssertion ?ass . ?ass ex:asSentence <@> . ?ass ex:asSentence ?s } union " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ex:hasSameMeaning ?s } } union " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ex:hasSameMeaning <@> } } " +
+		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"} order by asc(?d)";
 	
 	public List<Pair<Sentence,Nanopub>> getSameMeaningSentences() {
 		String query = sameMeaningSentencesQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Pair<Sentence,Nanopub>> sentences = new ArrayList<Pair<Sentence,Nanopub>>();
+		Map<String, Pair<Sentence,Nanopub>> sentencesMap = new HashMap<String, Pair<Sentence,Nanopub>>();
 		for (BindingSet bs : result) {
 			Value s = bs.getValue("s");
 			Value pub = bs.getValue("pub");
@@ -99,10 +126,42 @@ public class Sentence extends Thing {
 			if (!s.stringValue().equals(getURI())) {
 				Sentence sentence = new Sentence(s.stringValue());
 				Nanopub nanopub = new Nanopub(pub.stringValue());
-				sentences.add(new ImmutablePair<Sentence,Nanopub>(sentence, nanopub));
+				sentencesMap.put(sentence.getURI(), new ImmutablePair<Sentence,Nanopub>(sentence, nanopub));
 			}
 		}
-		return sentences;
+		return new ArrayList<Pair<Sentence,Nanopub>>(sentencesMap.values());
+	}
+	
+	private static final String publishSameMeaning =
+		"prefix : <@I> insert data into graph : { :Pub a ex:MetaNanopub . :Pub np:hasAssertion :Ass . " +
+		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
+		"prefix : <@I> insert data into graph :Ass { <@T> ex:hasSameMeaning <@O> } \n\n" +
+		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
+		":Pub dc:created \"@D\"^^xsd:dateTime }";
+	
+	public void publishSameMeaning(Sentence other, Person author) {
+		String pubURI = "http://foo.org/" + (new Random()).nextInt(1000000000);
+		String query = publishSameMeaning
+				.replaceAll("@I", pubURI)
+				.replaceAll("@P", author.getURI())
+				.replaceAll("@T", getURI())
+				.replaceAll("@O", other.getURI())
+				.replaceAll("@D", NanobrowserApplication.getTimestamp());
+		TripleStoreAccess.runUpdateQuery(query);
+	}
+	
+	private static final String getAllOpinionGraphsQuery =
+		"select ?g ?ass ?att where { graph ?ass { ?a ex:hasSameMeaning ?c } . " +
+		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
+	private static final String deleteGraphQuery =
+		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
+	
+	public static void deleteAllOpinionNanopubs() {
+		for (BindingSet bs : TripleStoreAccess.getTuples(getAllOpinionGraphsQuery)) {
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("g").stringValue()));
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("ass").stringValue()));
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("att").stringValue()));
+		}
 	}
 	
 	public String getSentenceText() {

@@ -2,10 +2,13 @@ package ch.tkuhn.nanobrowser;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -16,6 +19,7 @@ public class SentencePage extends NanobrowserWebPage {
 	private Sentence sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 	private ListModel<Pair<Sentence,Nanopub>> sameMeaningsModel = new ListModel<Pair<Sentence,Nanopub>>();
+	private TextField<String> newSameMeaningField;
 
 	public SentencePage(final PageParameters parameters) {
 		
@@ -94,6 +98,33 @@ public class SentencePage extends NanobrowserWebPage {
 			}
 			
 		});
+		
+		newSameMeaningField = new TextField<String>("newsamemeaning", Model.of(""));
+		
+		Form<?> newSameMeaningForm = new Form<Void>("newsamemeaningform") {
+			
+			private static final long serialVersionUID = -6636881419461562970L;
+
+			protected void onSubmit() {
+				String s = newSameMeaningField.getModelObject();
+				Sentence other = null;
+				if (Sentence.isSentenceURI(s)) {
+					other = new Sentence(s);
+				} else if (Sentence.isSentenceText(s)) {
+					other = Sentence.withText(s);
+				}
+				if (other != null) {
+					sentence.publishSameMeaning(other, getUser());
+				} else {
+					// TODO
+				}
+				setResponsePage(SentencePage.class, getPageParameters());
+			}
+			
+		};
+		
+		add(newSameMeaningForm);
+		newSameMeaningForm.add(newSameMeaningField);
 		
 	}
 	

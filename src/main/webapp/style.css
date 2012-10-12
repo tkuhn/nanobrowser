@@ -128,7 +128,9 @@ a.button {
 	margin: 0 2px;
 	font-size: 10pt;
 	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
-	border-radius: 3px;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
 	color: #fff;
 	text-shadow: -1px -1px 0 #222;
 }
@@ -175,4 +177,29 @@ strong {
 
 .alignright {
 	float: right;
+}
+
+input.button {
+	cursor:pointer;
+	padding: 2px 6px;
+	margin: 0 2px;
+	font-size: 10pt;
+	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	color: #fff;
+	text-shadow: -1px -1px 0 #222;
+}
+
+input.button:hover {
+	background: linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+}
+
+input.textfield {
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 1px;
+	border-radius: 5px;
+	padding: 2px 5px;
 }

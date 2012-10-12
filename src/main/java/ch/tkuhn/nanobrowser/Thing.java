@@ -73,7 +73,7 @@ public class Thing implements Serializable {
 	public static List<String> getTypes(String uri) {
 		// TODO improve this; should be just one SPARQL query
 		List<String> types = new ArrayList<String>();
-		if (Sentence.isSentence(uri)) types.add(Sentence.TYPE_URI);
+		if (Sentence.isSentenceURI(uri)) types.add(Sentence.TYPE_URI);
 		if (Person.isPerson(uri)) types.add(Person.TYPE_URI);
 		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
 		return types;

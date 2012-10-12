@@ -2,8 +2,6 @@ package ch.tkuhn.nanobrowser;
 
 import java.util.Random;
 
-import org.openrdf.query.BindingSet;
-
 public class Opinion {
 	
 	public static final String AGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/extensions/Agreement";
@@ -78,20 +76,6 @@ public class Opinion {
 				.replaceAll("@D", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
 		setNanopub(new Nanopub(pubURI));
-	}
-	
-	private static final String getAllOpinionGraphsQuery =
-		"select ?g ?ass ?att where { graph ?ass { ?a ex:opinionOn ?c } . " +
-		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
-	private static final String deleteGraphQuery =
-		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
-	
-	public static void deleteAllOpinionNanopubs() {
-		for (BindingSet bs : TripleStoreAccess.getTuples(getAllOpinionGraphsQuery)) {
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("g").stringValue()));
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("ass").stringValue()));
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("att").stringValue()));
-		}
 	}
 
 }

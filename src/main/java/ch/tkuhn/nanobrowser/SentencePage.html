@@ -35,12 +35,6 @@
 
 <h4>Opinions</h4>
 
-<p>
-<a href="#" wicket:id="agree" class="button">I agree!</a>
-<a href="#" wicket:id="disagree" class="button">I disagree!</a>
-<a href="#" wicket:id="noopinion" class="button">No opinion!</a>
-</p>
-
 <table>
 <tr wicket:id="opinions">
 <td>
@@ -48,6 +42,12 @@
 </td>
 </tr>
 </table>
+
+<p>
+<a href="#" wicket:id="agree" class="button">I agree!</a>
+<a href="#" wicket:id="disagree" class="button">I disagree!</a>
+<a href="#" wicket:id="noopinion" class="button">No opinion!</a>
+</p>
 
 <h4>Same Meaning</h4>
 
@@ -58,6 +58,11 @@
 </td>
 </tr>
 </table>
+
+<form wicket:id="newsamemeaningform">
+<input wicket:id="newsamemeaning" type="text" class="textfield" size="50" />
+<input type="submit" class="button" href="#" value="add!" />
+</form>
 
 </div>
 

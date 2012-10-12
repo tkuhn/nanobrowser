@@ -50,12 +50,13 @@ public class MainPage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new Link<Object>("deleteopinions") {
+		add(new Link<Object>("deletemetapubs") {
 			
 			private static final long serialVersionUID = -3387170765807183435L;
 
 			public void onClick() {
-				Opinion.deleteAllOpinionNanopubs();
+				Nanopub.deleteAllNanopubsWithProperty("ex:opinionOn");
+				Nanopub.deleteAllNanopubsWithProperty("ex:hasSameMeaning");
 				update();
 			}
 			

@@ -147,6 +147,24 @@ public class Nanopub extends Thing {
 		return new ArrayList<Opinion>(opinionMap.values());
 	}
 	
+	private static final String getNanopubGraphsWithPropertyQuery =
+		"select ?g ?ass ?att where { graph ?ass { ?x @P ?y } . " +
+		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
+	private static final String deleteGraphQuery =
+		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
+	
+	public static void deleteAllNanopubsWithProperty(String propertyURI) {
+		if (propertyURI.matches("^[a-z]+://")) {
+			propertyURI = "<" + propertyURI + ">";
+		}
+		String query = getNanopubGraphsWithPropertyQuery.replaceAll("@P", propertyURI);
+		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("g").stringValue()));
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("ass").stringValue()));
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("att").stringValue()));
+		}
+	}
+	
 	public NanopubItem createGUIItem(String id) {
 		return new NanopubItem(id, this);
 	}
