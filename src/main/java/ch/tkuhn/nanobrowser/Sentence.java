@@ -164,6 +164,35 @@ public class Sentence extends Thing {
 		}
 	}
 	
+	private static final String textSearchQuery =
+		"select distinct ?s where { { ?a ex:asSentence ?s } union { ?x ex:hasSameMeaning ?s } . " +
+		"filter regex(str(?s), \"@R\", \"i\") }";
+	private static final String textSearchRegex =
+		"^http://krauthammerlab.med.yale.edu/nanopub/claims/en.*@W";
+	
+	// TODO Use proper text indexing
+	
+	public static List<Sentence> search(String searchText, int limit) {
+		searchText = searchText
+			.replaceAll("\\s+", " ")
+			.replaceFirst("^ ", "")
+			.replaceFirst(" $", "")
+			.replaceAll("[^a-zA-Z0-9 ]", "")
+			.replaceAll(" ", "(%20|~+)");
+		String query = textSearchQuery
+			.replaceAll("@R", textSearchRegex)
+			.replaceAll("@W", searchText)
+			.replaceAll("~", "\\\\\\\\")
+			+ ((limit >= 0) ? " limit " + limit : "" );
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<Sentence> sentences = new ArrayList<Sentence>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("s");
+			sentences.add(new Sentence(v.stringValue()));
+		}
+		return sentences;
+	}
+	
 	public String getSentenceText() {
 		try {
 			return URLDecoder.decode(getLastPartOfURI(), "UTF8");

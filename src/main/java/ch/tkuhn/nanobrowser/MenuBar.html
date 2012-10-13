@@ -4,7 +4,15 @@
 
 <wicket:panel>
 <div id="navbar"><div id="navcontent">
-<p class="alignleft"><a class="navlink" href=".">nanobrowser</a></p> <p class="alignright" wicket:id="user"></p>
+<p class="alignright" wicket:id="user"></p>
+<p class="alignleft"><a class="navlink" href=".">nanobrowser</a>
+<span class="hspace">
+<img src="icons/search.svg" alt="" height="16" width="16"/>
+<form wicket:id="searchform">
+<input wicket:id="searchtextfield" type="text" class="smalltextfield" size="20" />
+<input type="submit" class="hidden" href="#" value="search!" />
+</form>
+</span></p>
 </div></div>
 <div style="clear: both;"></div>
 </wicket:panel>

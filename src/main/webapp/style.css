@@ -19,7 +19,7 @@ body {
 #titlebar {
 	clear: both;
 	padding: 5px 20px;
-	background-image: linear-gradient(to top, #ddd 0%, #fff 100%);
+	background-image: linear-gradient(to top, #eee 0%, #fff 100%);
 	border-color: #ccc;
 	border-style: solid;
 	border-width: 1px;
@@ -48,7 +48,7 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-	background-image: linear-gradient(to top, #ddd 0%, #fff 100%);
+	background-image: linear-gradient(to top, #eee 0%, #fff 100%);
 	border-color: #ccc;
 	border-style: solid;
 	border-width: 1px;
@@ -166,6 +166,10 @@ span.ref {
 	margin: 0 0 0 15px;
 }
 
+span.hspace {
+	margin: 0 0 0 30px;
+}
+
 strong {
 	color: black;
 	font-weight: bold;
@@ -202,4 +206,18 @@ input.textfield {
 	border-width: 1px;
 	border-radius: 5px;
 	padding: 2px 5px;
+}
+
+input.smalltextfield {
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 1px;
+	border-radius: 5px;
+	margin: 6px;
+	padding: 1px 5px;
+	font-size: 9pt;
+}
+
+input.hidden {
+	visibility:hidden;
 }

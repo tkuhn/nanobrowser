@@ -42,6 +42,7 @@ public class NanobrowserApplication extends WebApplication {
 		this.mountPage("/sentence", SentencePage.class);
 		this.mountPage("/person", PersonPage.class);
 		this.mountPage("/thing", ThingPage.class);
+		this.mountPage("/search", SearchPage.class);
 	}
 
 	public Class<? extends Page> getHomePage() {
