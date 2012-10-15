@@ -6,6 +6,16 @@ A browser for nanopublications.
 Under construction...
 
 
+Screenshots
+-----------
+
+Some screenshots of the browser interface:
+
+![Screenshot of sentence page](screenshot1.png)
+
+![Screenshot of nanopub page](screenshot2.png)
+
+
 Virtuoso
 --------
 
