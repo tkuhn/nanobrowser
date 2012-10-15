@@ -8,7 +8,11 @@ body {
 
 #navbar {
 	color: #ccc;
-	background-image: linear-gradient(to top, #000 0%, #555 100%);
+	background-image: linear-gradient(bottom, #000 0%, #555 100%);
+	background-image: -ms-linear-gradient(bottom, #000 0%, #555 100%);
+	background-image: -moz-linear-gradient(bottom, #000 0%, #555 100%);
+	background-image: -o-linear-gradient(bottom, #000 0%, #555 100%);
+	background-image: -webkit-linear-gradient(bottom, #000 0%, #555 100%);
 	width: 100%;
 	height: 32px;
 	font-size: 10pt;
@@ -19,7 +23,11 @@ body {
 #titlebar {
 	clear: both;
 	padding: 5px 20px;
-	background-image: linear-gradient(to top, #eee 0%, #fff 100%);
+	background-image: linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -ms-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -moz-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -o-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -webkit-linear-gradient(bottom, #eee 0%, #fff 100%);
 	border-color: #ccc;
 	border-style: solid;
 	border-width: 1px;
@@ -48,7 +56,11 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-	background-image: linear-gradient(to top, #eee 0%, #fff 100%);
+	background-image: linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -ms-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -moz-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -o-linear-gradient(bottom, #eee 0%, #fff 100%);
+	background-image: -webkit-linear-gradient(bottom, #eee 0%, #fff 100%);
 	border-color: #ccc;
 	border-style: solid;
 	border-width: 1px;
@@ -128,6 +140,10 @@ a.button {
 	margin: 0 2px;
 	font-size: 10pt;
 	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	border-radius: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -137,6 +153,10 @@ a.button {
 
 a.button:hover {
 	background: linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 }
 
 span.predicate {
@@ -189,6 +209,10 @@ input.button {
 	margin: 0 2px;
 	font-size: 10pt;
 	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	border-radius: 5px;
 	border-style: solid;
 	border-width: 1px;
@@ -198,6 +222,10 @@ input.button {
 
 input.button:hover {
 	background: linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 }
 
 input.textfield {
