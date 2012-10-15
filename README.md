@@ -11,9 +11,9 @@ Screenshots
 
 Some screenshots of the browser interface:
 
-![Screenshot of sentence page](screenshot1.png)
+![Screenshot of sentence page](nanobrowser/raw/master/screenshot1.png)
 
-![Screenshot of nanopub page](screenshot2.png)
+![Screenshot of nanopub page](nanobrowser/raw/master/screenshot2.png)
 
 
 Virtuoso
