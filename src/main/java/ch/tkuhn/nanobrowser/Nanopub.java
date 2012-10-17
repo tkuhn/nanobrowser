@@ -22,7 +22,7 @@ public class Nanopub extends Thing {
 
 	private static final String nonmetaNanopubsQuery =
 		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } ." +
+		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } ." +
 		"filter not exists { ?p a ex:MetaNanopub } } order by desc(?d)";
 	
 	public static List<Nanopub> getNonmetaNanopubs(int limit) {
@@ -70,7 +70,7 @@ public class Nanopub extends Thing {
 	
 	private static final String createDateQuery =
 		"select ?d where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { ?p dc:created ?d } }";
+		"graph ?att { <@> dc:created ?d } }";
 		//"select ?d where { <@> dc:created ?d }";
 	
 	public String getCreateDateString() {
@@ -85,7 +85,7 @@ public class Nanopub extends Thing {
 	
 	private static final String authorsQuery =
 		"select distinct ?a where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { ?p pav:authoredBy ?a } }";
+		"graph ?att { <@> pav:authoredBy ?a } }";
 		//"select distinct ?a where { <@> pav:authoredBy ?a }";
 	
 	public List<Person> getAuthors() {
@@ -102,7 +102,7 @@ public class Nanopub extends Thing {
 	
 	private static final String creatorsQuery =
 		"select distinct ?c where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { ?p pav:createdBy ?c } }";
+		"graph ?att { <@> pav:createdBy ?c } }";
 		//"select distinct ?a where { <@> pav:createdBy ?a }";
 	
 	public List<Person> getCreators() {
@@ -120,7 +120,7 @@ public class Nanopub extends Thing {
 	private static final String opinionsQuery =
 		"select ?p ?t ?pub ?s where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
 		"<@> np:hasAssertion ?a . ?a ex:asSentence ?s } order by asc(?d)";
 	

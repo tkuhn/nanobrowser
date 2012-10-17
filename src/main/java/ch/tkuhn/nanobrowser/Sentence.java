@@ -63,7 +63,7 @@ public class Sentence extends Thing {
 	
 	private static final String nanopubsQuery =
 		"select distinct ?p where { ?p np:hasAssertion ?a . ?a ex:asSentence <@> . ?p np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } }";
+		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } }";
 	
 	public List<Nanopub> getNanopubs() {
 		String query = nanopubsQuery.replaceAll("@", getURI());
@@ -80,7 +80,7 @@ public class Sentence extends Thing {
 	private static final String opinionsQuery =
 		"select ?p ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
 		"{ ?ass2 ex:asSentence <@> . ?ass2 ex:asSentence ?s } union " +
 		"{ <@> ex:hasSameMeaning ?s } union { ?s ex:hasSameMeaning <@> } " +
@@ -112,7 +112,7 @@ public class Sentence extends Thing {
 		"{ ?pub np:hasAssertion ?ass . ?ass ex:asSentence <@> . ?ass ex:asSentence ?s } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ex:hasSameMeaning ?s } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ex:hasSameMeaning <@> } } " +
-		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"} order by asc(?d)";
 	
 	public List<Pair<Sentence,Nanopub>> getSameMeaningSentences() {

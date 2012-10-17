@@ -43,7 +43,7 @@ public class Person extends Thing {
 	
 	private static final String authoredNanopubsQuery =
 		"select distinct ?pub where { ?pub a np:Nanopublication . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?p pav:authoredBy <@> . ?p dc:created ?d } " +
+		"?prov np:hasAttribution ?att . graph ?att { ?pub pav:authoredBy <@> . ?pub dc:created ?d } " +
 		"filter not exists { ?pub a ex:MetaNanopub } } order by desc(?d)";
 	
 	public List<Nanopub> getAuthoredNanopubs() {
@@ -61,7 +61,7 @@ public class Person extends Thing {
 	private static final String opinionsQuery =
 		"select ?s ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?x dc:created ?d } . " +
+		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"graph ?ass { <@> ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } } order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
