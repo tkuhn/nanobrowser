@@ -23,7 +23,7 @@ public class Nanopub extends Thing {
 	private static final String nonmetaNanopubsQuery =
 		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } ." +
-		"filter not exists { ?p a ex:MetaNanopub } } order by desc(?d)";
+		"filter not exists { ?p a npx:MetaNanopub } } order by desc(?d)";
 	
 	public static List<Nanopub> getNonmetaNanopubs(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -45,7 +45,7 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String sentenceAssertionsQuery =
-		"select distinct ?c where { <@> np:hasAssertion ?a . ?a ex:asSentence ?c }";
+		"select distinct ?c where { <@> np:hasAssertion ?a . ?a npx:asSentence ?c }";
 	
 	public List<Sentence> getSentenceAssertions() {
 		String query = sentenceAssertionsQuery.replaceAll("@", getURI());
@@ -61,7 +61,7 @@ public class Nanopub extends Thing {
 	
 	private static final String assertionTriplesQuery =
 		"construct {?a ?b ?c} where { { <@> np:hasAssertion ?f } union " +
-		"{ <@> np:hasAssertion ?g . ?g ex:asFormula ?f } . graph ?f {?a ?b ?c} }";
+		"{ <@> np:hasAssertion ?g . ?g npx:asFormula ?f } . graph ?f {?a ?b ?c} }";
 	
 	public List<Statement> getAssertionTriples() {
 		String query = assertionTriplesQuery.replaceAll("@", getURI());
@@ -121,8 +121,8 @@ public class Nanopub extends Thing {
 		"select ?p ?t ?pub ?s where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
-		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
-		"<@> np:hasAssertion ?a . ?a ex:asSentence ?s } order by asc(?d)";
+		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } ." +
+		"<@> np:hasAssertion ?a . ?a npx:asSentence ?s } order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
 		String query = opinionsQuery.replaceAll("@", getURI());

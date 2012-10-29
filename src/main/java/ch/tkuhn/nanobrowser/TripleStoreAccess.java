@@ -31,14 +31,15 @@ public class TripleStoreAccess {
 	private static SPARQLRepository repo = new SPARQLRepository(endpointURL);
 	private static QueryLanguage lang = QueryLanguage.SPARQL;
 	private static String sparqlPrefixes = 
-		"prefix ex: <http://krauthammerlab.med.yale.edu/nanopub/extensions/> " +
-		"prefix np: <http://www.nanopub.org/nschema#> " +
-		"prefix cl: <http://krauthammerlab.med.yale.edu/nanopub/claims/en/> " +
-		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
-		"prefix dc: <http://purl.org/dc/terms/> " +
+		"prefix xsd: <http://www.w3.org/2001/XMLSchema#> " +
 		"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-		"prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
-		"prefix foaf: <http://xmlns.com/foaf/0.1/> ";
+		"prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+		"prefix owl: <http://www.w3.org/2002/07/owl#> " +
+		"prefix dc: <http://purl.org/dc/terms/> " +
+		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
+		"prefix foaf: <http://xmlns.com/foaf/0.1/> " +
+		"prefix np: <http://www.nanopub.org/nschema#> " +
+		"prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> ";
 
 	public static boolean isTrue(String query) {
 		boolean isTrue = false;

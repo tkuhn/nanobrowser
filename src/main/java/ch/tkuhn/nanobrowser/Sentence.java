@@ -19,8 +19,8 @@ public class Sentence extends Thing {
 	
 	private static final long serialVersionUID = -7967327315454171639L;
 	
-	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/claims/claim";
-	public static final String CLAIM_URI_BASE = "http://krauthammerlab.med.yale.edu/nanopub/claims/";
+	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/AIDA-Sentence";
+	public static final String AIDA_URI_BASE = "http://krauthammerlab.med.yale.edu/aida/";
 	
 	public Sentence(String uri) {
 		super(uri);
@@ -28,7 +28,7 @@ public class Sentence extends Thing {
 	
 	public static Sentence withText(String sentenceText) {
 		try {
-			return new Sentence(CLAIM_URI_BASE + "en/" + URLEncoder.encode(sentenceText, "UTF8"));
+			return new Sentence(AIDA_URI_BASE + URLEncoder.encode(sentenceText, "UTF8"));
 		} catch (UnsupportedEncodingException ex) {
 			ex.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String allSentencesQuery =
-		"select distinct ?s where {?a ex:asSentence ?s}";
+		"select distinct ?s where {?a npx:asSentence ?s}";
 	
 	public static List<Sentence> getAllSentences(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -51,7 +51,7 @@ public class Sentence extends Thing {
 	}
 	
 	public static boolean isSentenceURI(String uri) {
-		return uri.startsWith(CLAIM_URI_BASE);
+		return uri.startsWith(AIDA_URI_BASE);
 	}
 	
 	public static boolean isSentenceText(String text) {
@@ -62,7 +62,7 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String nanopubsQuery =
-		"select distinct ?p where { ?p np:hasAssertion ?a . ?a ex:asSentence <@> . ?p np:hasProvenance ?prov . " +
+		"select distinct ?p where { ?p np:hasAssertion ?a . ?a npx:asSentence <@> . ?p np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } }";
 	
 	public List<Nanopub> getNanopubs() {
@@ -81,9 +81,9 @@ public class Sentence extends Thing {
 		"select ?p ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
 		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
-		"graph ?ass { ?p ex:hasOpinion ?o . ?o ex:opinionType ?t . ?o ex:opinionOn ?s } ." +
-		"{ ?ass2 ex:asSentence <@> . ?ass2 ex:asSentence ?s } union " +
-		"{ <@> ex:hasSameMeaning ?s } union { ?s ex:hasSameMeaning <@> } " +
+		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } ." +
+		"{ ?ass2 npx:asSentence <@> . ?ass2 npx:asSentence ?s } union " +
+		"{ <@> npx:hasSameMeaning ?s } union { ?s npx:hasSameMeaning <@> } " +
 		"} order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
@@ -109,9 +109,9 @@ public class Sentence extends Thing {
 	
 	private static final String sameMeaningSentencesQuery =
 		"select ?s ?pub where { { " +
-		"{ ?pub np:hasAssertion ?ass . ?ass ex:asSentence <@> . ?ass ex:asSentence ?s } union " +
-		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ex:hasSameMeaning ?s } } union " +
-		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ex:hasSameMeaning <@> } } " +
+		"{ ?pub np:hasAssertion ?ass . ?ass npx:asSentence <@> . ?ass npx:asSentence ?s } union " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> npx:hasSameMeaning ?s } } union " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s npx:hasSameMeaning <@> } } " +
 		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"} order by asc(?d)";
 	
@@ -133,9 +133,9 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String publishSameMeaning =
-		"prefix : <@I> insert data into graph : { :Pub a ex:MetaNanopub . :Pub np:hasAssertion :Ass . " +
+		"prefix : <@I> insert data into graph : { :Pub a npx:MetaNanopub . :Pub np:hasAssertion :Ass . " +
 		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
-		"prefix : <@I> insert data into graph :Ass { <@T> ex:hasSameMeaning <@O> } \n\n" +
+		"prefix : <@I> insert data into graph :Ass { <@T> npx:hasSameMeaning <@O> } \n\n" +
 		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
 		":Pub dc:created \"@D\"^^xsd:dateTime }";
 	
@@ -151,7 +151,7 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String getAllOpinionGraphsQuery =
-		"select ?g ?ass ?att where { graph ?ass { ?a ex:hasSameMeaning ?c } . " +
+		"select ?g ?ass ?att where { graph ?ass { ?a npx:hasSameMeaning ?c } . " +
 		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
 	private static final String deleteGraphQuery =
 		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
@@ -165,10 +165,10 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String textSearchQuery =
-		"select distinct ?s where { { ?a ex:asSentence ?s } union { ?x ex:hasSameMeaning ?s } . " +
+		"select distinct ?s where { { ?a npx:asSentence ?s } union { ?x npx:hasSameMeaning ?s } . " +
 		"filter regex(str(?s), \"@R\", \"i\") }";
 	private static final String textSearchRegex =
-		"^http://krauthammerlab.med.yale.edu/nanopub/claims/en.*@W";
+		"^http://krauthammerlab.med.yale.edu/aida/.*@W";
 	
 	// TODO Use proper text indexing
 	

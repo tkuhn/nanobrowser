@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class Opinion {
 	
-	public static final String AGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/extensions/Agreement";
-	public static final String DISAGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/extensions/Disagreement";
-	public static final String NULL_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/extensions/NullOpinion";
+	public static final String AGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/Agreement";
+	public static final String DISAGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/Disagreement";
+	public static final String NULL_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/NullOpinion";
 	
 	private final Person person;
 	private final String opinionType;
@@ -60,9 +60,9 @@ public class Opinion {
 	}
 	
 	private static final String publishOpinionQuery =
-		"prefix : <@I> insert data into graph : { :Pub a ex:MetaNanopub . :Pub np:hasAssertion :Ass . " +
+		"prefix : <@I> insert data into graph : { :Pub a npx:MetaNanopub . :Pub np:hasAssertion :Ass . " +
 		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
-		"prefix : <@I> insert data into graph :Ass { <@P> ex:hasOpinion :Op . :Op ex:opinionType <@T> . :Op ex:opinionOn <@S> } \n\n" +
+		"prefix : <@I> insert data into graph :Ass { <@P> npx:hasOpinion :Op . :Op rdf:type <@T> . :Op npx:opinionOn <@S> } \n\n" +
 		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
 		":Pub dc:created \"@D\"^^xsd:dateTime }";
 	
