@@ -187,7 +187,7 @@ public class Nanopub extends Thing {
 	}
 	
 	public NanopubItem createGUIItem(String id) {
-		return new NanopubItem(id, this);
+		return new NanopubItem(id, this, true, false);
 	}
 
 }
