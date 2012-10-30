@@ -2,9 +2,12 @@ package ch.tkuhn.nanobrowser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import org.openrdf.model.Resource;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
 public class Thing implements Serializable {
@@ -15,8 +18,7 @@ public class Thing implements Serializable {
 	
 	private final String uri;
 	
-	public static Thing getThing(Resource r) {
-		String uri = r.stringValue();
+	public static Thing getThing(String uri) {
 		List<String> types = getTypes(uri);
 		if (types.contains(Person.TYPE_URI)) return new Person(uri);
 		if (types.contains(Sentence.TYPE_URI)) return new Sentence(uri);
@@ -69,14 +71,28 @@ public class Thing implements Serializable {
 	public ThingItem createGUIItem(String id) {
 		return new ThingItem(id, this);
 	}
+
+	private static final String typesQuery =
+		"select distinct ?t where { <@> a ?t }";
+	
+	public List<String> getTypes() {
+		return getTypes(getURI());
+	}
 	
 	public static List<String> getTypes(String uri) {
 		// TODO improve this; should be just one SPARQL query
-		List<String> types = new ArrayList<String>();
+		String query = typesQuery.replaceAll("@", uri);
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		Set<String> types = new HashSet<String>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("t");
+			if (v instanceof BNode) continue;
+			types.add(v.stringValue());
+		}
 		if (Sentence.isSentenceURI(uri)) types.add(Sentence.TYPE_URI);
 		if (Person.isPerson(uri)) types.add(Person.TYPE_URI);
 		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
-		return types;
+		return new ArrayList<String>(types);
 	}
 	
 	public String toString() {

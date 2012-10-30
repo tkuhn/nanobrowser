@@ -140,7 +140,8 @@ public class Sentence extends Thing {
 		":Pub dc:created \"@D\"^^xsd:dateTime }";
 	
 	public void publishSameMeaning(Sentence other, Person author) {
-		String pubURI = "http://foo.org/" + (new Random()).nextInt(1000000000);
+		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
+				(new Random()).nextInt(1000000000);
 		String query = publishSameMeaning
 				.replaceAll("@I", pubURI)
 				.replaceAll("@P", author.getURI())

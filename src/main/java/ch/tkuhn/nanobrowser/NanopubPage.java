@@ -25,6 +25,18 @@ public class NanopubPage extends NanobrowserWebPage {
 		add(new Label("title", pub.getLastPartOfURI()));
 		
 		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
+		
+		List<String> types = pub.getTypes();
+		add(new Label("typesempty", types.size() == 0 ? "(unknown)" : ""));
+		add(new ListView<String>("types", types) {
+			
+			private static final long serialVersionUID = 8592870259564915600L;
+
+			protected void populateItem(ListItem<String> item) {
+				item.add(Thing.getThing(item.getModelObject()).createGUIItem("type"));
+			}
+			
+		});
 
 		String dateString = pub.getCreateDateString();
 		if (dateString == null) {

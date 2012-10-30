@@ -67,7 +67,8 @@ public class Opinion {
 		":Pub dc:created \"@D\"^^xsd:dateTime }";
 	
 	public void publish() {
-		String pubURI = "http://foo.org/" + (new Random()).nextInt(1000000000);
+		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
+				(new Random()).nextInt(1000000000);
 		String query = publishOpinionQuery
 				.replaceAll("@I", pubURI)
 				.replaceAll("@P", person.getURI())
