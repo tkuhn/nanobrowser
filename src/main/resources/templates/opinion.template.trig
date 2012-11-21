@@ -1,0 +1,27 @@
+@prefix : <@ROOT@> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+
+: {
+	:Pub a npx:MetaNanopub .
+	:Pub np:hasAssertion :Ass .
+	:Pub np:hasProvenance :Prov .
+	:Prov np:hasAttribution :Att .
+	:Prov np:hasSupporting :Supp .
+}
+
+:Ass {
+	<@PERSON@> npx:hasOpinion :Op .
+	:Op rdf:type <@TYPE@> .
+	:Op npx:opinionOn <@OBJECT@> .
+}
+
+:Att {
+	:Pub pav:authoredBy <@PERSON@> .
+	:Pub pav:createdBy <@PERSON@> .
+	:Pub dc:created "@DATETIME@"^^xsd:dateTime .
+}

@@ -132,22 +132,15 @@ public class Sentence extends Thing {
 		return new ArrayList<Pair<Sentence,Nanopub>>(sentencesMap.values());
 	}
 	
-	private static final String publishSameMeaning =
-		"prefix : <@I> insert data into graph : { :Pub a npx:MetaNanopub . :Pub np:hasAssertion :Ass . " +
-		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
-		"prefix : <@I> insert data into graph :Ass { <@T> npx:hasSameMeaning <@O> } \n\n" +
-		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
-		":Pub dc:created \"@D\"^^xsd:dateTime }";
-	
 	public void publishSameMeaning(Sentence other, Person author) {
 		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
 				(new Random()).nextInt(1000000000);
-		String query = publishSameMeaning
-				.replaceAll("@I", pubURI)
-				.replaceAll("@P", author.getURI())
-				.replaceAll("@T", getURI())
-				.replaceAll("@O", other.getURI())
-				.replaceAll("@D", NanobrowserApplication.getTimestamp());
+		String query = TripleStoreAccess.getNanopublishQueryTemplate("samemeaning")
+				.replaceAll("@ROOT@", pubURI)
+				.replaceAll("@PERSON@", author.getURI())
+				.replaceAll("@SENTENCE1@", getURI())
+				.replaceAll("@SENTENCE2@", other.getURI())
+				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
 	}
 	

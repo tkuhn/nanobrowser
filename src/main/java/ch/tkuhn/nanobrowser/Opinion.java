@@ -59,22 +59,15 @@ public class Opinion {
 		return null;
 	}
 	
-	private static final String publishOpinionQuery =
-		"prefix : <@I> insert data into graph : { :Pub a npx:MetaNanopub . :Pub np:hasAssertion :Ass . " +
-		":Pub np:hasProvenance :Prov . :Prov np:hasAttribution :Att . :Prov np:hasSupporting :Supp } \n\n" +
-		"prefix : <@I> insert data into graph :Ass { <@P> npx:hasOpinion :Op . :Op rdf:type <@T> . :Op npx:opinionOn <@S> } \n\n" +
-		"prefix : <@I> insert data into graph :Att { :Pub pav:authoredBy <@P> . :Pub pav:createdBy <@P> . " +
-		":Pub dc:created \"@D\"^^xsd:dateTime }";
-	
 	public void publish() {
 		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
 				(new Random()).nextInt(1000000000);
-		String query = publishOpinionQuery
-				.replaceAll("@I", pubURI)
-				.replaceAll("@P", person.getURI())
-				.replaceAll("@S", sentence.getURI())
-				.replaceAll("@T", opinionType)
-				.replaceAll("@D", NanobrowserApplication.getTimestamp());
+		String query = TripleStoreAccess.getNanopublishQueryTemplate("opinion")
+				.replaceAll("@ROOT@", pubURI)
+				.replaceAll("@PERSON@", person.getURI())
+				.replaceAll("@OBJECT@", sentence.getURI())
+				.replaceAll("@TYPE@", opinionType)
+				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
 		setNanopub(new Nanopub(pubURI));
 	}

@@ -1,6 +1,9 @@
 package ch.tkuhn.nanobrowser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
@@ -145,5 +148,46 @@ public class TripleStoreAccess {
 		};
 		
 	};
+	
+	public static String getNanopublishQueryTemplate(String type) {
+		String prefix = "";
+		String query = "";
+		try {
+			String f = "/templates/" + type + ".template.trig";
+			InputStream st = TripleStoreAccess.class.getResourceAsStream(f);
+			BufferedReader in = new BufferedReader(new InputStreamReader(st));
+			String l;
+			String graph = null;
+			while ((l = in.readLine()) != null) {
+				l = l.replaceAll("\\s+", " ");
+				if (l.matches(" *")) continue;
+				if (l.matches(" *#.*")) continue;
+				if (l.startsWith("@prefix")) {
+					if (graph != null) throw new RuntimeException("Error parsing TriG line: " + l);
+					l = l.replaceFirst("[. ]*$", "");
+					l = l.substring(1);
+					prefix += " " + l;
+				} else if (l.matches("[^ ].* \\{ *")) {
+					if (graph != null) throw new RuntimeException("Error parsing TriG line: " + l);
+					graph = l;
+				} else if (l.matches("\\} *")) {
+					if (graph == null) throw new RuntimeException("Error parsing TriG line: " + l);
+					query += prefix + " insert data into graph " + graph + " }\n\n";
+					graph = null;
+				} else {
+					if (graph == null) throw new RuntimeException("Error parsing TriG line: " + l);
+					graph += " " + l;
+				}
+			}
+			if (graph != null) throw new RuntimeException("Error parsing TriG file");
+			in.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		query = query.replaceAll(" +", " ");
+		query = query.replaceFirst("^ ", "");
+		query = query.replaceFirst(" $", "");
+		return query;
+	}
 
 }
