@@ -68,6 +68,15 @@ public class Nanopub extends Thing {
 		return TripleStoreAccess.getGraph(query);
 	}
 	
+	private static final String supportingTriplesQuery =
+		"construct {?a ?b ?c} where { <@> np:hasProvenance ?p . ?p np:hasSupporting ?s . " +
+		"graph ?s {?a ?b ?c} }";
+	
+	public List<Statement> getSupportingTriples() {
+		String query = supportingTriplesQuery.replaceAll("@", getURI());
+		return TripleStoreAccess.getGraph(query);
+	}
+	
 	private static final String createDateQuery =
 		"select ?d where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
 		"graph ?att { <@> dc:created ?d } }";
