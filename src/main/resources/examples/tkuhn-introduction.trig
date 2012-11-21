@@ -1,0 +1,33 @@
+@prefix : <http://www.tkuhn.ch/me/intro/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+
+:TKuhnIntroduction_Head {
+    :TKuhnIntroduction a npx:IntroNanopub .
+    :TKuhnIntroduction a np:Nanopublication ;
+        np:hasAssertion :TKuhnIntroduction_Assertion ;
+        np:hasProvenance :TKuhnIntroduction_Provenance .
+
+    :TKuhnIntroduction_Provenance np:hasAttribution :TKuhnIntroduction_Attribution ;
+        np:hasSupporting :TKuhnIntroduction_Supporting .
+}
+
+:TKuhnIntroduction_Assertion {
+    :TKuhnIntroduction npx:introduces <http://www.tkuhn.ch/me> .
+    <http://www.tkuhn.ch/me> a foaf:Person ;
+        rdfs:label "Tobias Kuhn" ;
+        owl:sameAs <http://semanticweb.org/wiki/Tobias_Kuhn> .
+}
+
+:TKuhnIntroduction_Attribution {
+    :TKuhnIntroduction
+        pav:authoredBy <http://www.tkuhn.ch/me> ;
+        pav:createdBy <http://www.tkuhn.ch/me> ;
+        dc:created "2012-10-29T16:07:00"^^xsd:dateTime .
+}

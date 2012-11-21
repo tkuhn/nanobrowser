@@ -1,0 +1,40 @@
+@prefix : <http://krauthammerlab.med.yale.edu/nanopub/examples/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+
+:MalariaPub_Head {
+    :MalariaPub a np:Nanopublication ;
+        np:hasAssertion :MalariaPub_Assertion ;
+        np:hasProvenance :MalariaPub_Provenance .
+
+    :MalariaPub_Provenance np:hasAttribution :MalariaPub_Attribution ;
+        np:hasSupporting :MalariaPub_Supporting .
+
+    :MalariaPub_Assertion a np:Assertion ;
+        np:containsGraph :MalariaPub_Assertion_Head ;
+        np:containsGraph :MalariaPub_Assertion_Statement .
+
+    :MalariaPub_Provenance a np:Provenance .
+    :MalariaPub_Attribution a np:Attribution .
+    :MalariaPub_Supporting a np:Supporting .
+}
+
+:MalariaPub_Assertion_Head {
+    :MalariaPub_Assertion
+        npx:asSentence <http://krauthammerlab.med.yale.edu/aida/Malaria+is+transmitted+by+mosquitoes.> ;
+        npx:asFormula :MalariaPub_Assertion_Statement .
+}
+
+:MalariaPub_Assertion_Statement {
+    <http://example.com/mosquito> <http://example.com/transmits> <http://example.com/malaria> .
+}
+
+:MalariaPub_Attribution {
+    :MalariaPub
+        pav:authoredBy <http://www.researcherid.com/rid/F-1227-2011> ;
+        pav:createdBy <http://www.tkuhn.ch/me> ;
+        dc:created "2012-10-29T16:06:00"^^xsd:dateTime .
+}
