@@ -19,8 +19,9 @@
 }
 
 :Introduction_Assertion {
-    :Introduction npx:introduces <@PERSON@> .
-    <@PERSON@> a foaf:Person ;
+    :Introduction npx:introduces <@AGENT@> .
+    <@AGENT@> a foaf:Agent ;
+        a <@TYPE@> ;
         rdfs:label "@LABEL@" .
 }
 

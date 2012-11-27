@@ -18,6 +18,7 @@ body {
 	font-size: 10pt;
 	font-weight: bold;
 	text-shadow: -1px -1px 0 #000;
+	white-space:nowrap;
 }
 
 #titlebar {
@@ -31,6 +32,7 @@ body {
 	border-color: #ccc;
 	border-style: solid;
 	border-width: 1px;
+	white-space:nowrap;
 }
 
 #content {

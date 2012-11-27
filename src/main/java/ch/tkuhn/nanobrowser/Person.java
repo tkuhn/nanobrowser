@@ -13,14 +13,15 @@ public class Person extends Thing {
 	
 	private static final long serialVersionUID = -4281747788959702687L;
 	
-	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Person";
+	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Agent";
 	
 	public Person(String uri) {
 		super(uri);
 	}
 	
 	private static final String allPersonsQuery =
-		"select distinct ?p where { { ?a pav:authoredBy ?p } union { ?a pav:createdBy ?p } union { ?p a foaf:Person } }";
+		"select distinct ?p where { { ?a pav:authoredBy ?p } union { ?a pav:createdBy ?p } union { ?p a foaf:Person } " +
+		"union { ?p a foaf:Agent } . optional { ?p a npx:Bot . ?p a ?x } filter (!bound(?x)) }";
 	
 	public static List<Person> getAllPersons(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -35,7 +36,8 @@ public class Person extends Thing {
 	}
 
 	private static final String isPersonQuery =
-		"ask { { ?a pav:authoredBy <@> } union { <@> a foaf:Person } }";
+		"ask { { ?a pav:createdBy <@> } union { ?a pav:authoredBy <@> } union { <@> a foaf:Person } " +
+		"union { <@> a foaf:Agent } union { <@> a npx:Bot } }";
 	
 	public static boolean isPerson(String uri) {
 		return TripleStoreAccess.isTrue(isPersonQuery.replaceAll("@", uri));
@@ -83,6 +85,13 @@ public class Person extends Thing {
 			}
 		}
 		return new ArrayList<Opinion>(opinionMap.values());
+	}
+
+	private static final String isBotQuery =
+		"ask { <@> a npx:Bot }";
+	
+	public boolean isBot() {
+		return TripleStoreAccess.isTrue(isBotQuery.replaceAll("@", getURI()));
 	}
 	
 	public String getName() {
