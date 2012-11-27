@@ -28,7 +28,7 @@ public class ThingItem extends Panel {
 		return (NanobrowserApplication) getApplication();
 	}
 	
-	public Person getUser() {
+	public Agent getUser() {
 		return getNanobrowserApp().getUser();
 	}
 

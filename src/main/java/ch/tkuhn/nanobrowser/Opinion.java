@@ -8,24 +8,24 @@ public class Opinion {
 	public static final String DISAGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/Disagreement";
 	public static final String NULL_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/NullOpinion";
 	
-	private final Person person;
+	private final Agent agent;
 	private final String opinionType;
 	private final Sentence sentence;
 	private Nanopub nanopub;
 	
-	public Opinion(Person person, String opinionType, Sentence sentence, Nanopub nanopub) {
-		this.person = person;
+	public Opinion(Agent agent, String opinionType, Sentence sentence, Nanopub nanopub) {
+		this.agent = agent;
 		this.opinionType = opinionType;
 		this.sentence = sentence;
 		this.nanopub = nanopub;
 	}
 
-	public Opinion(Person person, String opinionType, Sentence sentence) {
-		this(person, opinionType, sentence, null);
+	public Opinion(Agent agent, String opinionType, Sentence sentence) {
+		this(agent, opinionType, sentence, null);
 	}
 	
-	public Person getPerson() {
-		return person;
+	public Agent getAgent() {
+		return agent;
 	}
 	
 	public String getOpinionType() {
@@ -64,7 +64,7 @@ public class Opinion {
 				(new Random()).nextInt(1000000000);
 		String query = TripleStoreAccess.getNanopublishQueryTemplate("opinion")
 				.replaceAll("@ROOT@", pubURI)
-				.replaceAll("@PERSON@", person.getURI())
+				.replaceAll("@AGENT@", agent.getURI())
 				.replaceAll("@OBJECT@", sentence.getURI())
 				.replaceAll("@TYPE@", opinionType)
 				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());

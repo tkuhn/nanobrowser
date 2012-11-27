@@ -20,7 +20,7 @@ public class Thing implements Serializable {
 	
 	public static Thing getThing(String uri) {
 		List<String> types = getTypes(uri);
-		if (types.contains(Person.TYPE_URI)) return new Person(uri);
+		if (types.contains(Agent.TYPE_URI)) return new Agent(uri);
 		if (types.contains(Sentence.TYPE_URI)) return new Sentence(uri);
 		if (types.contains(Nanopub.TYPE_URI)) return new Nanopub(uri);
 		return new Thing(uri);
@@ -90,7 +90,7 @@ public class Thing implements Serializable {
 			types.add(v.stringValue());
 		}
 		if (Sentence.isSentenceURI(uri)) types.add(Sentence.TYPE_URI);
-		if (Person.isPerson(uri)) types.add(Person.TYPE_URI);
+		if (Agent.isAgent(uri)) types.add(Agent.TYPE_URI);
 		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
 		return new ArrayList<String>(types);
 	}

@@ -97,14 +97,14 @@ public class Nanopub extends Thing {
 		"graph ?att { <@> pav:authoredBy ?a } }";
 		//"select distinct ?a where { <@> pav:authoredBy ?a }";
 	
-	public List<Person> getAuthors() {
+	public List<Agent> getAuthors() {
 		String query = authorsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Person> l = new ArrayList<Person>();
+		List<Agent> l = new ArrayList<Agent>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("a");
 			if (v instanceof BNode) continue;
-			l.add(new Person(v.stringValue()));
+			l.add(new Agent(v.stringValue()));
 		}
 		return l;
 	}
@@ -114,14 +114,14 @@ public class Nanopub extends Thing {
 		"graph ?att { <@> pav:createdBy ?c } }";
 		//"select distinct ?a where { <@> pav:createdBy ?a }";
 	
-	public List<Person> getCreators() {
+	public List<Agent> getCreators() {
 		String query = creatorsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Person> l = new ArrayList<Person>();
+		List<Agent> l = new ArrayList<Agent>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("c");
 			if (v instanceof BNode) continue;
-			l.add(new Person(v.stringValue()));
+			l.add(new Agent(v.stringValue()));
 		}
 		return l;
 	}
@@ -146,10 +146,10 @@ public class Nanopub extends Thing {
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(p.stringValue());
 			} else {
-				Person person = new Person(p.stringValue());
+				Agent agent = new Agent(p.stringValue());
 				Nanopub nanopub = new Nanopub(pub.stringValue());
 				Sentence sentence = new Sentence(s.stringValue());
-				Opinion opinion = new Opinion(person, t.stringValue(), sentence, nanopub);
+				Opinion opinion = new Opinion(agent, t.stringValue(), sentence, nanopub);
 				opinionMap.put(p.stringValue(), opinion);
 			}
 		}

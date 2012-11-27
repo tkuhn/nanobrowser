@@ -11,7 +11,7 @@ public class MainPage extends NanobrowserWebPage {
 	private static final long serialVersionUID = 6634220350799250923L;
 
 	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
-	private ListModel<Person> personModel = new ListModel<Person>();
+	private ListModel<Agent> personModel = new ListModel<Agent>();
 	private ListModel<Sentence> sentenceModel = new ListModel<Sentence>();
 
 	public MainPage(final PageParameters parameters) {
@@ -30,12 +30,12 @@ public class MainPage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ListView<Person>("persons", personModel) {
+		add(new ListView<Agent>("persons", personModel) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 			
-			protected void populateItem(ListItem<Person> item) {
-				item.add(new PersonItem("person", item.getModelObject()));
+			protected void populateItem(ListItem<Agent> item) {
+				item.add(new AgentItem("person", item.getModelObject()));
 			}
 			
 		});
@@ -66,7 +66,7 @@ public class MainPage extends NanobrowserWebPage {
 	
 	private void update() {
 		nanopubModel.setObject(Nanopub.getNonmetaNanopubs(20));
-		personModel.setObject(Person.getAllPersons(20));
+		personModel.setObject(Agent.getAllPersons(20));
 		sentenceModel.setObject(Sentence.getAllSentences(20));
 	}
 

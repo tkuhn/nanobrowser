@@ -18,7 +18,7 @@
 }
 
 :Att {
-	:Pub pav:authoredBy <@PERSON@> .
-	:Pub pav:createdBy <@PERSON@> .
+	:Pub pav:authoredBy <@AGENT@> .
+	:Pub pav:createdBy <@AGENT@> .
 	:Pub dc:created "@DATETIME@"^^xsd:dateTime
 }

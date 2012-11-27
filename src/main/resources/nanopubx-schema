@@ -35,6 +35,10 @@ npx:asSentence rdfs:range npx:Sentence .
 
 npx:Bot rdfs:subClassOf foaf:Agent .
 
+npx:commands rdf:type rdf:Property .
+npx:commands rdfs:domain foaf:Agent .
+npx:commands rdfs:range npx:Bot .
+
 
 # Relations among Statements
 

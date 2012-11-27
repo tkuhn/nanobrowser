@@ -14,7 +14,7 @@ public class MenuBar extends ThingItem {
 	public MenuBar(String id) {
 		super(id);
 		
-		add(new PersonItem("user", getNanobrowserApp().getUser()));
+		add(new AgentItem("user", getNanobrowserApp().getUser()));
 		
 		searchTextField = new TextField<String>("searchtextfield", Model.of(""));
 		

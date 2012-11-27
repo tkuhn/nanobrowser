@@ -81,7 +81,7 @@ public class SentencePage extends NanobrowserWebPage {
 			private static final long serialVersionUID = 5235305068010085751L;
 			
 			protected void populateItem(ListItem<Opinion> item) {
-				item.add(new PersonItem("person", item.getModelObject().getPerson()));
+				item.add(new AgentItem("agent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
 				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
 			}

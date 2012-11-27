@@ -11,43 +11,46 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class PersonPage extends NanobrowserWebPage {
+public class AgentPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 
-	private Person person;
+	private Agent agent;
 	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 	
-	public PersonPage(final PageParameters parameters) {
+	public AgentPage(final PageParameters parameters) {
 		
-		person = new Person(parameters.get("uri").toString());
+		agent = new Agent(parameters.get("uri").toString());
+		boolean isBot = agent.isBot();
 		
 		update();
 		
 		add(new MenuBar("menubar"));
 		
 		WebMarkupContainer icon = new WebMarkupContainer("icon");
-		if (person.isBot()) {
+		if (isBot) {
 			icon.add(new AttributeModifier("src", new Model<String>("icons/bot.svg")));
 		}
 		add(icon);
 		
-		add(new Label("title", person.getName()));
+		add(new Label("title", agent.getName()));
 
-		add(new ExternalLink("uri", person.getURI(), person.getTruncatedURI()));
+		add(new ExternalLink("uri", agent.getURI(), agent.getTruncatedURI()));
 		
-		add(new Link<Object>("thatsme") {
+		Link<Object> thatsmeButton;
+		add(thatsmeButton = new Link<Object>("thatsme") {
 			
 			private static final long serialVersionUID = 8608371149183694875L;
 
 			public void onClick() {
-				PersonPage.this.getNanobrowserApp().setUser(person);
+				AgentPage.this.getNanobrowserApp().setUser(agent);
 				update();
-				setResponsePage(PersonPage.class, getPageParameters());
+				setResponsePage(AgentPage.class, getPageParameters());
 			}
 			
 		});
+		thatsmeButton.setVisible(!isBot);
 		
 		add(new ListView<Nanopub>("nanopubs", nanopubModel) {
 			
@@ -74,8 +77,8 @@ public class PersonPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(person.getAuthoredNanopubs());
-		opinionModel.setObject(person.getOpinions(true));
+		nanopubModel.setObject(agent.getAuthoredNanopubs());
+		opinionModel.setObject(agent.getOpinions(true));
 	}
 
 }

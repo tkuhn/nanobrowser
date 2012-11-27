@@ -26,13 +26,13 @@ public class NanobrowserApplication extends WebApplication {
 		return properties.getProperty(propertyName);
 	}
 	
-	private Person user = new Person("http://www.example.org/somebody");
+	private Agent user = new Agent("http://www.example.org/somebody");
 	
-	public Person getUser() {
+	public Agent getUser() {
 		return user;
 	}
 	
-	public void setUser(Person user) {
+	public void setUser(Agent user) {
 		this.user = user;
 	}
 	
@@ -40,7 +40,7 @@ public class NanobrowserApplication extends WebApplication {
 		super.internalInit();
 		this.mountPage("/nanopub", NanopubPage.class);
 		this.mountPage("/sentence", SentencePage.class);
-		this.mountPage("/person", PersonPage.class);
+		this.mountPage("/agent", AgentPage.class);
 		this.mountPage("/thing", ThingPage.class);
 		this.mountPage("/search", SearchPage.class);
 	}

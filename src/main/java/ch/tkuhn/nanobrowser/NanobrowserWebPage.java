@@ -10,7 +10,7 @@ public class NanobrowserWebPage extends WebPage {
 		return (NanobrowserApplication) getApplication();
 	}
 	
-	public Person getUser() {
+	public Agent getUser() {
 		return getNanobrowserApp().getUser();
 	}
 

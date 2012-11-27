@@ -1,0 +1,34 @@
+@prefix : <@ROOT@> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+
+:Introduction_Head {
+    :Introduction a npx:IntroNanopub .
+    :Introduction a np:Nanopublication ;
+        np:hasAssertion :Introduction_Assertion ;
+        np:hasProvenance :Introduction_Provenance .
+
+    :Introduction_Provenance np:hasAttribution :Introduction_Attribution ;
+        np:hasSupporting :Introduction_Supporting .
+}
+
+:Introduction_Assertion {
+    :Introduction npx:introduces <@BOT@> .
+    <@BOT@> a foaf:Agent ;
+        a npx:Bot ;
+        rdfs:label "@LABEL@" .
+    <@COMMANDER@> npx:commands <@BOT@> .
+}
+
+:Introduction_Attribution {
+    :Introduction
+        pav:authoredBy <@CREATOR@> ;
+        pav:createdBy <@CREATOR@> ;
+        dc:created "@DATETIME@"^^xsd:dateTime .
+}

@@ -14,7 +14,7 @@
   <g transform="scale(4.0)" >
     <path
        style="fill:url(#grad);fill-opacity:1;stroke:url(#grad);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 21.5,22.5 l -0.5,-7 -3.5,0 0,-11 -5,0 0,-3 0,3 -5,0 0,11 -3.5,0 -0.5,7 z"
+       d="m 21.5,22.5 l 0,-7 -4,0 0,-11 -5,0 0,-3 0,3 -5,0 0,11 -4,0 0,7 z"
     />
   </g>
 </svg>

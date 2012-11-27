@@ -47,26 +47,26 @@ public class NanopubPage extends NanobrowserWebPage {
 			add(new Label("date", dateString));
 		}
 		
-		List<Person> authors = pub.getAuthors();
+		List<Agent> authors = pub.getAuthors();
 		add(new Label("authorsempty", authors.size() == 0 ? "(unknown)" : ""));
-		add(new ListView<Person>("authors", authors) {
+		add(new ListView<Agent>("authors", authors) {
 
 			private static final long serialVersionUID = 6872614881667929445L;
 
-			protected void populateItem(ListItem<Person> item) {
-				item.add(new PersonItem("author", item.getModelObject()));
+			protected void populateItem(ListItem<Agent> item) {
+				item.add(new AgentItem("author", item.getModelObject()));
 			}
 			
 		});
 		
-		List<Person> creators = pub.getCreators();
+		List<Agent> creators = pub.getCreators();
 		add(new Label("creatorsempty", creators.size() == 0 ? "(unknown)" : ""));
-		add(new ListView<Person>("creators", creators) {
+		add(new ListView<Agent>("creators", creators) {
 			
 			private static final long serialVersionUID = 4928584915881911596L;
 
-			protected void populateItem(ListItem<Person> item) {
-				item.add(new PersonItem("creator", item.getModelObject()));
+			protected void populateItem(ListItem<Agent> item) {
+				item.add(new AgentItem("creator", item.getModelObject()));
 			}
 			
 		});
@@ -108,7 +108,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			private static final long serialVersionUID = 6804591967140101102L;
 
 			protected void populateItem(ListItem<Opinion> item) {
-				item.add(new PersonItem("opinionperson", item.getModelObject().getPerson()));
+				item.add(new AgentItem("opinionagent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
 				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
 			}

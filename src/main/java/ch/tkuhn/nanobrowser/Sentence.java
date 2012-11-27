@@ -98,9 +98,9 @@ public class Sentence extends Thing {
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(p.stringValue());
 			} else {
-				Person person = new Person(p.stringValue());
+				Agent agent = new Agent(p.stringValue());
 				Nanopub nanopub = new Nanopub(pub.stringValue());
-				Opinion opinion = new Opinion(person, t.stringValue(), this, nanopub);
+				Opinion opinion = new Opinion(agent, t.stringValue(), this, nanopub);
 				opinionMap.put(p.stringValue(), opinion);
 			}
 		}
@@ -132,12 +132,12 @@ public class Sentence extends Thing {
 		return new ArrayList<Pair<Sentence,Nanopub>>(sentencesMap.values());
 	}
 	
-	public void publishSameMeaning(Sentence other, Person author) {
+	public void publishSameMeaning(Sentence other, Agent author) {
 		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
 				(new Random()).nextInt(1000000000);
 		String query = TripleStoreAccess.getNanopublishQueryTemplate("samemeaning")
 				.replaceAll("@ROOT@", pubURI)
-				.replaceAll("@PERSON@", author.getURI())
+				.replaceAll("@AGENT@", author.getURI())
 				.replaceAll("@SENTENCE1@", getURI())
 				.replaceAll("@SENTENCE2@", other.getURI())
 				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());

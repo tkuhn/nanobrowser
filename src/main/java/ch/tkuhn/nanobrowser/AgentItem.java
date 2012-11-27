@@ -8,25 +8,25 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class PersonItem extends ThingItem {
+public class AgentItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public PersonItem(String id, Person p) {
+	public AgentItem(String id, Agent a) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
-		params.add("uri", p.getURI());
-		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("personlink", PersonPage.class, params);
+		params.add("uri", a.getURI());
+		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("agentlink", AgentPage.class, params);
 		add(link);
 
 		WebMarkupContainer icon = new WebMarkupContainer("icon");
-		if (p.isBot()) {
+		if (a.isBot()) {
 			icon.add(new AttributeModifier("src", new Model<String>("icons/bot.svg")));
 		}
 		link.add(icon);
 		
-		link.add(new Label("person", p.getName()));
+		link.add(new Label("agent", a.getName()));
 	}
 
 }

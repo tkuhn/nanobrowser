@@ -9,13 +9,13 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-public class Person extends Thing {
+public class Agent extends Thing {
 	
 	private static final long serialVersionUID = -4281747788959702687L;
 	
 	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Agent";
 	
-	public Person(String uri) {
+	public Agent(String uri) {
 		super(uri);
 	}
 	
@@ -23,24 +23,24 @@ public class Person extends Thing {
 		"select distinct ?p where { { ?a pav:authoredBy ?p } union { ?a pav:createdBy ?p } union { ?p a foaf:Person } " +
 		"union { ?p a foaf:Agent } . optional { ?p a npx:Bot . ?p a ?x } filter (!bound(?x)) }";
 	
-	public static List<Person> getAllPersons(int limit) {
+	public static List<Agent> getAllPersons(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
 		List<BindingSet> result = TripleStoreAccess.getTuples(allPersonsQuery + lm);
-		List<Person> l = new ArrayList<Person>();
+		List<Agent> l = new ArrayList<Agent>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
 			if (v instanceof BNode) continue;
-			l.add(new Person(v.stringValue()));
+			l.add(new Agent(v.stringValue()));
 		}
 		return l;
 	}
 
-	private static final String isPersonQuery =
+	private static final String isAgentQuery =
 		"ask { { ?a pav:createdBy <@> } union { ?a pav:authoredBy <@> } union { <@> a foaf:Person } " +
 		"union { <@> a foaf:Agent } union { <@> a npx:Bot } }";
 	
-	public static boolean isPerson(String uri) {
-		return TripleStoreAccess.isTrue(isPersonQuery.replaceAll("@", uri));
+	public static boolean isAgent(String uri) {
+		return TripleStoreAccess.isTrue(isAgentQuery.replaceAll("@", uri));
 	}
 	
 	private static final String authoredNanopubsQuery =
@@ -100,8 +100,8 @@ public class Person extends Thing {
 		return name;
 	}
 	
-	public PersonItem createGUIItem(String id) {
-		return new PersonItem(id, this);
+	public AgentItem createGUIItem(String id) {
+		return new AgentItem(id, this);
 	}
 
 }
