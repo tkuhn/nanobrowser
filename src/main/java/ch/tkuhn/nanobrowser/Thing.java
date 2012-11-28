@@ -16,6 +16,10 @@ public class Thing implements Serializable {
 
 	public static final String TYPE_URI = "http://www.w3.org/2002/07/owl#Thing";
 	
+	public static final int TINY_GUI_ITEM = 0;
+	public static final int MEDIUM_GUI_ITEM = 1;
+	public static final int LONG_GUI_ITEM = 2;
+	
 	private final String uri;
 	
 	public static Thing getThing(String uri) {
@@ -68,8 +72,12 @@ public class Thing implements Serializable {
 		return labels.get(0);
 	}
 	
-	public ThingItem createGUIItem(String id) {
+	public ThingItem createGUIItem(String id, int guiItemSize) {
 		return new ThingItem(id, this);
+	}
+	
+	public final ThingItem createGUIItem(String id) {
+		return createGUIItem(id, MEDIUM_GUI_ITEM);
 	}
 
 	private static final String typesQuery =

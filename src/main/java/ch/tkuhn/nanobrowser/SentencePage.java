@@ -38,7 +38,7 @@ public class SentencePage extends NanobrowserWebPage {
 			private static final long serialVersionUID = 3911519757128281636L;
 
 			protected void populateItem(ListItem<Nanopub> item) {
-				item.add(new NanopubItem("nanopub", item.getModelObject()));
+				item.add(new NanopubItem("nanopub", item.getModelObject(), Thing.LONG_GUI_ITEM));
 			}
 			
 		});
@@ -83,7 +83,7 @@ public class SentencePage extends NanobrowserWebPage {
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new AgentItem("agent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
 			}
 			
 		});
@@ -94,7 +94,7 @@ public class SentencePage extends NanobrowserWebPage {
 
 			protected void populateItem(ListItem<Pair<Sentence,Nanopub>> item) {
 				item.add(new SentenceItem("samemeaning", item.getModelObject().getLeft()));
-				item.add(new NanopubItem("samemeaningpub", item.getModelObject().getRight(), false));
+				item.add(new NanopubItem("samemeaningpub", item.getModelObject().getRight(), Thing.TINY_GUI_ITEM));
 			}
 			
 		});

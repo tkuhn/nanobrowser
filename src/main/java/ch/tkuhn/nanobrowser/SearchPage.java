@@ -1,7 +1,5 @@
 package ch.tkuhn.nanobrowser;
 
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -21,15 +19,7 @@ public class SearchPage extends NanobrowserWebPage {
 		
 		add(new MenuBar("menubar"));
 		
-		add(new ListView<Sentence>("sentences", sentenceModel) {
-			
-			private static final long serialVersionUID = 5528306290681183748L;
-			
-			protected void populateItem(ListItem<Sentence> item) {
-				item.add(new SentenceItem("sentence", item.getModelObject()));
-			}
-			
-		});
+		add(new VList("sentencelist", sentenceModel, "Sentences"));
 		
 	}
 	

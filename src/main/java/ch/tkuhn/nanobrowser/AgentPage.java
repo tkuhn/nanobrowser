@@ -45,6 +45,20 @@ public class AgentPage extends NanobrowserWebPage {
 		} else {
 			add(new WebMarkupContainer("commanderlist"));
 		}
+
+		add(new VList("nanopublist", nanopubModel, "Nanopublications"));
+		
+		add(new ListView<Opinion>("opinions", opinionModel) {
+			
+			private static final long serialVersionUID = -4257147575068849793L;
+
+			protected void populateItem(ListItem<Opinion> item) {
+				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), true)));
+				item.add(new SentenceItem("opinionsentence", item.getModelObject().getSentence()));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
+			}
+			
+		});
 		
 		Link<Object> thatsmeButton;
 		add(thatsmeButton = new Link<Object>("thatsme") {
@@ -59,28 +73,6 @@ public class AgentPage extends NanobrowserWebPage {
 			
 		});
 		thatsmeButton.setVisible(!isBot);
-		
-		add(new ListView<Nanopub>("nanopubs", nanopubModel) {
-			
-			private static final long serialVersionUID = 3911519757128281636L;
-
-			protected void populateItem(ListItem<Nanopub> item) {
-				item.add(new NanopubItem("nanopub", item.getModelObject()));
-			}
-			
-		});
-		
-		add(new ListView<Opinion>("opinions", opinionModel) {
-			
-			private static final long serialVersionUID = -4257147575068849793L;
-
-			protected void populateItem(ListItem<Opinion> item) {
-				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), true)));
-				item.add(new SentenceItem("opinionsentence", item.getModelObject().getSentence()));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
-			}
-			
-		});
 		
 	}
 	

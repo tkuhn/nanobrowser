@@ -1,8 +1,6 @@
 package ch.tkuhn.nanobrowser;
 
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -19,36 +17,12 @@ public class MainPage extends NanobrowserWebPage {
 		update();
 		
 		add(new MenuBar("menubar"));
-		
-		add(new ListView<Nanopub>("nanopubs", nanopubModel) {
-			
-			private static final long serialVersionUID = 1587686459411075758L;
-			
-			protected void populateItem(ListItem<Nanopub> item) {
-				item.add(new NanopubItem("nanopub", item.getModelObject()));
-			}
-			
-		});
-		
-		add(new ListView<Agent>("persons", personModel) {
-			
-			private static final long serialVersionUID = 3911519757128281636L;
-			
-			protected void populateItem(ListItem<Agent> item) {
-				item.add(new AgentItem("person", item.getModelObject()));
-			}
-			
-		});
-		
-		add(new ListView<Sentence>("sentences", sentenceModel) {
-			
-			private static final long serialVersionUID = 3911519757128281636L;
-			
-			protected void populateItem(ListItem<Sentence> item) {
-				item.add(new SentenceItem("sentence", item.getModelObject()));
-			}
-			
-		});
+
+		add(new VList("nanopublist", nanopubModel, "Latest Nanopublications"));
+
+		add(new VList("personlist", personModel, "Persons"));
+
+		add(new VList("sentencelist", sentenceModel, "Sentences"));
 		
 		add(new Link<Object>("deletemetapubs") {
 			

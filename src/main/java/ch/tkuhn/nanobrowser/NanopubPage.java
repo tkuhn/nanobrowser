@@ -38,16 +38,8 @@ public class NanopubPage extends NanobrowserWebPage {
 		add(new HList("authorlist", pub.getAuthors(), "Authors"));
 		
 		add(new HList("creatorlist", pub.getCreators(), "Creator"));
-		
-		add(new ListView<Sentence>("sentences", pub.getSentenceAssertions()) {
-			
-			private static final long serialVersionUID = 3911519757128281636L;
 
-			protected void populateItem(ListItem<Sentence> item) {
-				item.add(new SentenceItem("sentence", item.getModelObject()));
-			}
-			
-		});
+		add(new VList("sentencelist", pub.getSentenceAssertions(), "Assertion as sentence"));
 		
 		add(new ListView<Statement>("assertion", TripleStoreAccess.sortTriples(pub.getAssertionTriples())) {
 			
@@ -78,7 +70,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new AgentItem("opinionagent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), false));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
 			}
 			
 		});

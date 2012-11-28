@@ -196,8 +196,8 @@ public class Sentence extends Thing {
 		return null;
 	}
 	
-	public SentenceItem createGUIItem(String id) {
-		return new SentenceItem(id, this);
+	public SentenceItem createGUIItem(String id, int guiItemSize) {
+		return new SentenceItem(id, this, guiItemSize);
 	}
 
 }

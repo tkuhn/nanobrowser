@@ -12,7 +12,7 @@ public class AgentItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public AgentItem(String id, Agent a) {
+	public AgentItem(String id, Agent a, int guiItemSize) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -26,7 +26,13 @@ public class AgentItem extends ThingItem {
 		}
 		link.add(icon);
 		
-		link.add(new Label("agent", a.getName()));
+		Label nameLabel = new Label("agent", a.getName());
+		nameLabel.setVisible(guiItemSize != Thing.TINY_GUI_ITEM);
+		link.add(nameLabel);
+	}
+
+	public AgentItem(String id, Agent a) {
+		this(id, a, Thing.MEDIUM_GUI_ITEM);
 	}
 
 }
