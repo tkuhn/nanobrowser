@@ -180,8 +180,7 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String getNanopubGraphsWithPropertyQuery =
-		"select ?g ?ass ?att where { graph ?ass { ?x @P ?y } . " +
-		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
+		"select ?pub where { graph ?ass { ?x @P ?y } . graph ?g { ?pub np:hasAssertion ?ass } }";
 	
 	public static void deleteAllNanopubsWithProperty(String propertyURI) {
 		if (propertyURI.matches("^[a-z]+://")) {
@@ -189,9 +188,7 @@ public class Nanopub extends Thing {
 		}
 		String query = getNanopubGraphsWithPropertyQuery.replaceAll("@P", propertyURI);
 		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("g").stringValue()));
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("ass").stringValue()));
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("att").stringValue()));
+			(new Nanopub(bs.getValue("pub").stringValue())).delete();
 		}
 	}
 	
