@@ -1,7 +1,5 @@
 package ch.tkuhn.nanobrowser;
 
-import java.util.List;
-
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -14,7 +12,7 @@ public class NanopubPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 	
-	Nanopub pub;
+	private Nanopub pub;
 
 	public NanopubPage(final PageParameters parameters) {
 		
@@ -26,18 +24,8 @@ public class NanopubPage extends NanobrowserWebPage {
 		
 		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
 		
-		List<String> types = pub.getTypes();
-		add(new Label("typesempty", types.size() == 0 ? "(unknown)" : ""));
-		add(new ListView<String>("types", types) {
-			
-			private static final long serialVersionUID = 8592870259564915600L;
-
-			protected void populateItem(ListItem<String> item) {
-				item.add(Thing.getThing(item.getModelObject()).createGUIItem("type"));
-			}
-			
-		});
-
+		add(new HList("typelist", pub.getTypes(), "Types"));
+		
 		String dateString = pub.getCreateDateString();
 		if (dateString == null) {
 			add(new Label("dateempty", "(unknown)"));
@@ -46,30 +34,10 @@ public class NanopubPage extends NanobrowserWebPage {
 			add(new Label("dateempty", ""));
 			add(new Label("date", dateString));
 		}
+
+		add(new HList("authorlist", pub.getAuthors(), "Authors"));
 		
-		List<Agent> authors = pub.getAuthors();
-		add(new Label("authorsempty", authors.size() == 0 ? "(unknown)" : ""));
-		add(new ListView<Agent>("authors", authors) {
-
-			private static final long serialVersionUID = 6872614881667929445L;
-
-			protected void populateItem(ListItem<Agent> item) {
-				item.add(new AgentItem("author", item.getModelObject()));
-			}
-			
-		});
-		
-		List<Agent> creators = pub.getCreators();
-		add(new Label("creatorsempty", creators.size() == 0 ? "(unknown)" : ""));
-		add(new ListView<Agent>("creators", creators) {
-			
-			private static final long serialVersionUID = 4928584915881911596L;
-
-			protected void populateItem(ListItem<Agent> item) {
-				item.add(new AgentItem("creator", item.getModelObject()));
-			}
-			
-		});
+		add(new HList("creatorlist", pub.getCreators(), "Creator"));
 		
 		add(new ListView<Sentence>("sentences", pub.getSentenceAssertions()) {
 			

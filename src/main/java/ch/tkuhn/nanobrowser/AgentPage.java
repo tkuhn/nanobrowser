@@ -1,7 +1,5 @@
 package ch.tkuhn.nanobrowser;
 
-import java.util.List;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -39,21 +37,14 @@ public class AgentPage extends NanobrowserWebPage {
 		add(new Label("title", agent.getName()));
 
 		add(new ExternalLink("uri", agent.getURI(), agent.getTruncatedURI()));
-		
-		WebMarkupContainer commandersList = new WebMarkupContainer("commanderslist");
-		add(commandersList);
-		commandersList.setVisible(isBot);
-		List<Agent> commanders = agent.getCommanders();
-		commandersList.add(new Label("commandersempty", commanders.size() == 0 ? "(unknown)" : ""));
-		commandersList.add(new ListView<Agent>("commanders", commanders) {
-			
-			private static final long serialVersionUID = -222332819439606634L;
 
-			protected void populateItem(ListItem<Agent> item) {
-				item.add(item.getModelObject().createGUIItem("commander"));
-			}
-			
-		});
+		add(new HList("typelist", agent.getTypes(), "Types"));
+		
+		if (isBot) {
+			add(new HList("commanderlist", agent.getCommanders(), "Commanders"));
+		} else {
+			add(new WebMarkupContainer("commanderlist"));
+		}
 		
 		Link<Object> thatsmeButton;
 		add(thatsmeButton = new Link<Object>("thatsme") {
