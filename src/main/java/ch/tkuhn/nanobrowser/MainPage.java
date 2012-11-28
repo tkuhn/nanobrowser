@@ -20,9 +20,9 @@ public class MainPage extends NanobrowserWebPage {
 
 		add(new VList("nanopublist", nanopubModel, "Latest Nanopublications"));
 
-		add(new VList("personlist", personModel, "Persons"));
+		add(new VList("personlist", personModel, "Some Persons"));
 
-		add(new VList("sentencelist", sentenceModel, "Sentences"));
+		add(new VList("sentencelist", sentenceModel, "Some Sentences"));
 		
 		add(new Link<Object>("deletemetapubs") {
 			
@@ -39,9 +39,9 @@ public class MainPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(Nanopub.getNonmetaNanopubs(20));
-		personModel.setObject(Agent.getAllPersons(20));
-		sentenceModel.setObject(Sentence.getAllSentences(20));
+		nanopubModel.setObject(Nanopub.getNonmetaNanopubs(10));
+		personModel.setObject(Agent.getAllPersons(10));
+		sentenceModel.setObject(Sentence.getAllSentences(10));
 	}
 
 }
