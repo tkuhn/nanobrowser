@@ -99,6 +99,21 @@ public class Agent extends Thing {
 		if (name == null) name = getLastPartOfURI();
 		return name;
 	}
+
+	private static final String commandersQuery =
+		"select distinct ?c where { ?c npx:commands <@> }";
+	
+	public List<Agent> getCommanders() {
+		String query = commandersQuery.replaceAll("@", getURI());
+		List<BindingSet> result = TripleStoreAccess.getTuples(query);
+		List<Agent> l = new ArrayList<Agent>();
+		for (BindingSet bs : result) {
+			Value v = bs.getValue("c");
+			if (v instanceof BNode) continue;
+			l.add(new Agent(v.stringValue()));
+		}
+		return l;
+	}
 	
 	public AgentItem createGUIItem(String id) {
 		return new AgentItem(id, this);
