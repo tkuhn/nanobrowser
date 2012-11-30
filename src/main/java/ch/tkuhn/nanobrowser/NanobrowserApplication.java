@@ -26,7 +26,7 @@ public class NanobrowserApplication extends WebApplication {
 		return properties.getProperty(propertyName);
 	}
 	
-	private Agent user = new Agent("http://www.example.org/somebody");
+	private Agent user = new Agent("http://www.tkuhn.ch/nanobrowser/user/anonymous");
 	
 	public Agent getUser() {
 		return user;
