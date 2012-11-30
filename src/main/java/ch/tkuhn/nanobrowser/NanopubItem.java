@@ -9,7 +9,7 @@ public class NanopubItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public NanopubItem(String id, Nanopub n, int guiItemSize) {
+	public NanopubItem(String id, Nanopub n, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -23,10 +23,10 @@ public class NanopubItem extends ThingItem {
 		} else {
 			dateLabel = new Label("nanopubdate", n.getCreateDateString());
 		}
-		dateLabel.setVisible(guiItemSize == Thing.LONG_GUI_ITEM);
+		dateLabel.setVisible(guiItemStyle == Thing.LONG_GUI_ITEM);
 		add(dateLabel);
 		Label nameLabel = new Label("nanopubname", " " + n.getLastPartOfURI() + " ");
-		nameLabel.setVisible(guiItemSize != Thing.TINY_GUI_ITEM);
+		nameLabel.setVisible(guiItemStyle != Thing.TINY_GUI_ITEM);
 		link.add(nameLabel);
 	}
 

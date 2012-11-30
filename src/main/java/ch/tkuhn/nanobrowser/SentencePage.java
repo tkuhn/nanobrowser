@@ -1,7 +1,9 @@
 package ch.tkuhn.nanobrowser;
 
-import org.apache.commons.lang3.tuple.Pair;
+import java.util.Arrays;
+
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -9,6 +11,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -18,8 +21,12 @@ public class SentencePage extends NanobrowserWebPage {
 
 	private Sentence sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
-	private ListModel<Pair<Sentence,Nanopub>> sameMeaningsModel = new ListModel<Pair<Sentence,Nanopub>>();
-	private TextField<String> newSameMeaningField;
+	private ListModel<Triple<Sentence,Sentence>> sameMeaningsModel = new ListModel<Triple<Sentence,Sentence>>();
+	private TextField<String> otherSentenceField;
+	private DropDownChoice<String> sentenceRelChoice;
+	
+	@SuppressWarnings("unused")
+	private String selectedRelType = "related";
 
 	public SentencePage(final PageParameters parameters) {
 		
@@ -88,25 +95,28 @@ public class SentencePage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ListView<Pair<Sentence,Nanopub>>("samemeanings", sameMeaningsModel) {
+		add(new ListView<Triple<Sentence,Sentence>>("samemeanings", sameMeaningsModel) {
 			
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = -3149020273243388808L;
 
-			protected void populateItem(ListItem<Pair<Sentence,Nanopub>> item) {
-				item.add(new SentenceItem("samemeaning", item.getModelObject().getLeft()));
-				item.add(new NanopubItem("samemeaningpub", item.getModelObject().getRight(), Thing.TINY_GUI_ITEM));
+			protected void populateItem(ListItem<Triple<Sentence,Sentence>> item) {
+				item.add(new TriplePanel("samemeaning", item.getModelObject(), TriplePanel.PREDICATE_SUBJECT));
 			}
 			
 		});
 		
-		newSameMeaningField = new TextField<String>("newsamemeaning", Model.of(""));
+		otherSentenceField = new TextField<String>("othersentence", Model.of(""));
+		sentenceRelChoice = new DropDownChoice<String>("sentreltype",
+				new PropertyModel<String>(this, "selectedRelType"),
+				Arrays.asList(new String[] { "same" }));
+				// { "related", "same", "opposite", "conflicting", "more general than", "more specific than" }
 		
-		Form<?> newSameMeaningForm = new Form<Void>("newsamemeaningform") {
+		Form<?> newSentRelForm = new Form<Void>("newsentrelform") {
 			
 			private static final long serialVersionUID = -6636881419461562970L;
 
 			protected void onSubmit() {
-				String s = newSameMeaningField.getModelObject();
+				String s = otherSentenceField.getModelObject();
 				Sentence other = null;
 				if (s != null) {
 					if (Sentence.isSentenceURI(s)) {
@@ -125,8 +135,9 @@ public class SentencePage extends NanobrowserWebPage {
 			
 		};
 		
-		add(newSameMeaningForm);
-		newSameMeaningForm.add(newSameMeaningField);
+		add(newSentRelForm);
+		newSentRelForm.add(otherSentenceField);
+		newSentRelForm.add(sentenceRelChoice);
 		
 	}
 	

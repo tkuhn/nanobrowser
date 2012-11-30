@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.openrdf.model.Statement;
 
 public class NanopubPage extends NanobrowserWebPage {
 
@@ -41,24 +40,24 @@ public class NanopubPage extends NanobrowserWebPage {
 
 		add(new VList("sentencelist", pub.getSentenceAssertions(), "Assertion as sentence"));
 		
-		add(new ListView<Statement>("assertion", TripleStoreAccess.sortTriples(pub.getAssertionTriples())) {
+		add(new ListView<Triple<?,?>>("assertion", TripleStoreAccess.sortTriples(pub.getAssertionTriples())) {
 			
 			private static final long serialVersionUID = 4266539302092878158L;
 
-			protected void populateItem(ListItem<Statement> item) {
-				Statement st = item.getModelObject();
-				item.add(new TriplePanel("assertiontriple", st));
+			protected void populateItem(ListItem<Triple<?,?>> item) {
+				Triple<?,?> t = item.getModelObject();
+				item.add(new TriplePanel("assertiontriple", t));
 			}
 			
 		});
 		
-		add(new ListView<Statement>("supporting", TripleStoreAccess.sortTriples(pub.getSupportingTriples())) {
+		add(new ListView<Triple<?,?>>("supporting", TripleStoreAccess.sortTriples(pub.getSupportingTriples())) {
 			
 			private static final long serialVersionUID = -809372636947729189L;
 
-			protected void populateItem(ListItem<Statement> item) {
-				Statement st = item.getModelObject();
-				item.add(new TriplePanel("supportingtriple", st));
+			protected void populateItem(ListItem<Triple<?,?>> item) {
+				Triple<?,?> t = item.getModelObject();
+				item.add(new TriplePanel("supportingtriple", t));
 			}
 			
 		});

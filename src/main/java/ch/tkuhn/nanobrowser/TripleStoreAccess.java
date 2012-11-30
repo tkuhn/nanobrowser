@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.openrdf.OpenRDFException;
-import org.openrdf.model.Statement;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.BooleanQuery;
 import org.openrdf.query.GraphQuery;
@@ -83,8 +82,8 @@ public class TripleStoreAccess {
 		return tuples;
 	}
 
-	public static List<Statement> getGraph(String query) {
-		List<Statement> triples = new ArrayList<Statement>();
+	public static List<Triple<?,?>> getGraph(String query) {
+		List<Triple<?,?>> triples = new ArrayList<Triple<?,?>>();
 		try {
 			RepositoryConnection connection = repo.getConnection();
 			try {
@@ -92,7 +91,7 @@ public class TripleStoreAccess {
 				GraphQueryResult result = graphQuery.evaluate();
 				try {
 					while (result.hasNext()) {
-						triples.add(result.next());
+						triples.add(new Triple<Thing,Object>(result.next()));
 					}
 				} finally {
 					result.close();
@@ -123,18 +122,18 @@ public class TripleStoreAccess {
 		}
 	}
 	
-	public static List<Statement> sortTriples(List<Statement> triples) {
+	public static List<Triple<?,?>> sortTriples(List<Triple<?,?>> triples) {
 		Collections.sort(triples, tripleComparator);
 		return triples;
 	}
 	
-	public static Comparator<Statement> tripleComparator = new Comparator<Statement>() {
+	public static Comparator<Triple<?,?>> tripleComparator = new Comparator<Triple<?,?>>() {
 		
-		public int compare(Statement o1, Statement o2) {
-			int d = o1.getSubject().stringValue().compareTo(o2.getSubject().stringValue());
+		public int compare(Triple<?,?> o1, Triple<?,?> o2) {
+			int d = o1.getSubject().toString().compareTo(o2.getSubject().toString());
 			if (d == 0) {
-				String p1 = o1.getPredicate().stringValue();
-				String p2 = o2.getPredicate().stringValue();
+				String p1 = o1.getPredicate().getURI();
+				String p2 = o2.getPredicate().getURI();
 				d = p1.compareTo(p2);
 				if (d != 0) {
 					if (p1.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) d = -1;
@@ -142,7 +141,7 @@ public class TripleStoreAccess {
 				}
 			}
 			if (d == 0) {
-				d = o1.getObject().stringValue().compareTo(o2.getObject().stringValue());
+				d = o1.getObject().toString().compareTo(o2.getObject().toString());
 			}
 			return d;
 		};

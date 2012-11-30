@@ -74,6 +74,14 @@ npx:hasMoreSpecificMeaningThan rdf:type rdf:Property .
 npx:hasMoreSpecificMeaningThan rdfs:domain npx:Statement .
 npx:hasMoreSpecificMeaningThan rdfs:range npx:Statement .
 
+npx:hasRelatedMeaning rdf:type rdf:Property .
+npx:hasRelatedMeaning rdfs:domain npx:Statement .
+npx:hasRelatedMeaning rdfs:range npx:Statement .
+
+npx:hasUnrelatedMeaning rdf:type rdf:Property .
+npx:hasUnrelatedMeaning rdfs:domain npx:Statement .
+npx:hasUnrelatedMeaning rdfs:range npx:Statement .
+
 
 # Opinions
 

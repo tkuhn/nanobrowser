@@ -49,18 +49,15 @@
 <a href="#" wicket:id="noopinion" class="button">No opinion!</a>
 </p>
 
-<h4>Same Meaning</h4>
+<h4>Related Sentences</h4>
 
-<table>
-<tr wicket:id="samemeanings">
-<td>
-<span wicket:id="samemeaning"></span> <span class="ref">[<span wicket:id="samemeaningpub"></span>]</span>
-</td>
-</tr>
-</table>
+<p wicket:id="samemeanings">
+<span wicket:id="samemeaning"></span>
+</p>
 
-<form wicket:id="newsamemeaningform">
-<input wicket:id="newsamemeaning" type="text" class="textfield" size="50" />
+<form wicket:id="newsentrelform">
+<select wicket:id="sentreltype"></select>
+<input wicket:id="othersentence" type="text" class="textfield" size="50" />
 <input type="submit" class="button" href="#" value="add!" />
 </form>
 

@@ -14,14 +14,18 @@ public class ThingItem extends Panel {
 		super(id);
 	}
 
-	public ThingItem(String id, Thing th) {
+	public ThingItem(String id, Thing th, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
 		params.add("uri", th.getURI());
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("thinglink", ThingPage.class, params);
 		add(link);
-		link.add(new Label("thing", th.getLastPartOfURI()));
+		String n = th.getLastPartOfURI();
+		if (guiItemStyle == Thing.PREDICATEFIRST_ITEM) {
+			n += ":";
+		}
+		link.add(new Label("thing", n));
 	}
 	
 	public NanobrowserApplication getNanobrowserApp() {

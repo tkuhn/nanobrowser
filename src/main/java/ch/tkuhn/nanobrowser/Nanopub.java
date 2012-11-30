@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openrdf.model.BNode;
-import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
@@ -63,7 +62,7 @@ public class Nanopub extends Thing {
 		"construct {?a ?b ?c} where { { <@> np:hasAssertion ?f } union " +
 		"{ <@> np:hasAssertion ?g . ?g npx:asFormula ?f } . graph ?f {?a ?b ?c} }";
 	
-	public List<Statement> getAssertionTriples() {
+	public List<Triple<?,?>> getAssertionTriples() {
 		String query = assertionTriplesQuery.replaceAll("@", getURI());
 		return TripleStoreAccess.getGraph(query);
 	}
@@ -72,7 +71,7 @@ public class Nanopub extends Thing {
 		"construct {?a ?b ?c} where { <@> np:hasProvenance ?p . ?p np:hasSupporting ?s . " +
 		"graph ?s {?a ?b ?c} }";
 	
-	public List<Statement> getSupportingTriples() {
+	public List<Triple<?,?>> getSupportingTriples() {
 		String query = supportingTriplesQuery.replaceAll("@", getURI());
 		return TripleStoreAccess.getGraph(query);
 	}
@@ -192,8 +191,8 @@ public class Nanopub extends Thing {
 		}
 	}
 	
-	public NanopubItem createGUIItem(String id, int guiItemSize) {
-		return new NanopubItem(id, this, guiItemSize);
+	public NanopubItem createGUIItem(String id, int guiItemStyle) {
+		return new NanopubItem(id, this, guiItemStyle);
 	}
 
 }

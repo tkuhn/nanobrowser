@@ -19,6 +19,7 @@ public class Thing implements Serializable {
 	public static final int TINY_GUI_ITEM = 0;
 	public static final int MEDIUM_GUI_ITEM = 1;
 	public static final int LONG_GUI_ITEM = 2;
+	public static final int PREDICATEFIRST_ITEM = 3;
 	
 	private final String uri;
 	
@@ -72,8 +73,8 @@ public class Thing implements Serializable {
 		return labels.get(0);
 	}
 	
-	public ThingItem createGUIItem(String id, int guiItemSize) {
-		return new ThingItem(id, this);
+	public ThingItem createGUIItem(String id, int guiItemStyle) {
+		return new ThingItem(id, this, guiItemStyle);
 	}
 	
 	public final ThingItem createGUIItem(String id) {
@@ -103,7 +104,7 @@ public class Thing implements Serializable {
 		return new ArrayList<String>(types);
 	}
 	
-	public String toString() {
+	public final String toString() {
 		return getURI();
 	}
 	

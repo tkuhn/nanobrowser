@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
@@ -115,10 +113,10 @@ public class Sentence extends Thing {
 		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
 		"} order by asc(?d)";
 	
-	public List<Pair<Sentence,Nanopub>> getSameMeaningSentences() {
+	public List<Triple<Sentence,Sentence>> getSameMeaningSentences() {
 		String query = sameMeaningSentencesQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		Map<String, Pair<Sentence,Nanopub>> sentencesMap = new HashMap<String, Pair<Sentence,Nanopub>>();
+		Map<String, Triple<Sentence,Sentence>> sentencesMap = new HashMap<String, Triple<Sentence,Sentence>>();
 		for (BindingSet bs : result) {
 			Value s = bs.getValue("s");
 			Value pub = bs.getValue("pub");
@@ -126,10 +124,15 @@ public class Sentence extends Thing {
 			if (!s.stringValue().equals(getURI())) {
 				Sentence sentence = new Sentence(s.stringValue());
 				Nanopub nanopub = new Nanopub(pub.stringValue());
-				sentencesMap.put(sentence.getURI(), new ImmutablePair<Sentence,Nanopub>(sentence, nanopub));
+				Triple<Sentence,Sentence> t = new Triple<Sentence,Sentence>(
+						sentence,
+						new Thing("http://krauthammerlab.med.yale.edu/nanopub/hasSameMeaning"),
+						this,
+						nanopub);
+				sentencesMap.put(sentence.getURI(), t);
 			}
 		}
-		return new ArrayList<Pair<Sentence,Nanopub>>(sentencesMap.values());
+		return new ArrayList<Triple<Sentence,Sentence>>(sentencesMap.values());
 	}
 	
 	public void publishSameMeaning(Sentence other, Agent author) {
@@ -196,8 +199,8 @@ public class Sentence extends Thing {
 		return null;
 	}
 	
-	public SentenceItem createGUIItem(String id, int guiItemSize) {
-		return new SentenceItem(id, this, guiItemSize);
+	public SentenceItem createGUIItem(String id, int guiItemStyle) {
+		return new SentenceItem(id, this, guiItemStyle);
 	}
 
 }

@@ -9,7 +9,7 @@ public class SentenceItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public SentenceItem(String id, Sentence s, int guiItemSize) {
+	public SentenceItem(String id, Sentence s, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -18,7 +18,7 @@ public class SentenceItem extends ThingItem {
 		add(link);
 		
 		Label nameLabel = new Label("sentence", s.getSentenceText());
-		nameLabel.setVisible(guiItemSize != Thing.TINY_GUI_ITEM);
+		nameLabel.setVisible(guiItemStyle != Thing.TINY_GUI_ITEM);
 		link.add(nameLabel);
 	}
 

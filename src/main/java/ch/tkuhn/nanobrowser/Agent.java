@@ -115,8 +115,8 @@ public class Agent extends Thing {
 		return l;
 	}
 	
-	public AgentItem createGUIItem(String id, int guiItemSize) {
-		return new AgentItem(id, this, guiItemSize);
+	public AgentItem createGUIItem(String id, int guiItemStyle) {
+		return new AgentItem(id, this, guiItemStyle);
 	}
 
 }
