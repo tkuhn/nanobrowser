@@ -161,7 +161,7 @@ public class Nanopub extends Thing {
 		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
 		"optional { ?prov np:hasSupporting ?supp } . optional { ?ass np:containsGraph ?f } } }";
 	private static final String deleteGraphQuery =
-		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
+		"clear graph <@>";
 	
 	public void delete() {
 		String query = getNanopubGraphsQuery.replaceAll("@", getURI());
