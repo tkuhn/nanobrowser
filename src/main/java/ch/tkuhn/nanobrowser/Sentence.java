@@ -135,13 +135,14 @@ public class Sentence extends Thing {
 		return new ArrayList<Triple<Sentence,Sentence>>(sentencesMap.values());
 	}
 	
-	public void publishSameMeaning(Sentence other, Agent author) {
+	public void publishSentenceRelation(String relURI, Sentence other, Agent author) {
 		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
 				(new Random()).nextInt(1000000000);
-		String query = TripleStoreAccess.getNanopublishQueryTemplate("samemeaning")
+		String query = TripleStoreAccess.getNanopublishQueryTemplate("sentencerel")
 				.replaceAll("@ROOT@", pubURI)
 				.replaceAll("@AGENT@", author.getURI())
 				.replaceAll("@SENTENCE1@", getURI())
+				.replaceAll("@RELATION@", relURI)
 				.replaceAll("@SENTENCE2@", other.getURI())
 				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);

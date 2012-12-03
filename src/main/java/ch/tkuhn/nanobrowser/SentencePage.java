@@ -126,7 +126,7 @@ public class SentencePage extends NanobrowserWebPage {
 					}
 				}
 				if (other != null) {
-					sentence.publishSameMeaning(other, getUser());
+					sentence.publishSentenceRelation("http://krauthammerlab.med.yale.edu/nanopub/hasSameMeaning", other, getUser());
 				} else {
 					// TODO
 				}

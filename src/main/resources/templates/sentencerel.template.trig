@@ -10,15 +10,15 @@
 	:Pub np:hasAssertion :Ass .
 	:Pub np:hasProvenance :Prov .
 	:Prov np:hasAttribution :Att .
-	:Prov np:hasSupporting :Supp
+	:Prov np:hasSupporting :Supp .
 }
 
 :Ass {
-	<@SENTENCE1@> npx:hasSameMeaning <@SENTENCE2@>
+	<@SENTENCE1@> <@RELATION@> <@SENTENCE2@> .
 }
 
 :Att {
 	:Pub pav:authoredBy <@AGENT@> .
 	:Pub pav:createdBy <@AGENT@> .
-	:Pub dc:created "@DATETIME@"^^xsd:dateTime
+	:Pub dc:created "@DATETIME@"^^xsd:dateTime .
 }
