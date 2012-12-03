@@ -1,6 +1,7 @@
 package ch.tkuhn.nanobrowser;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -19,14 +20,19 @@ public class SentencePage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 
+	private static List<SentenceRelation> sentenceRelOptions = Arrays.asList(new SentenceRelation[] {
+			SentenceRelation.HAS_RELATED_MEANING,
+			SentenceRelation.HAS_SAME_MEANING,
+			SentenceRelation.HAS_OPPOSITE_MEANING,
+			SentenceRelation.HAS_CONFLICTING_MEANING
+	});
+
 	private Sentence sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
-	private ListModel<Triple<Sentence,Sentence>> sameMeaningsModel = new ListModel<Triple<Sentence,Sentence>>();
+	private ListModel<Triple<Sentence,Sentence>> relationModel = new ListModel<Triple<Sentence,Sentence>>();
 	private TextField<String> otherSentenceField;
-	private DropDownChoice<String> sentenceRelChoice;
-	
-	@SuppressWarnings("unused")
-	private String selectedRelType = "related";
+	private DropDownChoice<SentenceRelation> sentenceRelChoice;
+	private SentenceRelation selectedRelType = SentenceRelation.HAS_RELATED_MEANING;
 
 	public SentencePage(final PageParameters parameters) {
 		
@@ -95,23 +101,21 @@ public class SentencePage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ListView<Triple<Sentence,Sentence>>("samemeanings", sameMeaningsModel) {
+		add(new ListView<Triple<Sentence,Sentence>>("relations", relationModel) {
 			
 			private static final long serialVersionUID = -3149020273243388808L;
 
 			protected void populateItem(ListItem<Triple<Sentence,Sentence>> item) {
-				item.add(new TriplePanel("samemeaning", item.getModelObject(), TriplePanel.PREDICATE_SUBJECT));
+				item.add(new TriplePanel("relation", item.getModelObject(), TriplePanel.PREDICATE_SUBJECT));
 			}
 			
 		});
 		
 		otherSentenceField = new TextField<String>("othersentence", Model.of(""));
-		sentenceRelChoice = new DropDownChoice<String>("sentreltype",
-				new PropertyModel<String>(this, "selectedRelType"),
-				Arrays.asList(new String[] { "same" }));
-				// { "related", "same", "opposite", "conflicting", "more general than", "more specific than" }
+		sentenceRelChoice = new DropDownChoice<SentenceRelation>("reltype",
+				new PropertyModel<SentenceRelation>(this, "selectedRelType"), sentenceRelOptions);
 		
-		Form<?> newSentRelForm = new Form<Void>("newsentrelform") {
+		Form<?> newSentRelForm = new Form<Void>("newrelform") {
 			
 			private static final long serialVersionUID = -6636881419461562970L;
 
@@ -126,7 +130,7 @@ public class SentencePage extends NanobrowserWebPage {
 					}
 				}
 				if (other != null) {
-					sentence.publishSentenceRelation("http://krauthammerlab.med.yale.edu/nanopub/hasSameMeaning", other, getUser());
+					sentence.publishSentenceRelation(selectedRelType, other, getUser());
 				} else {
 					// TODO
 				}
@@ -143,7 +147,7 @@ public class SentencePage extends NanobrowserWebPage {
 	
 	private void update() {
 		opinionModel.setObject(sentence.getOpinions(true));
-		sameMeaningsModel.setObject(sentence.getSameMeaningSentences());
+		relationModel.setObject(sentence.getRelatedSentences());
 	}
 
 }

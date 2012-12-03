@@ -105,16 +105,18 @@ public class Sentence extends Thing {
 		return new ArrayList<Opinion>(opinionMap.values());
 	}
 	
-	private static final String sameMeaningSentencesQuery =
-		"select ?s ?pub where { { " +
+	// TODO: not all relations are symmetric
+	private static final String relatedSentencesQuery =
+		"select ?s ?pub ?r where { { " +
 		"{ ?pub np:hasAssertion ?ass . ?ass npx:asSentence <@> . ?ass npx:asSentence ?s } union " +
-		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> npx:hasSameMeaning ?s } } union " +
-		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s npx:hasSameMeaning <@> } } " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
 		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
+		"filter regex(str(?r), \"^http://krauthammerlab.med.yale.edu/nanopub/\", \"i\") " +
 		"} order by asc(?d)";
 	
-	public List<Triple<Sentence,Sentence>> getSameMeaningSentences() {
-		String query = sameMeaningSentencesQuery.replaceAll("@", getURI());
+	public List<Triple<Sentence,Sentence>> getRelatedSentences() {
+		String query = relatedSentencesQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		Map<String, Triple<Sentence,Sentence>> sentencesMap = new HashMap<String, Triple<Sentence,Sentence>>();
 		for (BindingSet bs : result) {
@@ -123,26 +125,25 @@ public class Sentence extends Thing {
 			if (s instanceof BNode || pub instanceof BNode) continue;
 			if (!s.stringValue().equals(getURI())) {
 				Sentence sentence = new Sentence(s.stringValue());
-				Nanopub nanopub = new Nanopub(pub.stringValue());
 				Triple<Sentence,Sentence> t = new Triple<Sentence,Sentence>(
 						sentence,
-						new Thing("http://krauthammerlab.med.yale.edu/nanopub/hasSameMeaning"),
+						new Thing(bs.getValue("r").stringValue()),
 						this,
-						nanopub);
+						new Nanopub(pub.stringValue()));
 				sentencesMap.put(sentence.getURI(), t);
 			}
 		}
 		return new ArrayList<Triple<Sentence,Sentence>>(sentencesMap.values());
 	}
 	
-	public void publishSentenceRelation(String relURI, Sentence other, Agent author) {
+	public void publishSentenceRelation(SentenceRelation rel, Sentence other, Agent author) {
 		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
 				(new Random()).nextInt(1000000000);
 		String query = TripleStoreAccess.getNanopublishQueryTemplate("sentencerel")
 				.replaceAll("@ROOT@", pubURI)
 				.replaceAll("@AGENT@", author.getURI())
 				.replaceAll("@SENTENCE1@", getURI())
-				.replaceAll("@RELATION@", relURI)
+				.replaceAll("@RELATION@", rel.getURI())
 				.replaceAll("@SENTENCE2@", other.getURI())
 				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 		TripleStoreAccess.runUpdateQuery(query);
