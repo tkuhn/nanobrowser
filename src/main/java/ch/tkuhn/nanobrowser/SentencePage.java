@@ -21,6 +21,7 @@ public class SentencePage extends NanobrowserWebPage {
 	private static final long serialVersionUID = -4673886567380719848L;
 
 	private static List<SentenceRelation> sentenceRelOptions = Arrays.asList(new SentenceRelation[] {
+			SentenceRelation.IS_IMPROVED_VERSION_OF,
 			SentenceRelation.HAS_RELATED_MEANING,
 			SentenceRelation.HAS_SAME_MEANING,
 			SentenceRelation.HAS_OPPOSITE_MEANING,
@@ -32,7 +33,7 @@ public class SentencePage extends NanobrowserWebPage {
 	private ListModel<Triple<Sentence,Sentence>> relationModel = new ListModel<Triple<Sentence,Sentence>>();
 	private TextField<String> otherSentenceField;
 	private DropDownChoice<SentenceRelation> sentenceRelChoice;
-	private SentenceRelation selectedRelType = SentenceRelation.HAS_RELATED_MEANING;
+	private SentenceRelation selectedRelType = SentenceRelation.IS_IMPROVED_VERSION_OF;
 
 	public SentencePage(final PageParameters parameters) {
 		

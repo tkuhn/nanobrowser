@@ -14,7 +14,8 @@ public enum SentenceRelation {
 	HAS_CONFLICTING_MEANING("hasConflictingMeaning", "conflicting meaning"),
 	HAS_CONSISTENT_MEANING("hasConsistentMeaning", "consistent meaning"),
 	HAS_MORE_GENERAL_MEANING_THAN("hasMoreGeneralMeaningThan", "more general meaning"),
-	HAS_MORE_SPECIFIC_MEANING_THAN("hasMoreSpecificMeaningThan", "more specific meaning");
+	HAS_MORE_SPECIFIC_MEANING_THAN("hasMoreSpecificMeaningThan", "more specific meaning"),
+	IS_IMPROVED_VERSION_OF("isImprovedVersionOf", "improved version");
 
 	private static final Map<String, SentenceRelation> map = new HashMap<String, SentenceRelation>();
 	

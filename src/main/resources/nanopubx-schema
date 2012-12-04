@@ -86,6 +86,10 @@ npx:hasUnrelatedMeaning rdf:type rdf:Property .
 npx:hasUnrelatedMeaning rdfs:domain npx:Statement .
 npx:hasUnrelatedMeaning rdfs:range npx:Statement .
 
+npx:isImprovedVersionOf rdfs:subPropertyOf npx:hasSameMeaning .
+npx:isImprovedVersionOf rdfs:domain npx:Statement .
+npx:isImprovedVersionOf rdfs:range npx:Statement .
+
 
 # Opinions
 
