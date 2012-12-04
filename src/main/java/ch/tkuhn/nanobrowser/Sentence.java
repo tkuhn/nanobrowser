@@ -108,7 +108,6 @@ public class Sentence extends Thing {
 	// TODO: not all relations are symmetric
 	private static final String relatedSentencesQuery =
 		"select ?s ?pub ?r where { { " +
-		"{ ?pub np:hasAssertion ?ass . ?ass npx:asSentence <@> . ?ass npx:asSentence ?s } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
 		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +

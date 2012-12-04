@@ -18,11 +18,15 @@ public class ThingItem extends Panel {
 		super(id);
 		
 		PageParameters params = new PageParameters();
-		params.add("uri", th.getURI());
+		String uri = th.getURI();
+		params.add("uri", uri);
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("thinglink", ThingPage.class, params);
 		add(link);
 		String n = th.getLastPartOfURI();
 		if (guiItemStyle == Thing.PREDICATEFIRST_ITEM) {
+			if (SentenceRelation.get(uri) != null) {
+				n = SentenceRelation.get(uri).getText();
+			}
 			n += ":";
 		}
 		link.add(new Label("thing", n));

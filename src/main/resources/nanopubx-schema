@@ -58,13 +58,17 @@ npx:hasOppositeMeaning rdf:type rdf:Property .
 npx:hasOppositeMeaning rdfs:domain npx:Statement .
 npx:hasOppositeMeaning rdfs:range npx:Statement .
 
-npx:hasConsistentMeaning rdf:type rdf:Property .
-npx:hasConsistentMeaning rdfs:domain npx:Statement .
-npx:hasConsistentMeaning rdfs:range npx:Statement .
+npx:hasNonoppositeMeaning rdf:type rdf:Property .
+npx:hasNonoppositeMeaning rdfs:domain npx:Statement .
+npx:hasNonoppositeMeaning rdfs:range npx:Statement .
 
 npx:hasConflictingMeaning rdf:type rdf:Property .
 npx:hasConflictingMeaning rdfs:domain npx:Statement .
 npx:hasConflictingMeaning rdfs:range npx:Statement .
+
+npx:hasConsistentMeaning rdf:type rdf:Property .
+npx:hasConsistentMeaning rdfs:domain npx:Statement .
+npx:hasConsistentMeaning rdfs:range npx:Statement .
 
 npx:hasMoreGeneralMeaningThan rdf:type rdf:Property .
 npx:hasMoreGeneralMeaningThan rdfs:domain npx:Statement .

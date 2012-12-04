@@ -32,7 +32,7 @@ public class Thing implements Serializable {
 	}
 	
 	public Thing(String uri) {
-		this.uri = uri;
+		this.uri = uri.toString();  // throw exception when null
 	}
 	
 	public String getURI() {
