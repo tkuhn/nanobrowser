@@ -111,7 +111,7 @@ public class Sentence extends Thing {
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
 		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
-		"filter regex(str(?r), \"^http://krauthammerlab.med.yale.edu/nanopub/\", \"i\") " +
+		"filter regex(str(?r), \"^http://krauthammerlab.med.yale.edu/nanopub/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
 		"} order by asc(?d)";
 	
 	public List<Triple<Sentence,Sentence>> getRelatedSentences() {

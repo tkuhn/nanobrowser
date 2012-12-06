@@ -6,7 +6,7 @@ import java.util.Map;
 public enum SentenceRelation {
 	
 	HAS_RELATED_MEANING("hasRelatedMeaning", "related meaning"),
-	HAS_UNRELATED_MEANING("hasUnelatedMeaning", "unrelated meaning"),
+	HAS_UNRELATED_MEANING("hasUnrelatedMeaning", "unrelated meaning"),
 	HAS_SAME_MEANING("hasSameMeaning", "same meaning"),
 	HAS_DIFFERENT_MEANING("hasDifferentMeaning", "different meaning"),
 	HAS_OPPOSITE_MEANING("hasOppositeMeaning", "opposite meaning"),
