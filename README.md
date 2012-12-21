@@ -5,6 +5,8 @@ A browser for nanopublications.
 
 Under construction...
 
+The code is available under the LGPL license. See LICENSE.txt for the details.
+
 
 Screenshots
 -----------
