@@ -2,7 +2,8 @@
 # Loading Nanopublications to Virtuoso Triple Store
 #------------------------------------------------------------------------------
 # This script loads nanopublication files in TriG syntax to the Virtuoso
-# triple store.
+# triple store. You might have to adjust the DirsAllowed parameter in the
+# virtuoso.ini file.
 #
 # Usage:
 #

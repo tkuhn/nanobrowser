@@ -1,4 +1,4 @@
-@prefix : <http://www.tkuhn.ch/me/intro/> .
+@prefix : <http://purl.org/nanobrowser/examples/tkuhn-introduction/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -8,26 +8,28 @@
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
 
-:TKuhnIntroduction_Head {
-    :TKuhnIntroduction a npx:IntroNanopub .
-    :TKuhnIntroduction a np:Nanopublication ;
-        np:hasAssertion :TKuhnIntroduction_Assertion ;
-        np:hasProvenance :TKuhnIntroduction_Provenance .
+:Introduction_Head {
+    :Introduction a npx:IntroNanopub .
+    :Introduction a npx:MetaNanopub .
+    :Introduction a np:Nanopublication ;
+        np:hasAssertion :Introduction_Assertion ;
+        np:hasProvenance :Introduction_Provenance .
 
-    :TKuhnIntroduction_Provenance np:hasAttribution :TKuhnIntroduction_Attribution ;
-        np:hasSupporting :TKuhnIntroduction_Supporting .
+    :Introduction_Provenance np:hasAttribution :Introduction_Attribution ;
+        np:hasSupporting :Introduction_Supporting .
 }
 
-:TKuhnIntroduction_Assertion {
-    :TKuhnIntroduction npx:introduces <http://www.tkuhn.ch/me> .
-    <http://www.tkuhn.ch/me> a foaf:Person ;
+:Introduction_Assertion {
+    :Introduction rdfs:label "Introduction of Tobias Kuhn" .
+    :Introduction npx:introduces <http://www.researcherid.com/rid/B-6810-2013> .
+    <http://www.researcherid.com/rid/B-6810-2013> a foaf:Person ;
         rdfs:label "Tobias Kuhn" ;
         owl:sameAs <http://semanticweb.org/wiki/Tobias_Kuhn> .
 }
 
-:TKuhnIntroduction_Attribution {
-    :TKuhnIntroduction
-        pav:authoredBy <http://www.tkuhn.ch/me> ;
-        pav:createdBy <http://www.tkuhn.ch/me> ;
-        dc:created "2012-10-29T16:07:00"^^xsd:dateTime .
+:Introduction_Attribution {
+    :Introduction
+        pav:authoredBy <http://www.researcherid.com/rid/B-6810-2013> ;
+        pav:createdBy <http://www.researcherid.com/rid/B-6810-2013> ;
+        dc:created "2013-03-04T17:26:00Z"^^xsd:dateTime .
 }

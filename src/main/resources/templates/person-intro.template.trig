@@ -10,6 +10,7 @@
 
 :Introduction_Head {
     :Introduction a npx:IntroNanopub .
+    :Introduction a npx:MetaNanopub .
     :Introduction a np:Nanopublication ;
         np:hasAssertion :Introduction_Assertion ;
         np:hasProvenance :Introduction_Provenance .
