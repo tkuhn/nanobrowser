@@ -24,7 +24,7 @@
 
 :MalariaPub_Assertion_Head {
     :MalariaPub_Assertion
-        npx:asSentence <http://krauthammerlab.med.yale.edu/aida/Malaria+is+transmitted+by+mosquitoes.> ;
+        npx:asSentence <http://purl.org/aida/Malaria+is+transmitted+by+mosquitoes.> ;
         npx:asFormula :MalariaPub_Assertion_Statement .
 }
 

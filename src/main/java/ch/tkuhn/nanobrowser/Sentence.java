@@ -32,7 +32,7 @@ public class Sentence extends Thing {
 	private static final long serialVersionUID = -7967327315454171639L;
 	
 	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/AIDA-Sentence";
-	public static final String AIDA_URI_BASE = "http://krauthammerlab.med.yale.edu/aida/";
+	public static final String AIDA_URI_BASE = "http://purl.org/aida/";
 	
 	public Sentence(String uri) {
 		super(uri);
@@ -180,7 +180,7 @@ public class Sentence extends Thing {
 		"select distinct ?s where { { ?a npx:asSentence ?s } union { ?x npx:hasSameMeaning ?s } . " +
 		"filter regex(str(?s), \"@R\", \"i\") }";
 	private static final String textSearchRegex =
-		"^http://krauthammerlab.med.yale.edu/aida/.*@W";
+		"^http://purl.org/aida/.*@W";
 	
 	// TODO Use proper text indexing
 	
