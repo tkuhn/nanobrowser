@@ -24,15 +24,13 @@ Virtuoso
 Nanobrowser uses the Virtuoso triple store via its SPARQL endpoint.
 
 The following commands have to be executed to configure the Virtuoso triple
-store (TODO: this list might be incomplete and contain commands that are
-actually unnecessary):
+store:
 
     GRANT EXECUTE ON DB.DBA.RDF_QUAD TO "SPARQL";
     GRANT DELETE ON DB.DBA.RDF_QUAD TO "SPARQL";
     GRANT EXECUTE ON DB.DBA.SPARUL_CLEAR TO "SPARQL";
-    GRANT EXECUTE ON DB.DBA.SPARUL_DELETE TO "SPARQL";
+    GRANT EXECUTE ON DB.DBA.SPARQL_INSERT_DICT_CONTENT TO "SPARQL";
     GRANT EXECUTE ON DB.DBA.SPARQL_DELETE_DICT_CONTENT TO "SPARQL";
-    GRANT EXECUTE ON DB.DBA.SPARUL_DROP TO "SPARQL";
 
 To allow for text indexing (not yet implemented):
 
