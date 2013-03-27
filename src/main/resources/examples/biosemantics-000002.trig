@@ -11,12 +11,9 @@
 
 :head {
     <> a np:Nanopublication;
-        np:hasAssertion :assertion;
-        np:hasProvenance :provenance .
-
-    :provenance a np:Provenance;
-        np:hasAttribution :Attribution ;
-        np:hasSupporting :Supporting .
+        np:hasAssertion :assertion ;
+        np:hasProvenance :Supporting ;
+        np:hasPublicationInfo :Attribution .
 
 }
 

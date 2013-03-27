@@ -34,8 +34,8 @@ public class Nanopub extends Thing {
 	}
 
 	private static final String nonmetaNanopubsQuery =
-		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } ." +
+		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasPublicationInfo ?info . " +
+		"graph ?info { ?p dc:created ?d } ." +
 		"filter not exists { ?p a npx:MetaNanopub } } order by desc(?d)";
 	
 	public static List<Nanopub> getNonmetaNanopubs(int limit) {
@@ -81,18 +81,18 @@ public class Nanopub extends Thing {
 		return TripleStoreAccess.getGraph(query);
 	}
 	
-	private static final String supportingTriplesQuery =
-		"construct {?a ?b ?c} where { <@> np:hasProvenance ?p . ?p np:hasSupporting ?s . " +
-		"graph ?s {?a ?b ?c} }";
+	private static final String provenanceTriplesQuery =
+		"construct {?a ?b ?c} where { <@> np:hasProvenance ?p . " +
+		"graph ?p {?a ?b ?c} }";
 	
-	public List<Triple<?,?>> getSupportingTriples() {
-		String query = supportingTriplesQuery.replaceAll("@", getURI());
+	public List<Triple<?,?>> getProvenanceTriples() {
+		String query = provenanceTriplesQuery.replaceAll("@", getURI());
 		return TripleStoreAccess.getGraph(query);
 	}
 	
 	private static final String createDateQuery =
-		"select ?d where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { <@> dc:created ?d } }";
+		"select ?d where { <@> np:hasPublicationInfo ?info . " +
+		"graph ?info { <@> dc:created ?d } }";
 		//"select ?d where { <@> dc:created ?d }";
 	
 	public String getCreateDateString() {
@@ -106,8 +106,8 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String authorsQuery =
-		"select distinct ?a where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { <@> pav:authoredBy ?a } }";
+		"select distinct ?a where { <@> np:hasPublicationInfo ?info . " +
+		"graph ?info { <@> pav:authoredBy ?a } }";
 		//"select distinct ?a where { <@> pav:authoredBy ?a }";
 	
 	public List<Agent> getAuthors() {
@@ -123,8 +123,8 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String creatorsQuery =
-		"select distinct ?c where { <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"graph ?att { <@> pav:createdBy ?c } }";
+		"select distinct ?c where { <@> np:hasPublicationInfo ?info . " +
+		"graph ?info { <@> pav:createdBy ?c } }";
 		//"select distinct ?a where { <@> pav:createdBy ?a }";
 	
 	public List<Agent> getCreators() {
@@ -141,8 +141,8 @@ public class Nanopub extends Thing {
 
 	private static final String opinionsQuery =
 		"select ?p ?t ?pub ?s where { " +
-		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
+		"?pub np:hasAssertion ?ass . ?pub np:hasPublicationInfo ?info . " +
+		"graph ?info { ?pub dc:created ?d } . " +
 		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } ." +
 		"<@> np:hasAssertion ?a . ?a npx:asSentence ?s } order by asc(?d)";
 	
@@ -170,9 +170,9 @@ public class Nanopub extends Thing {
 	}
 	
 	private static final String getNanopubGraphsQuery =
-		"select ?g ?ass ?att ?supp ?f where { " +
-		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasProvenance ?prov . ?prov np:hasAttribution ?att . " +
-		"optional { ?prov np:hasSupporting ?supp } . optional { ?ass np:containsGraph ?f } } }";
+		"select ?g ?ass ?prov ?info ?f where { " +
+		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasPublicationInfo ?info . " +
+		"optional { <@> np:hasProvenance ?prov } . optional { ?ass np:containsGraph ?f } } }";
 	private static final String deleteGraphQuery =
 		"clear graph <@>";
 	
@@ -181,13 +181,13 @@ public class Nanopub extends Thing {
 		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
 			Value g = bs.getValue("g");
 			Value ass = bs.getValue("ass");
-			Value att = bs.getValue("att");
-			Value supp = bs.getValue("supp");
+			Value prov = bs.getValue("prov");
+			Value info = bs.getValue("info");
 			Value f = bs.getValue("f");
 			if (g != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
 			if (ass != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", ass.stringValue()));
-			if (att != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", att.stringValue()));
-			if (supp != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", supp.stringValue()));
+			if (prov != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", prov.stringValue()));
+			if (info != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", info.stringValue()));
 			if (f != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", f.stringValue()));
 		}
 	}

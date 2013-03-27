@@ -65,7 +65,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ListView<Triple<?,?>>("supporting", TripleStoreAccess.sortTriples(pub.getSupportingTriples())) {
+		add(new ListView<Triple<?,?>>("supporting", TripleStoreAccess.sortTriples(pub.getProvenanceTriples())) {
 			
 			private static final long serialVersionUID = -809372636947729189L;
 

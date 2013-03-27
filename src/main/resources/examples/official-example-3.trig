@@ -9,16 +9,9 @@
 @base <http://rdf.biosemantics.org/vocabularies/gene_disease_nanopub_example#> .
 <> {
     :NanoPub_1 a nanopub:Nanopublication ;
-        nanopub:hasAssertion :NanoPub_1_Assertion ;
-        nanopub:hasProvenance :NanoPub_1_Provenance .
- 
-    :NanoPub_1_Provenance nanopub:hasAttribution :NanoPub_1_Attribution ;
-        nanopub:hasSupporting :NanoPub_1_Supporting .
- 
-    :NanoPub_1_Assertion a nanopub:Assertion .
-    :NanoPub_1_Provenance a nanopub:Provenance .
-    :NanoPub_1_Attribution a nanopub:Attribution .
-    :NanoPub_1_Supporting a nanopub:Supporting .
+        np:hasAssertion :NanoPub_1_Assertion ;
+        np:hasProvenance :NanoPub_1_Supporting ;
+        np:hasPublicationInfo :NanoPub_1_Attribution .
 }
 :NanoPub_1_Assertion {
     :Association_1 a sio:statistical-association ;

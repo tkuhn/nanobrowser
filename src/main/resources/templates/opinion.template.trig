@@ -10,8 +10,7 @@
 	:Pub a npx:MetaNanopub .
 	:Pub np:hasAssertion :Ass .
 	:Pub np:hasProvenance :Prov .
-	:Prov np:hasAttribution :Att .
-	:Prov np:hasSupporting :Supp .
+	:Pub np:hasPublicationInfo :Info .
 }
 
 :Ass {
@@ -20,7 +19,7 @@
 	:Op npx:opinionOn <@OBJECT@> .
 }
 
-:Att {
+:Info {
 	:Pub pav:authoredBy <@AGENT@> .
 	:Pub pav:createdBy <@AGENT@> .
 	:Pub dc:created "@DATETIME@"^^xsd:dateTime .

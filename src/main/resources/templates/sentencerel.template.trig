@@ -9,15 +9,14 @@
 	:Pub a npx:MetaNanopub .
 	:Pub np:hasAssertion :Ass .
 	:Pub np:hasProvenance :Prov .
-	:Prov np:hasAttribution :Att .
-	:Prov np:hasSupporting :Supp .
+	:Pub np:hasPublicationInfo :Info .
 }
 
 :Ass {
 	<@SENTENCE1@> <@RELATION@> <@SENTENCE2@> .
 }
 
-:Att {
+:Info {
 	:Pub pav:authoredBy <@AGENT@> .
 	:Pub pav:createdBy <@AGENT@> .
 	:Pub dc:created "@DATETIME@"^^xsd:dateTime .

@@ -74,8 +74,8 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String nanopubsQuery =
-		"select distinct ?p where { ?p np:hasAssertion ?a . ?a npx:asSentence <@> . ?p np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?p dc:created ?d } }";
+		"select distinct ?p where { ?p np:hasAssertion ?a . ?a npx:asSentence <@> . " +
+		"?p np:hasPublicationInfo ?info . graph ?info { ?p dc:created ?d } }";
 	
 	public List<Nanopub> getNanopubs() {
 		String query = nanopubsQuery.replaceAll("@", getURI());
@@ -91,8 +91,8 @@ public class Sentence extends Thing {
 
 	private static final String opinionsQuery =
 		"select ?p ?t ?pub where { " +
-		"?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . " +
-		"?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
+		"?pub np:hasAssertion ?ass . ?pub np:hasPublicationInfo ?info . " +
+		"graph ?info { ?pub dc:created ?d } . " +
 		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } ." +
 		"{ ?ass2 npx:asSentence <@> . ?ass2 npx:asSentence ?s } union " +
 		"{ <@> npx:hasSameMeaning ?s } union { ?s npx:hasSameMeaning <@> } " +
@@ -124,7 +124,7 @@ public class Sentence extends Thing {
 		"select ?s ?pub ?r where { { " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
-		"} . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att . graph ?att { ?pub dc:created ?d } . " +
+		"} . ?pub np:hasPublicationInfo ?info. graph ?info { ?pub dc:created ?d } . " +
 		"filter regex(str(?r), \"^http://krauthammerlab.med.yale.edu/nanopub/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
 		"} order by asc(?d)";
 	
@@ -163,8 +163,8 @@ public class Sentence extends Thing {
 	}
 	
 	private static final String getAllOpinionGraphsQuery =
-		"select ?g ?ass ?att where { graph ?ass { ?a npx:hasSameMeaning ?c } . " +
-		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasProvenance ?prov . ?prov np:hasAttribution ?att } }";
+		"select ?g ?ass ?info where { graph ?ass { ?a npx:hasSameMeaning ?c } . " +
+		"graph ?g { ?pub np:hasAssertion ?ass . ?pub np:hasPublicationInfo ?info } }";
 	private static final String deleteGraphQuery =
 		"delete from graph identified by <@> { ?a ?b ?c } where  { ?a ?b ?c }";
 	
@@ -172,7 +172,7 @@ public class Sentence extends Thing {
 		for (BindingSet bs : TripleStoreAccess.getTuples(getAllOpinionGraphsQuery)) {
 			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("g").stringValue()));
 			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("ass").stringValue()));
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("att").stringValue()));
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", bs.getValue("info").stringValue()));
 		}
 	}
 	

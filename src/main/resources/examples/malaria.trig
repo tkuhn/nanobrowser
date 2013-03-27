@@ -8,18 +8,12 @@
 :MalariaPub_Head {
     :MalariaPub a np:Nanopublication ;
         np:hasAssertion :MalariaPub_Assertion ;
-        np:hasProvenance :MalariaPub_Provenance .
+        np:hasProvenance :MalariaPub_Provenance ;
+        np:hasPublicationInfo :MalariaPub_Info .
 
-    :MalariaPub_Provenance np:hasAttribution :MalariaPub_Attribution ;
-        np:hasSupporting :MalariaPub_Supporting .
-
-    :MalariaPub_Assertion a np:Assertion ;
+    :MalariaPub_Assertion
         np:containsGraph :MalariaPub_Assertion_Head ;
         np:containsGraph :MalariaPub_Assertion_Statement .
-
-    :MalariaPub_Provenance a np:Provenance .
-    :MalariaPub_Attribution a np:Attribution .
-    :MalariaPub_Supporting a np:Supporting .
 }
 
 :MalariaPub_Assertion_Head {
@@ -32,7 +26,7 @@
     <http://example.com/mosquito> <http://example.com/transmits> <http://example.com/malaria> .
 }
 
-:MalariaPub_Attribution {
+:MalariaPub_Info {
     :MalariaPub
         pav:authoredBy <http://www.researcherid.com/rid/F-1227-2011> ;
         pav:createdBy <http://www.researcherid.com/rid/B-6810-2013> ;

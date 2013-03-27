@@ -13,10 +13,8 @@
     :Introduction a npx:MetaNanopub .
     :Introduction a np:Nanopublication ;
         np:hasAssertion :Introduction_Assertion ;
-        np:hasProvenance :Introduction_Provenance .
-
-    :Introduction_Provenance np:hasAttribution :Introduction_Attribution ;
-        np:hasSupporting :Introduction_Supporting .
+        np:hasProvenance :Introduction_Provenance ;
+        np:hasPublicationInfo :Introduction_Info .
 }
 
 :Introduction_Assertion {
@@ -25,7 +23,7 @@
         rdfs:label "@LABEL@" .
 }
 
-:Introduction_Attribution {
+:Introduction_Info {
     :Introduction
         pav:authoredBy <@CREATOR@> ;
         pav:createdBy <@CREATOR@> ;
