@@ -8,6 +8,17 @@ Under construction...
 The code is available under the LGPL license. See LICENSE.txt for the details.
 
 
+Publication
+-----------
+
+Nanobrowser is described in the following publication:
+
+> Tobias Kuhn, Paolo Emilio Barbano, Mate Levente Nagy, and Michael
+> Krauthammer. Broadening the Scope of Nanopublications. In Proceedings of the
+> 10th Extended Semantic Web Conference (ESWC). 2013.
+> http://www.tkuhn.ch/pub/kuhn2013eswc.pdf
+
+
 Screenshots
 -----------
 

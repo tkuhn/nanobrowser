@@ -7,6 +7,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>nanobrowser Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License (LGPL)</name>
+      <url>http://www.gnu.org/licenses/lgpl.html</url>
+    </license>
+  </licenses>
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
