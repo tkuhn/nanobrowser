@@ -3,7 +3,7 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
-@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+@prefix npx: <http://purl.org/nanopub/x/> .
 
 :MalariaPub_Head {
     :MalariaPub a np:Nanopublication ;

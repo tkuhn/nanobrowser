@@ -14,13 +14,21 @@
 
 package ch.tkuhn.nanobrowser;
 
-import java.util.Random;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
-public class Opinion {
-	
-	public static final String AGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/Agreement";
-	public static final String DISAGREEMENT_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/Disagreement";
-	public static final String NULL_TYPE = "http://krauthammerlab.med.yale.edu/nanopub/NullOpinion";
+import org.openrdf.model.URI;
+
+import ch.tkuhn.hashuri.rdf.TransformRdfFile;
+
+public class Opinion implements Serializable {
+
+	private static final long serialVersionUID = 6930959498954451133L;
+
+	public static final String AGREEMENT_TYPE = "http://purl.org/nanopub/x/Agreement";
+	public static final String DISAGREEMENT_TYPE = "http://purl.org/nanopub/x/Disagreement";
+	public static final String NULL_TYPE = "http://purl.org/nanopub/x/NullOpinion";
 	
 	private final Agent agent;
 	private final String opinionType;
@@ -74,16 +82,22 @@ public class Opinion {
 	}
 	
 	public void publish() {
-		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
-				(new Random()).nextInt(1000000000);
-		String query = TripleStoreAccess.getNanopublishQueryTemplate("opinion")
-				.replaceAll("@ROOT@", pubURI)
-				.replaceAll("@AGENT@", agent.getURI())
-				.replaceAll("@OBJECT@", sentence.getURI())
-				.replaceAll("@TYPE@", opinionType)
-				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
-		TripleStoreAccess.runUpdateQuery(query);
-		setNanopub(new Nanopub(pubURI));
+		try {
+			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
+			String nanopubString = Nanopub.getTemplate("opinion")
+					.replaceAll("@ROOT@", pubURI)
+					.replaceAll("@AGENT@", agent.getURI())
+					.replaceAll("@OBJECT@", sentence.getURI())
+					.replaceAll("@TYPE@", opinionType)
+					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			URI hashURI = TransformRdfFile.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
+			TripleStoreAccess.runUpdateQuery(query);
+			setNanopub(new Nanopub(hashURI.toString()));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 }

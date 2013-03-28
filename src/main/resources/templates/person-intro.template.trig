@@ -6,26 +6,28 @@
 @prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
-@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+@prefix npx: <http://purl.org/nanopub/x/> .
 
-:Introduction_Head {
-    :Introduction a npx:IntroNanopub .
-    :Introduction a npx:MetaNanopub .
-    :Introduction a np:Nanopublication ;
-        np:hasAssertion :Introduction_Assertion ;
-        np:hasProvenance :Introduction_Provenance ;
-        np:hasPublicationInfo :Introduction_Info .
+:Head {
+    : a npx:IntroNanopub .
+    : a npx:MetaNanopub .
+    : a np:Nanopublication .
+    : np:hasAssertion :Ass .
+    : np:hasProvenance :Prov .
+    : np:hasPublicationInfo :Info .
 }
 
-:Introduction_Assertion {
-    :Introduction npx:introduces <@PERSON@> .
+:Ass {
+    : npx:introduces <@PERSON@> .
     <@PERSON@> a foaf:Person ;
         rdfs:label "@LABEL@" .
 }
 
-:Introduction_Info {
-    :Introduction
-        pav:authoredBy <@CREATOR@> ;
-        pav:createdBy <@CREATOR@> ;
-        dc:created "@DATETIME@"^^xsd:dateTime .
+:Prov {
+}
+
+:Info {
+    : pav:authoredBy <@CREATOR@> .
+    : pav:createdBy <@CREATOR@> .
+    : dc:created "@DATETIME@"^^xsd:dateTime .
 }

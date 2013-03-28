@@ -14,6 +14,8 @@
 
 package ch.tkuhn.nanobrowser;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -21,17 +23,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
+import ch.tkuhn.hashuri.rdf.TransformRdfFile;
+
 public class Sentence extends Thing {
 	
 	private static final long serialVersionUID = -7967327315454171639L;
 	
-	public static final String TYPE_URI = "http://krauthammerlab.med.yale.edu/nanopub/AIDA-Sentence";
+	public static final String TYPE_URI = "http://purl.org/nanopub/x/AIDA-Sentence";
 	public static final String AIDA_URI_BASE = "http://purl.org/aida/";
 	
 	public Sentence(String uri) {
@@ -125,7 +128,7 @@ public class Sentence extends Thing {
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
 		"} . ?pub np:hasPublicationInfo ?info. graph ?info { ?pub dc:created ?d } . " +
-		"filter regex(str(?r), \"^http://krauthammerlab.med.yale.edu/nanopub/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
+		"filter regex(str(?r), \"^http://purl.org/nanopub/x/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
 		"} order by asc(?d)";
 	
 	public List<Triple<Sentence,Sentence>> getRelatedSentences() {
@@ -150,16 +153,22 @@ public class Sentence extends Thing {
 	}
 	
 	public void publishSentenceRelation(SentenceRelation rel, Sentence other, Agent author) {
-		String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/" +
-				(new Random()).nextInt(1000000000);
-		String query = TripleStoreAccess.getNanopublishQueryTemplate("sentencerel")
-				.replaceAll("@ROOT@", pubURI)
-				.replaceAll("@AGENT@", author.getURI())
-				.replaceAll("@SENTENCE1@", getURI())
-				.replaceAll("@RELATION@", rel.getURI())
-				.replaceAll("@SENTENCE2@", other.getURI())
-				.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
-		TripleStoreAccess.runUpdateQuery(query);
+		try {
+			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
+			String nanopubString = Nanopub.getTemplate("sentencerel")
+					.replaceAll("@ROOT@", pubURI)
+					.replaceAll("@AGENT@", author.getURI())
+					.replaceAll("@SENTENCE1@", getURI())
+					.replaceAll("@RELATION@", rel.getURI())
+					.replaceAll("@SENTENCE2@", other.getURI())
+					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			TransformRdfFile.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
+			TripleStoreAccess.runUpdateQuery(query);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	private static final String getAllOpinionGraphsQuery =

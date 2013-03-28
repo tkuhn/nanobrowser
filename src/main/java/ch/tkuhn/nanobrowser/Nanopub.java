@@ -14,11 +14,14 @@
 
 package ch.tkuhn.nanobrowser;
 
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.wicket.util.io.IOUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
@@ -207,6 +210,19 @@ public class Nanopub extends Thing {
 	
 	public NanopubItem createGUIItem(String id, int guiItemStyle) {
 		return new NanopubItem(id, this, guiItemStyle);
+	}
+
+	public static String getTemplate(String name) {
+		try {
+			String f = "/templates/" + name + ".template.trig";
+			InputStream in = TripleStoreAccess.class.getResourceAsStream(f);
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(in, writer, "UTF-8");
+			return writer.toString();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
 }

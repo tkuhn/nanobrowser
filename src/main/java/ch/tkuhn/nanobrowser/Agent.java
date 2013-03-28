@@ -76,7 +76,7 @@ public class Agent extends Thing {
 
 	private static final String opinionsQuery =
 		"select ?s ?t ?pub where { " +
-		"?pub np:hasAssertion ?ass . ?pub np:np:hasPublicationInfo ?info . " +
+		"?pub np:hasAssertion ?ass . ?pub np:hasPublicationInfo ?info . " +
 		"graph ?info { ?pub dc:created ?d } . " +
 		"graph ?ass { <@> npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } } order by asc(?d)";
 	

@@ -44,7 +44,7 @@ public class TripleStoreAccess {
 	private TripleStoreAccess() {}
 	
 	private static String endpointURL = NanobrowserApplication.getProperty("sparql-endpoint-url");
-	private static SPARQLRepository repo = new SPARQLRepository(endpointURL);
+	private static SPARQLRepository repo;
 	private static QueryLanguage lang = QueryLanguage.SPARQL;
 	private static String sparqlPrefixes = 
 		"prefix xsd: <http://www.w3.org/2001/XMLSchema#> " +
@@ -55,7 +55,16 @@ public class TripleStoreAccess {
 		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
 		"prefix foaf: <http://xmlns.com/foaf/0.1/> " +
 		"prefix np: <http://www.nanopub.org/nschema#> " +
-		"prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> ";
+		"prefix npx: <http://purl.org/nanopub/x/> ";
+
+	static {
+		repo = new SPARQLRepository(endpointURL);
+		try {
+			repo.initialize();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	public static boolean isTrue(String query) {
 		boolean isTrue = false;
@@ -162,16 +171,14 @@ public class TripleStoreAccess {
 		
 	};
 	
-	public static String getNanopublishQueryTemplate(String type) {
+	public static String getNanopublishQuery(InputStream in) {
 		String prefix = "";
 		String query = "";
 		try {
-			String f = "/templates/" + type + ".template.trig";
-			InputStream st = TripleStoreAccess.class.getResourceAsStream(f);
-			BufferedReader in = new BufferedReader(new InputStreamReader(st));
+			BufferedReader r = new BufferedReader(new InputStreamReader(in));
 			String l;
 			String graph = null;
-			while ((l = in.readLine()) != null) {
+			while ((l = r.readLine()) != null) {
 				l = l.replaceAll("\\s+", " ");
 				if (l.matches(" *")) continue;
 				if (l.matches(" *#.*")) continue;
@@ -193,7 +200,7 @@ public class TripleStoreAccess {
 				}
 			}
 			if (graph != null) throw new RuntimeException("Error parsing TriG file");
-			in.close();
+			r.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

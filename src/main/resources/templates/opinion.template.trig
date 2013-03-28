@@ -4,13 +4,13 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
-@prefix npx: <http://krauthammerlab.med.yale.edu/nanopub/> .
+@prefix npx: <http://purl.org/nanopub/x/> .
 
-: {
-	:Pub a npx:MetaNanopub .
-	:Pub np:hasAssertion :Ass .
-	:Pub np:hasProvenance :Prov .
-	:Pub np:hasPublicationInfo :Info .
+:Head {
+	: a npx:MetaNanopub .
+	: np:hasAssertion :Ass .
+	: np:hasProvenance :Prov .
+	: np:hasPublicationInfo :Info .
 }
 
 :Ass {
@@ -19,8 +19,11 @@
 	:Op npx:opinionOn <@OBJECT@> .
 }
 
+:Prov {
+}
+
 :Info {
-	:Pub pav:authoredBy <@AGENT@> .
-	:Pub pav:createdBy <@AGENT@> .
-	:Pub dc:created "@DATETIME@"^^xsd:dateTime .
+	: pav:authoredBy <@AGENT@> .
+	: pav:createdBy <@AGENT@> .
+	: dc:created "@DATETIME@"^^xsd:dateTime .
 }

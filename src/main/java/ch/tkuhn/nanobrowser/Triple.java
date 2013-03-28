@@ -14,12 +14,16 @@
 
 package ch.tkuhn.nanobrowser;
 
+import java.io.Serializable;
+
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 
-public class Triple<S extends Thing,O> {
-	
+public class Triple<S extends Thing,O> implements Serializable {
+
+	private static final long serialVersionUID = 7919683922987907295L;
+
 	private S subject;
 	private Thing predicate;
 	private O object;

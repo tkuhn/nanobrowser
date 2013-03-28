@@ -43,7 +43,7 @@ public enum SentenceRelation {
 		return map.get(uri);
 	}
 	
-	private static final String prefix = "http://krauthammerlab.med.yale.edu/nanopub/";
+	private static final String prefix = "http://purl.org/nanopub/x/";
 	
 	private String symbol, text;
 	
