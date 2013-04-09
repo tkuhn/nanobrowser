@@ -152,12 +152,37 @@ a.button {
 	text-shadow: -1px -1px 0 #222;
 }
 
+a.smallbutton {
+	font-size: 8pt;
+	font-weight: normal;
+	padding: 1px 3px;
+	margin: 0 2px;
+	background: linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bbb;
+	color: #fff;
+}
+
 a.button:hover {
 	background: linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 	background: -ms-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 	background: -moz-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 	background: -o-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
 	background: -webkit-linear-gradient(#666, #000) repeat scroll 0 0 transparent;
+}
+
+a.smallbutton:hover {
+	background: linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
 }
 
 span.predicate {

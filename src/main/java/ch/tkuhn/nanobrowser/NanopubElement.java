@@ -44,6 +44,10 @@ public class NanopubElement extends ThingElement {
 		nanopub = TripleStoreAccess.getNanopub(uri);
 	}
 
+	public Nanopub getNanopub() {
+		return nanopub;
+	}
+
 	public boolean isValid() {
 		if (isValid != null) return isValid;
 		if (nanopub == null) return false;

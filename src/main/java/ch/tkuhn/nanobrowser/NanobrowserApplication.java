@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.SharedResourceReference;
 
 public class NanobrowserApplication extends WebApplication {
 	
@@ -52,11 +53,13 @@ public class NanobrowserApplication extends WebApplication {
 	
 	protected void internalInit() {
 		super.internalInit();
-		this.mountPage("/nanopub", NanopubPage.class);
-		this.mountPage("/sentence", SentencePage.class);
-		this.mountPage("/agent", AgentPage.class);
-		this.mountPage("/thing", ThingPage.class);
-		this.mountPage("/search", SearchPage.class);
+		mountPage("/nanopub", NanopubPage.class);
+		mountPage("/sentence", SentencePage.class);
+		mountPage("/agent", AgentPage.class);
+		mountPage("/thing", ThingPage.class);
+		mountPage("/search", SearchPage.class);
+		getSharedResources().add("/raw-nanopub", new RawNanopubPage());
+	    mountResource("/raw-nanopub", new SharedResourceReference("/raw-nanopub"));
 	}
 
 	public Class<? extends Page> getHomePage() {

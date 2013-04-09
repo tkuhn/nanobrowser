@@ -14,6 +14,8 @@
 
 package ch.tkuhn.nanobrowser;
 
+import java.net.URLEncoder;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -22,6 +24,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class NanopubPage extends NanobrowserWebPage {
@@ -43,6 +46,17 @@ public class NanopubPage extends NanobrowserWebPage {
 		add(icon);
 		
 		add(new Label("title", pub.getLastPartOfURI()));
+		
+		add(new Link<Object>("raw") {
+			
+			private static final long serialVersionUID = 4680516569316406945L;
+
+			@SuppressWarnings("deprecation")
+			public void onClick() {
+				throw new RedirectToUrlException("./raw-nanopub?uri=" + URLEncoder.encode(pub.getURI()));
+			}
+			
+		});
 		
 		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
 		
