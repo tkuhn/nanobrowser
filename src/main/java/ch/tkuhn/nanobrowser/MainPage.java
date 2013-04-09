@@ -22,9 +22,9 @@ public class MainPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = 6634220350799250923L;
 
-	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
-	private ListModel<Agent> personModel = new ListModel<Agent>();
-	private ListModel<Sentence> sentenceModel = new ListModel<Sentence>();
+	private ListModel<NanopubElement> nanopubModel = new ListModel<NanopubElement>();
+	private ListModel<AgentElement> personModel = new ListModel<AgentElement>();
+	private ListModel<SentenceElement> sentenceModel = new ListModel<SentenceElement>();
 
 	public MainPage(final PageParameters parameters) {
 		
@@ -43,8 +43,8 @@ public class MainPage extends NanobrowserWebPage {
 			private static final long serialVersionUID = -3387170765807183435L;
 
 			public void onClick() {
-				Nanopub.deleteAllNanopubsWithProperty("npx:opinionOn");
-				Nanopub.deleteAllNanopubsWithProperty("npx:hasSameMeaning");
+				NanopubElement.deleteAllNanopubsWithProperty("npx:opinionOn");
+				NanopubElement.deleteAllNanopubsWithProperty("npx:hasSameMeaning");
 				update();
 			}
 			
@@ -53,9 +53,9 @@ public class MainPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(Nanopub.getNonmetaNanopubs(10));
-		personModel.setObject(Agent.getAllPersons(10));
-		sentenceModel.setObject(Sentence.getAllSentences(10));
+		nanopubModel.setObject(NanopubElement.getNonmetaNanopubs(10));
+		personModel.setObject(AgentElement.getAllPersons(10));
+		sentenceModel.setObject(SentenceElement.getAllSentences(10));
 	}
 
 }

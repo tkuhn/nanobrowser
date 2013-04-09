@@ -14,24 +14,33 @@
 
 package ch.tkuhn.nanobrowser;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class NanopubPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 	
-	private Nanopub pub;
+	private NanopubElement pub;
 
 	public NanopubPage(final PageParameters parameters) {
 		
-		pub = new Nanopub(parameters.get("uri").toString());
+		pub = new NanopubElement(parameters.get("uri").toString());
 		
 		add(new MenuBar("menubar"));
+
+		WebMarkupContainer icon = new WebMarkupContainer("icon");
+		if (pub.isValid()) {
+			icon.add(new AttributeModifier("src", new Model<String>("icons/nanopubv.svg")));
+		}
+		add(icon);
 		
 		add(new Label("title", pub.getLastPartOfURI()));
 		
@@ -83,7 +92,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new AgentItem("opinionagent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), ThingElement.TINY_GUI_ITEM));
 			}
 			
 		});

@@ -23,17 +23,38 @@ import java.util.Map;
 
 import org.apache.wicket.util.io.IOUtils;
 import org.openrdf.model.BNode;
+import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-public class Nanopub extends Thing {
+import ch.tkuhn.hashuri.rdf.CheckNanopub;
+import ch.tkuhn.nanopub.Nanopub;
+
+public class NanopubElement extends ThingElement {
 	
 	private static final long serialVersionUID = -62516765710631807L;
 	
-	public static final String TYPE_URI = "http://www.nanopub.org/nschema#Nanopublication";
-	
-	public Nanopub(String uri) {
+	public static final String TYPE_URI = Nanopub.NANOPUB_TYPE_URI.toString();
+
+	private Nanopub nanopub;
+	private Boolean isValid;
+
+	public NanopubElement(String uri) {
 		super(uri);
+		nanopub = TripleStoreAccess.getNanopub(uri);
+	}
+
+	public boolean isValid() {
+		if (isValid != null) return isValid;
+		if (nanopub == null) return false;
+		isValid = CheckNanopub.isValid(nanopub);
+		return isValid;
+	}
+
+	public String getLastPartOfURI() {
+		String s = super.getLastPartOfURI();
+		if (!isValid()) return s;
+		return s.replaceFirst("((^|[^A-Za-z0-9\\-_])[A-Za-z0-9\\-_]{10})[A-Za-z0-9\\-_]*$", "$1");
 	}
 
 	private static final String nonmetaNanopubsQuery =
@@ -41,36 +62,33 @@ public class Nanopub extends Thing {
 		"graph ?info { ?p dc:created ?d } ." +
 		"filter not exists { ?p a npx:MetaNanopub } } order by desc(?d)";
 	
-	public static List<Nanopub> getNonmetaNanopubs(int limit) {
+	public static List<NanopubElement> getNonmetaNanopubs(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
 		List<BindingSet> result = TripleStoreAccess.getTuples(nonmetaNanopubsQuery + lm);
-		List<Nanopub> nanopubs = new ArrayList<Nanopub>();
+		List<NanopubElement> nanopubs = new ArrayList<NanopubElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
 			if (v instanceof BNode) continue;
-			nanopubs.add(new Nanopub(v.stringValue()));
+			nanopubs.add(new NanopubElement(v.stringValue()));
 		}
 		return nanopubs;
 	}
 
-	private static final String isNanopubQuery =
-		"ask { <@> a np:Nanopublication }";
-	
 	public static boolean isNanopub(String uri) {
-		return TripleStoreAccess.isTrue(isNanopubQuery.replaceAll("@", uri));
+		return TripleStoreAccess.getNanopub(uri) != null;
 	}
 	
 	private static final String sentenceAssertionsQuery =
 		"select distinct ?c where { <@> np:hasAssertion ?a . ?a npx:asSentence ?c }";
 	
-	public List<Sentence> getSentenceAssertions() {
+	public List<SentenceElement> getSentenceAssertions() {
 		String query = sentenceAssertionsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Sentence> l = new ArrayList<Sentence>();
+		List<SentenceElement> l = new ArrayList<SentenceElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("c");
 			if (v instanceof BNode) continue;
-			l.add(new Sentence(v.stringValue()));
+			l.add(new SentenceElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -83,14 +101,14 @@ public class Nanopub extends Thing {
 		String query = assertionTriplesQuery.replaceAll("@", getURI());
 		return TripleStoreAccess.getGraph(query);
 	}
-	
-	private static final String provenanceTriplesQuery =
-		"construct {?a ?b ?c} where { <@> np:hasProvenance ?p . " +
-		"graph ?p {?a ?b ?c} }";
-	
+
 	public List<Triple<?,?>> getProvenanceTriples() {
-		String query = provenanceTriplesQuery.replaceAll("@", getURI());
-		return TripleStoreAccess.getGraph(query);
+		List<Triple<?,?>> triples = new ArrayList<Triple<?,?>>();
+		if (nanopub == null) return triples;
+		for (Statement st : nanopub.getProvenance()) {
+			triples.add(new Triple<ThingElement,Object>(st));
+		}
+		return triples;
 	}
 	
 	private static final String createDateQuery =
@@ -113,14 +131,14 @@ public class Nanopub extends Thing {
 		"graph ?info { <@> pav:authoredBy ?a } }";
 		//"select distinct ?a where { <@> pav:authoredBy ?a }";
 	
-	public List<Agent> getAuthors() {
+	public List<AgentElement> getAuthors() {
 		String query = authorsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Agent> l = new ArrayList<Agent>();
+		List<AgentElement> l = new ArrayList<AgentElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("a");
 			if (v instanceof BNode) continue;
-			l.add(new Agent(v.stringValue()));
+			l.add(new AgentElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -130,14 +148,14 @@ public class Nanopub extends Thing {
 		"graph ?info { <@> pav:createdBy ?c } }";
 		//"select distinct ?a where { <@> pav:createdBy ?a }";
 	
-	public List<Agent> getCreators() {
+	public List<AgentElement> getCreators() {
 		String query = creatorsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Agent> l = new ArrayList<Agent>();
+		List<AgentElement> l = new ArrayList<AgentElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("c");
 			if (v instanceof BNode) continue;
-			l.add(new Agent(v.stringValue()));
+			l.add(new AgentElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -162,9 +180,9 @@ public class Nanopub extends Thing {
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(p.stringValue());
 			} else {
-				Agent agent = new Agent(p.stringValue());
-				Nanopub nanopub = new Nanopub(pub.stringValue());
-				Sentence sentence = new Sentence(s.stringValue());
+				AgentElement agent = new AgentElement(p.stringValue());
+				NanopubElement nanopub = new NanopubElement(pub.stringValue());
+				SentenceElement sentence = new SentenceElement(s.stringValue());
 				Opinion opinion = new Opinion(agent, t.stringValue(), sentence, nanopub);
 				opinionMap.put(p.stringValue(), opinion);
 			}
@@ -204,7 +222,7 @@ public class Nanopub extends Thing {
 		}
 		String query = getNanopubGraphsWithPropertyQuery.replaceAll("@P", propertyURI);
 		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
-			(new Nanopub(bs.getValue("pub").stringValue())).delete();
+			(new NanopubElement(bs.getValue("pub").stringValue())).delete();
 		}
 	}
 	

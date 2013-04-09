@@ -24,7 +24,7 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-public class Thing implements Serializable {
+public class ThingElement implements Serializable {
 	
 	private static final long serialVersionUID = -6229734698248756258L;
 
@@ -37,15 +37,15 @@ public class Thing implements Serializable {
 	
 	private final String uri;
 	
-	public static Thing getThing(String uri) {
+	public static ThingElement getThing(String uri) {
 		List<String> types = getTypes(uri);
-		if (types.contains(Agent.TYPE_URI)) return new Agent(uri);
-		if (types.contains(Sentence.TYPE_URI)) return new Sentence(uri);
-		if (types.contains(Nanopub.TYPE_URI)) return new Nanopub(uri);
-		return new Thing(uri);
+		if (types.contains(AgentElement.TYPE_URI)) return new AgentElement(uri);
+		if (types.contains(SentenceElement.TYPE_URI)) return new SentenceElement(uri);
+		if (types.contains(NanopubElement.TYPE_URI)) return new NanopubElement(uri);
+		return new ThingElement(uri);
 	}
 	
-	public Thing(String uri) {
+	public ThingElement(String uri) {
 		this.uri = uri.toString();  // throw exception when null
 	}
 	
@@ -62,7 +62,9 @@ public class Thing implements Serializable {
 	}
 	
 	public static String getLastPartOfURI(String uri) {
-		return uri.replaceFirst("^.*[/#]([^/#]*)$", "$1");
+		uri = uri.replaceFirst("[/#]$", "");
+		uri = uri.replaceFirst("^.*[/#]([^/#]*)$", "$1");
+		return uri;
 	}
 	
 	public String getLastPartOfURI() {
@@ -112,9 +114,9 @@ public class Thing implements Serializable {
 			if (v instanceof BNode) continue;
 			types.add(v.stringValue());
 		}
-		if (Sentence.isSentenceURI(uri)) types.add(Sentence.TYPE_URI);
-		if (Agent.isAgent(uri)) types.add(Agent.TYPE_URI);
-		if (Nanopub.isNanopub(uri)) types.add(Nanopub.TYPE_URI);
+		if (SentenceElement.isSentenceURI(uri)) types.add(SentenceElement.TYPE_URI);
+		if (AgentElement.isAgent(uri)) types.add(AgentElement.TYPE_URI);
+		if (NanopubElement.isNanopub(uri)) types.add(NanopubElement.TYPE_URI);
 		return new ArrayList<String>(types);
 	}
 	
@@ -123,8 +125,8 @@ public class Thing implements Serializable {
 	}
 	
 	public boolean equals(Object other) {
-		if (other instanceof Thing) {
-			return getURI().equals(((Thing) other).getURI());
+		if (other instanceof ThingElement) {
+			return getURI().equals(((ThingElement) other).getURI());
 		} else {
 			return false;
 		}

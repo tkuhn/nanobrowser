@@ -14,22 +14,31 @@
 
 package ch.tkuhn.nanobrowser;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class NanopubItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public NanopubItem(String id, Nanopub n, int guiItemStyle) {
+	public NanopubItem(String id, NanopubElement n, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
 		params.add("uri", n.getURI());
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("nanopublink", NanopubPage.class, params);
 		add(link);
+		WebMarkupContainer icon = new WebMarkupContainer("icon");
+		if (n.isValid()) {
+			icon.add(new AttributeModifier("src", new Model<String>("icons/nanopubv.svg")));
+		}
+		link.add(icon);
+
 		String date = n.getCreateDateString();
 		Label dateLabel;
 		if (date == null) {
@@ -37,15 +46,15 @@ public class NanopubItem extends ThingItem {
 		} else {
 			dateLabel = new Label("nanopubdate", n.getCreateDateString());
 		}
-		dateLabel.setVisible(guiItemStyle == Thing.LONG_GUI_ITEM);
+		dateLabel.setVisible(guiItemStyle == ThingElement.LONG_GUI_ITEM);
 		add(dateLabel);
 		Label nameLabel = new Label("nanopubname", " " + n.getLastPartOfURI() + " ");
-		nameLabel.setVisible(guiItemStyle != Thing.TINY_GUI_ITEM);
+		nameLabel.setVisible(guiItemStyle != ThingElement.TINY_GUI_ITEM);
 		link.add(nameLabel);
 	}
 
-	public NanopubItem(String id, Nanopub n) {
-		this(id, n, Thing.MEDIUM_GUI_ITEM);
+	public NanopubItem(String id, NanopubElement n) {
+		this(id, n, ThingElement.MEDIUM_GUI_ITEM);
 	}
 
 }

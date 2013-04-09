@@ -20,34 +20,34 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 
-public class Triple<S extends Thing,O> implements Serializable {
+public class Triple<S extends ThingElement,O> implements Serializable {
 
 	private static final long serialVersionUID = 7919683922987907295L;
 
 	private S subject;
-	private Thing predicate;
+	private ThingElement predicate;
 	private O object;
-	private Nanopub nanopub;
+	private NanopubElement nanopub;
 	
-	public Triple(S subject, Thing predicate, O object, Nanopub nanopub) {
+	public Triple(S subject, ThingElement predicate, O object, NanopubElement nanopub) {
 		this.subject = subject;
 		this.predicate = predicate;
 		this.object = object;
 		this.nanopub = nanopub;
 	}
 	
-	public Triple(S subject, Thing predicate, O object) {
+	public Triple(S subject, ThingElement predicate, O object) {
 		this(subject, predicate, object, null);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Triple(Statement statement, Nanopub nanopub) {
+	public Triple(Statement statement, NanopubElement nanopub) {
 		this.nanopub = nanopub;
-		subject = (S) Thing.getThing(statement.getSubject().stringValue());
-		predicate = Thing.getThing(statement.getPredicate().stringValue());
+		subject = (S) ThingElement.getThing(statement.getSubject().stringValue());
+		predicate = ThingElement.getThing(statement.getPredicate().stringValue());
 		Value ov = statement.getObject();
 		if (ov instanceof Resource) {
-			object = (O) Thing.getThing(((Resource) ov).stringValue());
+			object = (O) ThingElement.getThing(((Resource) ov).stringValue());
 		} else {
 			object = (O) ov.stringValue();
 		}
@@ -61,7 +61,7 @@ public class Triple<S extends Thing,O> implements Serializable {
 		return subject;
 	}
 	
-	public Thing getPredicate() {
+	public ThingElement getPredicate() {
 		return predicate;
 	}
 	
@@ -69,7 +69,7 @@ public class Triple<S extends Thing,O> implements Serializable {
 		return object;
 	}
 	
-	public Nanopub getNanopub() {
+	public NanopubElement getNanopub() {
 		return nanopub;
 	}
 

@@ -24,7 +24,7 @@ public class NanobrowserWebPage extends WebPage {
 		return (NanobrowserApplication) getApplication();
 	}
 	
-	public Agent getUser() {
+	public AgentElement getUser() {
 		return getNanobrowserApp().getUser();
 	}
 

@@ -36,10 +36,10 @@ public class HList extends Panel {
 
 			protected void populateItem(ListItem<Object> item) {
 				Object obj = item.getModelObject();
-				if (obj instanceof Thing) {
-					item.add(((Thing) obj).createGUIItem("item"));
+				if (obj instanceof ThingElement) {
+					item.add(((ThingElement) obj).createGUIItem("item"));
 				} else {
-					item.add(Thing.getThing(obj.toString()).createGUIItem("item"));
+					item.add(ThingElement.getThing(obj.toString()).createGUIItem("item"));
 				}
 			}
 			

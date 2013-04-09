@@ -23,7 +23,7 @@ public class SentenceItem extends ThingItem {
 	
 	private static final long serialVersionUID = -5109507637942030910L;
 
-	public SentenceItem(String id, Sentence s, int guiItemStyle) {
+	public SentenceItem(String id, SentenceElement s, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -32,12 +32,12 @@ public class SentenceItem extends ThingItem {
 		add(link);
 		
 		Label nameLabel = new Label("sentence", s.getSentenceText());
-		nameLabel.setVisible(guiItemStyle != Thing.TINY_GUI_ITEM);
+		nameLabel.setVisible(guiItemStyle != ThingElement.TINY_GUI_ITEM);
 		link.add(nameLabel);
 	}
 
-	public SentenceItem(String id, Sentence s) {
-		this(id, s, Thing.MEDIUM_GUI_ITEM);
+	public SentenceItem(String id, SentenceElement s) {
+		this(id, s, ThingElement.MEDIUM_GUI_ITEM);
 	}
 
 }

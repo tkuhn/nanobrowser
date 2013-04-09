@@ -50,10 +50,13 @@
     </dependency>
     <dependency>
       <groupId>ch.tkuhn</groupId>
+      <artifactId>nanopub</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.tkuhn</groupId>
       <artifactId>hashuri</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/hashuri-1.0-SNAPSHOT.jar</systemPath>
     </dependency>
   </dependencies>
   <build>

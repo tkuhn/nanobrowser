@@ -51,7 +51,7 @@ public class TriplePanel extends Panel {
 
 		if (isFlagSet(SHOW_PREDICATE)) {
 			if (isFlagSet(START_WITH_PREDICATE)) {
-				add(triple.getPredicate().createGUIItem("predicatefirst", Thing.PREDICATEFIRST_ITEM));
+				add(triple.getPredicate().createGUIItem("predicatefirst", ThingElement.PREDICATEFIRST_ITEM));
 				hide("predicate");
 			} else {
 				add(triple.getPredicate().createGUIItem("predicate"));
@@ -64,8 +64,8 @@ public class TriplePanel extends Panel {
 
 		if (isFlagSet(SHOW_OBJECT)) {
 			Object obj = triple.getObject();
-			if (obj instanceof Thing) {
-				add(((Thing) obj).createGUIItem("object"));
+			if (obj instanceof ThingElement) {
+				add(((ThingElement) obj).createGUIItem("object"));
 			} else {
 				add(new Label("object", "\"" + obj.toString() + "\""));
 			}
@@ -84,7 +84,7 @@ public class TriplePanel extends Panel {
 			ref.setVisible(false);
 			ref.add(new Label("nanopub"));
 		} else {
-			ref.add(new NanopubItem("nanopub", triple.getNanopub(), Thing.TINY_GUI_ITEM));
+			ref.add(new NanopubItem("nanopub", triple.getNanopub(), ThingElement.TINY_GUI_ITEM));
 		}
 		add(ref);
 	}

@@ -30,20 +30,20 @@ import org.openrdf.query.BindingSet;
 
 import ch.tkuhn.hashuri.rdf.TransformRdfFile;
 
-public class Sentence extends Thing {
+public class SentenceElement extends ThingElement {
 	
 	private static final long serialVersionUID = -7967327315454171639L;
 	
 	public static final String TYPE_URI = "http://purl.org/nanopub/x/AIDA-Sentence";
 	public static final String AIDA_URI_BASE = "http://purl.org/aida/";
 	
-	public Sentence(String uri) {
+	public SentenceElement(String uri) {
 		super(uri);
 	}
 	
-	public static Sentence withText(String sentenceText) {
+	public static SentenceElement withText(String sentenceText) {
 		try {
-			return new Sentence(AIDA_URI_BASE + URLEncoder.encode(sentenceText, "UTF8"));
+			return new SentenceElement(AIDA_URI_BASE + URLEncoder.encode(sentenceText, "UTF8"));
 		} catch (UnsupportedEncodingException ex) {
 			ex.printStackTrace();
 		}
@@ -53,14 +53,14 @@ public class Sentence extends Thing {
 	private static final String allSentencesQuery =
 		"select distinct ?s where {?a npx:asSentence ?s}";
 	
-	public static List<Sentence> getAllSentences(int limit) {
+	public static List<SentenceElement> getAllSentences(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
 		List<BindingSet> result = TripleStoreAccess.getTuples(allSentencesQuery + lm);
-		List<Sentence> l = new ArrayList<Sentence>();
+		List<SentenceElement> l = new ArrayList<SentenceElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("s");
 			if (v instanceof BNode) continue;
-			l.add(new Sentence(v.stringValue()));
+			l.add(new SentenceElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -80,14 +80,14 @@ public class Sentence extends Thing {
 		"select distinct ?p where { ?p np:hasAssertion ?a . ?a npx:asSentence <@> . " +
 		"?p np:hasPublicationInfo ?info . graph ?info { ?p dc:created ?d } }";
 	
-	public List<Nanopub> getNanopubs() {
+	public List<NanopubElement> getNanopubs() {
 		String query = nanopubsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Nanopub> nanopubs = new ArrayList<Nanopub>();
+		List<NanopubElement> nanopubs = new ArrayList<NanopubElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
 			if (v instanceof BNode) continue;
-			nanopubs.add(new Nanopub(v.stringValue()));
+			nanopubs.add(new NanopubElement(v.stringValue()));
 		}
 		return nanopubs;
 	}
@@ -113,8 +113,8 @@ public class Sentence extends Thing {
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(p.stringValue());
 			} else {
-				Agent agent = new Agent(p.stringValue());
-				Nanopub nanopub = new Nanopub(pub.stringValue());
+				AgentElement agent = new AgentElement(p.stringValue());
+				NanopubElement nanopub = new NanopubElement(pub.stringValue());
 				Opinion opinion = new Opinion(agent, t.stringValue(), this, nanopub);
 				opinionMap.put(p.stringValue(), opinion);
 			}
@@ -131,31 +131,31 @@ public class Sentence extends Thing {
 		"filter regex(str(?r), \"^http://purl.org/nanopub/x/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
 		"} order by asc(?d)";
 	
-	public List<Triple<Sentence,Sentence>> getRelatedSentences() {
+	public List<Triple<SentenceElement,SentenceElement>> getRelatedSentences() {
 		String query = relatedSentencesQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		Map<String, Triple<Sentence,Sentence>> sentencesMap = new HashMap<String, Triple<Sentence,Sentence>>();
+		Map<String, Triple<SentenceElement,SentenceElement>> sentencesMap = new HashMap<String, Triple<SentenceElement,SentenceElement>>();
 		for (BindingSet bs : result) {
 			Value s = bs.getValue("s");
 			Value pub = bs.getValue("pub");
 			if (s instanceof BNode || pub instanceof BNode) continue;
 			if (!s.stringValue().equals(getURI())) {
-				Sentence sentence = new Sentence(s.stringValue());
-				Triple<Sentence,Sentence> t = new Triple<Sentence,Sentence>(
+				SentenceElement sentence = new SentenceElement(s.stringValue());
+				Triple<SentenceElement,SentenceElement> t = new Triple<SentenceElement,SentenceElement>(
 						sentence,
-						new Thing(bs.getValue("r").stringValue()),
+						new ThingElement(bs.getValue("r").stringValue()),
 						this,
-						new Nanopub(pub.stringValue()));
+						new NanopubElement(pub.stringValue()));
 				sentencesMap.put(sentence.getURI(), t);
 			}
 		}
-		return new ArrayList<Triple<Sentence,Sentence>>(sentencesMap.values());
+		return new ArrayList<Triple<SentenceElement,SentenceElement>>(sentencesMap.values());
 	}
 	
-	public void publishSentenceRelation(SentenceRelation rel, Sentence other, Agent author) {
+	public void publishSentenceRelation(SentenceRelation rel, SentenceElement other, AgentElement author) {
 		try {
 			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
-			String nanopubString = Nanopub.getTemplate("sentencerel")
+			String nanopubString = NanopubElement.getTemplate("sentencerel")
 					.replaceAll("@ROOT@", pubURI)
 					.replaceAll("@AGENT@", author.getURI())
 					.replaceAll("@SENTENCE1@", getURI())
@@ -193,7 +193,7 @@ public class Sentence extends Thing {
 	
 	// TODO Use proper text indexing
 	
-	public static List<Sentence> search(String searchText, int limit) {
+	public static List<SentenceElement> search(String searchText, int limit) {
 		searchText = searchText
 			.replaceAll("\\s+", " ")
 			.replaceFirst("^ ", "")
@@ -206,10 +206,10 @@ public class Sentence extends Thing {
 			.replaceAll("~", "\\\\\\\\")
 			+ ((limit >= 0) ? " limit " + limit : "" );
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Sentence> sentences = new ArrayList<Sentence>();
+		List<SentenceElement> sentences = new ArrayList<SentenceElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("s");
-			sentences.add(new Sentence(v.stringValue()));
+			sentences.add(new SentenceElement(v.stringValue()));
 		}
 		return sentences;
 	}

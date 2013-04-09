@@ -42,16 +42,16 @@ public class SentencePage extends NanobrowserWebPage {
 			SentenceRelation.HAS_CONFLICTING_MEANING
 	});
 
-	private Sentence sentence;
+	private SentenceElement sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
-	private ListModel<Triple<Sentence,Sentence>> relationModel = new ListModel<Triple<Sentence,Sentence>>();
+	private ListModel<Triple<SentenceElement,SentenceElement>> relationModel = new ListModel<Triple<SentenceElement,SentenceElement>>();
 	private TextField<String> otherSentenceField;
 	private DropDownChoice<SentenceRelation> sentenceRelChoice;
 	private SentenceRelation selectedRelType = SentenceRelation.IS_IMPROVED_VERSION_OF;
 
 	public SentencePage(final PageParameters parameters) {
 		
-		sentence = new Sentence(parameters.get("uri").toString());
+		sentence = new SentenceElement(parameters.get("uri").toString());
 		
 		update();
 		
@@ -61,12 +61,12 @@ public class SentencePage extends NanobrowserWebPage {
 		
 		add(new ExternalLink("uri", sentence.getURI(), sentence.getTruncatedURI()));
 		
-		add(new ListView<Nanopub>("nanopubs", sentence.getNanopubs()) {
+		add(new ListView<NanopubElement>("nanopubs", sentence.getNanopubs()) {
 			
 			private static final long serialVersionUID = 3911519757128281636L;
 
-			protected void populateItem(ListItem<Nanopub> item) {
-				item.add(new NanopubItem("nanopub", item.getModelObject(), Thing.LONG_GUI_ITEM));
+			protected void populateItem(ListItem<NanopubElement> item) {
+				item.add(new NanopubItem("nanopub", item.getModelObject(), ThingElement.LONG_GUI_ITEM));
 			}
 			
 		});
@@ -111,16 +111,16 @@ public class SentencePage extends NanobrowserWebPage {
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new AgentItem("agent", item.getModelObject().getAgent()));
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), false) + "."));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), ThingElement.TINY_GUI_ITEM));
 			}
 			
 		});
 		
-		add(new ListView<Triple<Sentence,Sentence>>("relations", relationModel) {
+		add(new ListView<Triple<SentenceElement,SentenceElement>>("relations", relationModel) {
 			
 			private static final long serialVersionUID = -3149020273243388808L;
 
-			protected void populateItem(ListItem<Triple<Sentence,Sentence>> item) {
+			protected void populateItem(ListItem<Triple<SentenceElement,SentenceElement>> item) {
 				item.add(new TriplePanel("relation", item.getModelObject(), TriplePanel.PREDICATE_SUBJECT));
 			}
 			
@@ -136,12 +136,12 @@ public class SentencePage extends NanobrowserWebPage {
 
 			protected void onSubmit() {
 				String s = otherSentenceField.getModelObject();
-				Sentence other = null;
+				SentenceElement other = null;
 				if (s != null) {
-					if (Sentence.isSentenceURI(s)) {
-						other = new Sentence(s);
-					} else if (Sentence.isSentenceText(s)) {
-						other = Sentence.withText(s);
+					if (SentenceElement.isSentenceURI(s)) {
+						other = new SentenceElement(s);
+					} else if (SentenceElement.isSentenceText(s)) {
+						other = SentenceElement.withText(s);
 					}
 				}
 				if (other != null) {

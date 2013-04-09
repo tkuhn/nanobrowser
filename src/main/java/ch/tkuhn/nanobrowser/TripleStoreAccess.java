@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.openrdf.OpenRDFException;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.BooleanQuery;
 import org.openrdf.query.GraphQuery;
@@ -37,6 +38,9 @@ import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.sparql.SPARQLRepository;
+
+import ch.tkuhn.nanopub.Nanopub;
+import ch.tkuhn.nanopub.NanopubImpl;
 
 public class TripleStoreAccess {
 	
@@ -64,6 +68,13 @@ public class TripleStoreAccess {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public static Nanopub getNanopub(String uri) {
+		try {
+			return new NanopubImpl(repo, new URIImpl(uri));
+		} catch (Exception ex) {}
+		return null;
 	}
 
 	public static boolean isTrue(String query) {
@@ -114,7 +125,7 @@ public class TripleStoreAccess {
 				GraphQueryResult result = graphQuery.evaluate();
 				try {
 					while (result.hasNext()) {
-						triples.add(new Triple<Thing,Object>(result.next()));
+						triples.add(new Triple<ThingElement,Object>(result.next()));
 					}
 				} finally {
 					result.close();

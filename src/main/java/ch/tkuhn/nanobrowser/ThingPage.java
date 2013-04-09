@@ -22,11 +22,11 @@ public class ThingPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 	
-	private Thing thing;
+	private ThingElement thing;
 
 	public ThingPage(final PageParameters parameters) {
 		
-		thing = new Thing(parameters.get("uri").toString());
+		thing = new ThingElement(parameters.get("uri").toString());
 		
 		add(new MenuBar("menubar"));
 		

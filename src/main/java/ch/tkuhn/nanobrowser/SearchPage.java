@@ -23,7 +23,7 @@ public class SearchPage extends NanobrowserWebPage {
 	
 	private String searchText;
 	
-	private ListModel<Sentence> sentenceModel = new ListModel<Sentence>();
+	private ListModel<SentenceElement> sentenceModel = new ListModel<SentenceElement>();
 
 	public SearchPage(final PageParameters parameters) {
 		
@@ -38,7 +38,7 @@ public class SearchPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		sentenceModel.setObject(Sentence.search(searchText, 100));
+		sentenceModel.setObject(SentenceElement.search(searchText, 100));
 	}
 
 }

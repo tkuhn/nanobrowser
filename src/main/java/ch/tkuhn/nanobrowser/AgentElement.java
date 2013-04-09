@@ -23,13 +23,13 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-public class Agent extends Thing {
+public class AgentElement extends ThingElement {
 	
 	private static final long serialVersionUID = -4281747788959702687L;
 	
 	public static final String TYPE_URI = "http://xmlns.com/foaf/0.1/Agent";
 	
-	public Agent(String uri) {
+	public AgentElement(String uri) {
 		super(uri);
 	}
 	
@@ -37,14 +37,14 @@ public class Agent extends Thing {
 		"select distinct ?p where { { ?a pav:authoredBy ?p } union { ?a pav:createdBy ?p } union { ?p a foaf:Person } " +
 		"union { ?p a foaf:Agent } . optional { ?p a npx:Bot . ?p a ?x } filter (!bound(?x)) }";
 	
-	public static List<Agent> getAllPersons(int limit) {
+	public static List<AgentElement> getAllPersons(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
 		List<BindingSet> result = TripleStoreAccess.getTuples(allPersonsQuery + lm);
-		List<Agent> l = new ArrayList<Agent>();
+		List<AgentElement> l = new ArrayList<AgentElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("p");
 			if (v instanceof BNode) continue;
-			l.add(new Agent(v.stringValue()));
+			l.add(new AgentElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -62,14 +62,14 @@ public class Agent extends Thing {
 		"graph ?info { ?pub pav:authoredBy <@> . ?pub dc:created ?d } " +
 		"filter not exists { ?pub a npx:MetaNanopub } } order by desc(?d)";
 	
-	public List<Nanopub> getAuthoredNanopubs() {
+	public List<NanopubElement> getAuthoredNanopubs() {
 		String query = authoredNanopubsQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Nanopub> l = new ArrayList<Nanopub>();
+		List<NanopubElement> l = new ArrayList<NanopubElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("pub");
 			if (v instanceof BNode) continue;
-			l.add(new Nanopub(v.stringValue()));
+			l.add(new NanopubElement(v.stringValue()));
 		}
 		return l;
 	}
@@ -92,8 +92,8 @@ public class Agent extends Thing {
 			if (excludeNullOpinions && t.stringValue().equals(Opinion.NULL_TYPE)) {
 				opinionMap.remove(s.stringValue());
 			} else {
-				Sentence sentence = new Sentence(s.stringValue());
-				Nanopub nanopub = new Nanopub(pub.stringValue());
+				SentenceElement sentence = new SentenceElement(s.stringValue());
+				NanopubElement nanopub = new NanopubElement(pub.stringValue());
 				Opinion opinion = new Opinion(this, t.stringValue(), sentence, nanopub);
 				opinionMap.put(s.stringValue(), opinion);
 			}
@@ -117,14 +117,14 @@ public class Agent extends Thing {
 	private static final String commandersQuery =
 		"select distinct ?c where { ?c npx:commands <@> }";
 	
-	public List<Agent> getCommanders() {
+	public List<AgentElement> getCommanders() {
 		String query = commandersQuery.replaceAll("@", getURI());
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		List<Agent> l = new ArrayList<Agent>();
+		List<AgentElement> l = new ArrayList<AgentElement>();
 		for (BindingSet bs : result) {
 			Value v = bs.getValue("c");
 			if (v instanceof BNode) continue;
-			l.add(new Agent(v.stringValue()));
+			l.add(new AgentElement(v.stringValue()));
 		}
 		return l;
 	}

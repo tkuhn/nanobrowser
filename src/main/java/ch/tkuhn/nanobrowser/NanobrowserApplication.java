@@ -40,13 +40,13 @@ public class NanobrowserApplication extends WebApplication {
 		return properties.getProperty(propertyName);
 	}
 	
-	private Agent user = new Agent("http://www.tkuhn.ch/nanobrowser/user/anonymous");
+	private AgentElement user = new AgentElement("http://www.tkuhn.ch/nanobrowser/user/anonymous");
 	
-	public Agent getUser() {
+	public AgentElement getUser() {
 		return user;
 	}
 	
-	public void setUser(Agent user) {
+	public void setUser(AgentElement user) {
 		this.user = user;
 	}
 	

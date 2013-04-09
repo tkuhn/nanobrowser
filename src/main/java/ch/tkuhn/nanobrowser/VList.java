@@ -60,8 +60,8 @@ public class VList extends Panel {
 	
 	private void populateItem(ListItem<Object> item) {
 		Object obj = item.getModelObject();
-		if (obj instanceof Thing) {
-			item.add(((Thing) obj).createGUIItem("item", Thing.LONG_GUI_ITEM));
+		if (obj instanceof ThingElement) {
+			item.add(((ThingElement) obj).createGUIItem("item", ThingElement.LONG_GUI_ITEM));
 		} else {
 			item.add(new Label("item", obj.toString()));
 		}

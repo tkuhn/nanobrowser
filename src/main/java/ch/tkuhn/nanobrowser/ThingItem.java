@@ -28,7 +28,7 @@ public class ThingItem extends Panel {
 		super(id);
 	}
 
-	public ThingItem(String id, Thing th, int guiItemStyle) {
+	public ThingItem(String id, ThingElement th, int guiItemStyle) {
 		super(id);
 		
 		PageParameters params = new PageParameters();
@@ -37,7 +37,7 @@ public class ThingItem extends Panel {
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("thinglink", ThingPage.class, params);
 		add(link);
 		String n = th.getLastPartOfURI();
-		if (guiItemStyle == Thing.PREDICATEFIRST_ITEM) {
+		if (guiItemStyle == ThingElement.PREDICATEFIRST_ITEM) {
 			if (SentenceRelation.get(uri) != null) {
 				n = SentenceRelation.get(uri).getText();
 			}
@@ -50,7 +50,7 @@ public class ThingItem extends Panel {
 		return (NanobrowserApplication) getApplication();
 	}
 	
-	public Agent getUser() {
+	public AgentElement getUser() {
 		return getNanobrowserApp().getUser();
 	}
 

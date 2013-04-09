@@ -29,13 +29,13 @@ public class AgentPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
 
-	private Agent agent;
-	private ListModel<Nanopub> nanopubModel = new ListModel<Nanopub>();
+	private AgentElement agent;
+	private ListModel<NanopubElement> nanopubModel = new ListModel<NanopubElement>();
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 	
 	public AgentPage(final PageParameters parameters) {
 		
-		agent = new Agent(parameters.get("uri").toString());
+		agent = new AgentElement(parameters.get("uri").toString());
 		boolean isBot = agent.isBot();
 		
 		update();
@@ -69,7 +69,7 @@ public class AgentPage extends NanobrowserWebPage {
 			protected void populateItem(ListItem<Opinion> item) {
 				item.add(new Label("opinion", Opinion.getVerbPhrase(item.getModelObject().getOpinionType(), true)));
 				item.add(new SentenceItem("opinionsentence", item.getModelObject().getSentence()));
-				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), Thing.TINY_GUI_ITEM));
+				item.add(new NanopubItem("opinionpub", item.getModelObject().getNanopub(), ThingElement.TINY_GUI_ITEM));
 			}
 			
 		});

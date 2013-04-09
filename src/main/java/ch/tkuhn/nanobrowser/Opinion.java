@@ -30,23 +30,23 @@ public class Opinion implements Serializable {
 	public static final String DISAGREEMENT_TYPE = "http://purl.org/nanopub/x/Disagreement";
 	public static final String NULL_TYPE = "http://purl.org/nanopub/x/NullOpinion";
 	
-	private final Agent agent;
+	private final AgentElement agent;
 	private final String opinionType;
-	private final Sentence sentence;
-	private Nanopub nanopub;
+	private final SentenceElement sentence;
+	private NanopubElement nanopub;
 	
-	public Opinion(Agent agent, String opinionType, Sentence sentence, Nanopub nanopub) {
+	public Opinion(AgentElement agent, String opinionType, SentenceElement sentence, NanopubElement nanopub) {
 		this.agent = agent;
 		this.opinionType = opinionType;
 		this.sentence = sentence;
 		this.nanopub = nanopub;
 	}
 
-	public Opinion(Agent agent, String opinionType, Sentence sentence) {
+	public Opinion(AgentElement agent, String opinionType, SentenceElement sentence) {
 		this(agent, opinionType, sentence, null);
 	}
 	
-	public Agent getAgent() {
+	public AgentElement getAgent() {
 		return agent;
 	}
 	
@@ -54,15 +54,15 @@ public class Opinion implements Serializable {
 		return opinionType;
 	}
 	
-	public Sentence getSentence() {
+	public SentenceElement getSentence() {
 		return sentence;
 	}
 	
-	public Nanopub getNanopub() {
+	public NanopubElement getNanopub() {
 		return nanopub;
 	}
 	
-	private void setNanopub(Nanopub nanopub) {
+	private void setNanopub(NanopubElement nanopub) {
 		this.nanopub = nanopub;
 	}
 	
@@ -84,7 +84,7 @@ public class Opinion implements Serializable {
 	public void publish() {
 		try {
 			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
-			String nanopubString = Nanopub.getTemplate("opinion")
+			String nanopubString = NanopubElement.getTemplate("opinion")
 					.replaceAll("@ROOT@", pubURI)
 					.replaceAll("@AGENT@", agent.getURI())
 					.replaceAll("@OBJECT@", sentence.getURI())
@@ -94,7 +94,7 @@ public class Opinion implements Serializable {
 			URI hashURI = TransformRdfFile.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
-			setNanopub(new Nanopub(hashURI.toString()));
+			setNanopub(new NanopubElement(hashURI.toString()));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
