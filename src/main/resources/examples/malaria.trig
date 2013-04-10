@@ -1,4 +1,5 @@
 @prefix : <http://purl.org/nanobrowser/examples/malaria/> .
+@prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
@@ -11,9 +12,8 @@
         np:hasProvenance :MalariaPub_Provenance ;
         np:hasPublicationInfo :MalariaPub_Info .
 
-    :MalariaPub_Assertion
-        np:containsGraph :MalariaPub_Assertion_Head ;
-        np:containsGraph :MalariaPub_Assertion_Statement .
+    :MalariaPub_Assertion_Head rdfg:subGraphOf :MalariaPub_Assertion .
+    :MalariaPub_Assertion_Statement rdfg:subGraphOf :MalariaPub_Assertion .
 }
 
 :MalariaPub_Assertion_Head {

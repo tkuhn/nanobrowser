@@ -22,7 +22,7 @@ npx:Formula rdfs:subClassOf rdfg:Graph .
 npx:Sentence rdfs:subClassOf npx:Statement .
 npx:AIDA-Sentence rdfs:subClassOf npx:Sentence .
 
-npx:asFormula rdfs:subPropertyOf np:containsGraph .
+npx:asFormula rdfs:subPropertyOf [ owl:inverseOf rdfg:subGraphOf ] .
 npx:asFormula rdfs:domain np:Assertion .
 npx:asFormula rdfs:range npx:Formula .
 

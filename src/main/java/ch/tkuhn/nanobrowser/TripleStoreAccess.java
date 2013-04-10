@@ -54,6 +54,7 @@ public class TripleStoreAccess {
 		"prefix xsd: <http://www.w3.org/2001/XMLSchema#> " +
 		"prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
 		"prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+		"prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> " +
 		"prefix owl: <http://www.w3.org/2002/07/owl#> " +
 		"prefix dc: <http://purl.org/dc/terms/> " +
 		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +

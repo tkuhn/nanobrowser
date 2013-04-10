@@ -197,7 +197,7 @@ public class NanopubElement extends ThingElement {
 	private static final String getNanopubGraphsQuery =
 		"select ?g ?ass ?prov ?info ?f where { " +
 		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasPublicationInfo ?info . " +
-		"optional { <@> np:hasProvenance ?prov } . optional { ?ass np:containsGraph ?f } } }";
+		"optional { <@> np:hasProvenance ?prov } . optional { ?f rdfg:subGraphOf ?ass } } }";
 	private static final String deleteGraphQuery =
 		"clear graph <@>";
 	
