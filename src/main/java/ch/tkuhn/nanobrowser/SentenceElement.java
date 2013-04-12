@@ -28,7 +28,7 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-import ch.tkuhn.hashuri.rdf.TransformRdfFile;
+import ch.tkuhn.hashuri.rdf.TransformNanopub;
 
 public class SentenceElement extends ThingElement {
 	
@@ -163,7 +163,7 @@ public class SentenceElement extends ThingElement {
 					.replaceAll("@SENTENCE2@", other.getURI())
 					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			TransformRdfFile.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
 		} catch (Exception ex) {

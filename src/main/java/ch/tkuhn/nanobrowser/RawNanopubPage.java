@@ -16,7 +16,7 @@ public class RawNanopubPage implements IResource {
 	@Override
 	public void respond(Attributes attributes) {
 		WebResponse resp = (WebResponse) attributes.getResponse();
-		resp.setContentType("text/turtle");
+		resp.setContentType("application/x-trig");
 		try {
 			pub = new NanopubElement(attributes.getParameters().get("uri").toString());
 			ByteArrayOutputStream b = new ByteArrayOutputStream();
