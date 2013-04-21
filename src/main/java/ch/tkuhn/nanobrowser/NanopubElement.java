@@ -17,13 +17,16 @@ package ch.tkuhn.nanobrowser;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.util.io.IOUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
@@ -91,13 +94,16 @@ public class NanopubElement extends ThingElement {
 		return l;
 	}
 	
-	private static final String assertionTriplesQuery =
-		"construct {?a ?b ?c} where { { <@> np:hasAssertion ?f } union " +
-		"{ <@> np:hasAssertion ?g . ?g npx:asFormula ?f } . graph ?f {?a ?b ?c} }";
-	
 	public List<Triple<?,?>> getAssertionTriples() {
-		String query = assertionTriplesQuery.replaceAll("@", getURI());
-		return TripleStoreAccess.getGraph(query);
+		List<Triple<?,?>> triples = new ArrayList<Triple<?,?>>();
+		if (nanopub == null) return triples;
+		for (Statement st : nanopub.getAssertion()) {
+			String p = st.getPredicate().toString();
+			if (p.equals("http://purl.org/nanopub/x/asFormula")) continue;
+			if (p.equals("http://purl.org/nanopub/x/asSentence")) continue;
+			triples.add(new Triple<ThingElement,Object>(st));
+		}
+		return triples;
 	}
 
 	public List<Triple<?,?>> getProvenanceTriples() {
@@ -108,52 +114,25 @@ public class NanopubElement extends ThingElement {
 		}
 		return triples;
 	}
-	
-	private static final String createDateQuery =
-		"select ?d where { <@> np:hasPublicationInfo ?info . " +
-		"graph ?info { <@> dc:created ?d } }";
-		//"select ?d where { <@> dc:created ?d }";
-	
+
 	public String getCreateDateString() {
-		String query = createDateQuery.replaceAll("@", getURI());
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
-		if (result.size() == 0) return null;
-		String s = result.get(0).getValue("d").stringValue();
-		if (s.equals("null")) return null;
-		if (s.length() > 16) return s.substring(0, 16);
-		return s;
+		Calendar c = nanopub.getCreationTime();
+		if (c == null) return "";
+		return DateFormatUtils.format(c, DateFormatUtils.SMTP_DATETIME_FORMAT.getPattern());
 	}
-	
-	private static final String authorsQuery =
-		"select distinct ?a where { <@> np:hasPublicationInfo ?info . " +
-		"graph ?info { <@> pav:authoredBy ?a } }";
-		//"select distinct ?a where { <@> pav:authoredBy ?a }";
-	
+
 	public List<AgentElement> getAuthors() {
-		String query = authorsQuery.replaceAll("@", getURI());
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<AgentElement> l = new ArrayList<AgentElement>();
-		for (BindingSet bs : result) {
-			Value v = bs.getValue("a");
-			if (v instanceof BNode) continue;
-			l.add(new AgentElement(v.stringValue()));
+		for (URI uri : nanopub.getAuthors()) {
+			l.add(new AgentElement(uri.stringValue()));
 		}
 		return l;
 	}
-	
-	private static final String creatorsQuery =
-		"select distinct ?c where { <@> np:hasPublicationInfo ?info . " +
-		"graph ?info { <@> pav:createdBy ?c } }";
-		//"select distinct ?a where { <@> pav:createdBy ?a }";
-	
+
 	public List<AgentElement> getCreators() {
-		String query = creatorsQuery.replaceAll("@", getURI());
-		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<AgentElement> l = new ArrayList<AgentElement>();
-		for (BindingSet bs : result) {
-			Value v = bs.getValue("c");
-			if (v instanceof BNode) continue;
-			l.add(new AgentElement(v.stringValue()));
+		for (URI uri : nanopub.getCreators()) {
+			l.add(new AgentElement(uri.stringValue()));
 		}
 		return l;
 	}
@@ -187,27 +166,13 @@ public class NanopubElement extends ThingElement {
 		}
 		return new ArrayList<Opinion>(opinionMap.values());
 	}
-	
-	private static final String getNanopubGraphsQuery =
-		"select ?g ?ass ?prov ?info ?f where { " +
-		"graph ?g { <@> np:hasAssertion ?ass . <@> np:hasPublicationInfo ?info . " +
-		"optional { <@> np:hasProvenance ?prov } . optional { ?f rdfg:subGraphOf ?ass } } }";
+
 	private static final String deleteGraphQuery =
 		"clear graph <@>";
 	
 	public void delete() {
-		String query = getNanopubGraphsQuery.replaceAll("@", getURI());
-		for (BindingSet bs : TripleStoreAccess.getTuples(query)) {
-			Value g = bs.getValue("g");
-			Value ass = bs.getValue("ass");
-			Value prov = bs.getValue("prov");
-			Value info = bs.getValue("info");
-			Value f = bs.getValue("f");
-			if (g != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
-			if (ass != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", ass.stringValue()));
-			if (prov != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", prov.stringValue()));
-			if (info != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", info.stringValue()));
-			if (f != null) TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", f.stringValue()));
+		for (URI g : nanopub.getGraphUris()) {
+			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
 		}
 	}
 	
