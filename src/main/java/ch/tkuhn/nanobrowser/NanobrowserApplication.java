@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.resource.SharedResourceReference;
+import org.openrdf.rio.RDFFormat;
 
 public class NanobrowserApplication extends WebApplication {
 	
@@ -58,8 +59,12 @@ public class NanobrowserApplication extends WebApplication {
 		mountPage("/agent", AgentPage.class);
 		mountPage("/thing", ThingPage.class);
 		mountPage("/search", SearchPage.class);
-		getSharedResources().add("/raw-nanopub", new RawNanopubPage());
-	    mountResource("/raw-nanopub", new SharedResourceReference("/raw-nanopub"));
+		getSharedResources().add("/trig", new RawNanopubPage(RDFFormat.TRIG));
+	    mountResource("/trig", new SharedResourceReference("/trig"));
+		getSharedResources().add("/xml", new RawNanopubPage(RDFFormat.TRIX));
+	    mountResource("/xml", new SharedResourceReference("/xml"));
+		getSharedResources().add("/nq", new RawNanopubPage(RDFFormat.NQUADS));
+	    mountResource("/nq", new SharedResourceReference("/nq"));
 	}
 
 	public Class<? extends Page> getHomePage() {

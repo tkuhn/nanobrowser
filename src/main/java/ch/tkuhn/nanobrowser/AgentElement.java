@@ -110,7 +110,7 @@ public class AgentElement extends ThingElement {
 	
 	public String getName() {
 		String name = getLabel();
-		if (name == null) name = getLastPartOfURI();
+		if (name == null) name = getShortName();
 		return name;
 	}
 

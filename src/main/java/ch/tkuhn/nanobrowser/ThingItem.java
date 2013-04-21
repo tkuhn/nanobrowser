@@ -36,7 +36,7 @@ public class ThingItem extends Panel {
 		params.add("uri", uri);
 		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("thinglink", ThingPage.class, params);
 		add(link);
-		String n = th.getLastPartOfURI();
+		String n = th.getShortName();
 		if (guiItemStyle == ThingElement.PREDICATEFIRST_ITEM) {
 			if (SentenceRelation.get(uri) != null) {
 				n = SentenceRelation.get(uri).getText();

@@ -30,7 +30,7 @@ public class ThingPage extends NanobrowserWebPage {
 		
 		add(new MenuBar("menubar"));
 		
-		add(new Label("title", thing.getLastPartOfURI()));
+		add(new Label("title", thing.getShortName()));
 
 		add(new ExternalLink("uri", thing.getURI(), thing.getTruncatedURI()));
 

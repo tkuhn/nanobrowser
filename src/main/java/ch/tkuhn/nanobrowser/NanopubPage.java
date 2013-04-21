@@ -15,6 +15,7 @@
 package ch.tkuhn.nanobrowser;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -45,15 +46,37 @@ public class NanopubPage extends NanobrowserWebPage {
 		}
 		add(icon);
 		
-		add(new Label("title", pub.getLastPartOfURI()));
+		add(new Label("title", pub.getShortName()));
 		
-		add(new Link<Object>("raw") {
+		add(new Link<Object>("trig") {
 			
 			private static final long serialVersionUID = 4680516569316406945L;
 
 			@SuppressWarnings("deprecation")
 			public void onClick() {
-				throw new RedirectToUrlException("./raw-nanopub?uri=" + URLEncoder.encode(pub.getURI()));
+				throw new RedirectToUrlException("./trig?uri=" + URLEncoder.encode(pub.getURI()));
+			}
+			
+		});
+		
+		add(new Link<Object>("xml") {
+			
+			private static final long serialVersionUID = 4680516569316406945L;
+
+			@SuppressWarnings("deprecation")
+			public void onClick() {
+				throw new RedirectToUrlException("./xml?uri=" + URLEncoder.encode(pub.getURI()));
+			}
+			
+		});
+		
+		add(new Link<Object>("nq") {
+			
+			private static final long serialVersionUID = 4680516569316406945L;
+
+			@SuppressWarnings("deprecation")
+			public void onClick() {
+				throw new RedirectToUrlException("./nq?uri=" + URLEncoder.encode(pub.getURI()));
 			}
 			
 		});
@@ -75,29 +98,26 @@ public class NanopubPage extends NanobrowserWebPage {
 		
 		add(new HList("creatorlist", pub.getCreators(), "Creator"));
 
-		add(new VList("sentencelist", pub.getSentenceAssertions(), "Assertion as sentence"));
-		
-		add(new ListView<Triple<?,?>>("assertion", TripleStoreAccess.sortTriples(pub.getAssertionTriples())) {
-			
-			private static final long serialVersionUID = 4266539302092878158L;
+		List<SentenceElement> sentass = pub.getSentenceAssertions();
+		if (sentass.size() > 0) {
+			add(new VList("sentencelist", sentass, "Assertion as sentence"));
+		} else {
+			add(new Label("sentencelist", ""));
+		}
 
-			protected void populateItem(ListItem<Triple<?,?>> item) {
-				Triple<?,?> t = item.getModelObject();
-				item.add(new TriplePanel("assertiontriple", t));
-			}
-			
-		});
-		
-		add(new ListView<Triple<?,?>>("supporting", TripleStoreAccess.sortTriples(pub.getProvenanceTriples())) {
-			
-			private static final long serialVersionUID = -809372636947729189L;
+		List<Triple<?,?>> ass = pub.getAssertionTriples();
+		if (ass.size() > 0) {
+			add(new VList("asslist", TripleStoreAccess.sortTriples(ass), "Assertion as formula"));
+		} else {
+			add(new Label("asslist", ""));
+		}
 
-			protected void populateItem(ListItem<Triple<?,?>> item) {
-				Triple<?,?> t = item.getModelObject();
-				item.add(new TriplePanel("supportingtriple", t));
-			}
-			
-		});
+		List<Triple<?,?>> prov = pub.getProvenanceTriples();
+		if (prov.size() > 0) {
+			add(new VList("provlist", TripleStoreAccess.sortTriples(prov), "Provenance"));
+		} else {
+			add(new Label("provlist", ""));
+		}
 		
 		add(new ListView<Opinion>("opinions", pub.getOpinions(true)) {
 			

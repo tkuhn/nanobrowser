@@ -48,7 +48,7 @@ public class NanopubItem extends ThingItem {
 		}
 		dateLabel.setVisible(guiItemStyle == ThingElement.LONG_GUI_ITEM);
 		add(dateLabel);
-		Label nameLabel = new Label("nanopubname", " " + n.getLastPartOfURI() + " ");
+		Label nameLabel = new Label("nanopubname", " " + n.getShortName() + " ");
 		nameLabel.setVisible(guiItemStyle != ThingElement.TINY_GUI_ITEM);
 		link.add(nameLabel);
 	}

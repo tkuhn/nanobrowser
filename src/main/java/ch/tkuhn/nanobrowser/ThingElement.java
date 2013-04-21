@@ -61,14 +61,16 @@ public class ThingElement implements Serializable {
 		}
 	}
 	
-	public static String getLastPartOfURI(String uri) {
+	public static String getShortNameFromURI(String uri) {
 		uri = uri.replaceFirst("[/#]$", "");
 		uri = uri.replaceFirst("^.*[/#]([^/#]*)$", "$1");
+		uri = uri.replaceFirst("((^|[^A-Za-z0-9\\-_])RA[A-Za-z0-9\\-_]{8})[A-Za-z0-9\\-_]{35}$", "$1");
+		uri = uri.replaceFirst("(^|[^A-Za-z0-9\\-_])RA[A-Za-z0-9\\-_]{43}[^A-Za-z0-9\\-_](.+)$", "$2");
 		return uri;
 	}
 	
-	public String getLastPartOfURI() {
-		return getLastPartOfURI(uri);
+	public String getShortName() {
+		return getShortNameFromURI(uri);
 	}
 	
 	private static final String labelsQuery =

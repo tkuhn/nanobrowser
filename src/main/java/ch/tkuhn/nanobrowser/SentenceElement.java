@@ -216,7 +216,7 @@ public class SentenceElement extends ThingElement {
 	
 	public String getSentenceText() {
 		try {
-			return URLDecoder.decode(getLastPartOfURI(), "UTF8");
+			return URLDecoder.decode(getShortName(), "UTF8");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

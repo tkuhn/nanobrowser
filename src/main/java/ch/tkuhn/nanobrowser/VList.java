@@ -62,6 +62,8 @@ public class VList extends Panel {
 		Object obj = item.getModelObject();
 		if (obj instanceof ThingElement) {
 			item.add(((ThingElement) obj).createGUIItem("item", ThingElement.LONG_GUI_ITEM));
+		} else if (obj instanceof Triple<?,?>) {
+			item.add(new TriplePanel("item", (Triple<?,?>) obj));
 		} else {
 			item.add(new Label("item", obj.toString()));
 		}

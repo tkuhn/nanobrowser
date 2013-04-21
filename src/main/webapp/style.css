@@ -156,7 +156,6 @@ a.smallbutton {
 	font-size: 8pt;
 	font-weight: normal;
 	padding: 1px 3px;
-	margin: 0 2px;
 	background: linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
 	background: -ms-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;
 	background: -moz-linear-gradient(#ddd, #bbb) repeat scroll 0 0 transparent;

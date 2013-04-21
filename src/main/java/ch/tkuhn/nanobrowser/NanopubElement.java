@@ -55,12 +55,6 @@ public class NanopubElement extends ThingElement {
 		return isValid;
 	}
 
-	public String getLastPartOfURI() {
-		String s = super.getLastPartOfURI();
-		if (!isValid()) return s;
-		return s.replaceFirst("((^|[^A-Za-z0-9\\-_])[A-Za-z0-9\\-_]{10})[A-Za-z0-9\\-_]*$", "$1");
-	}
-
 	private static final String nonmetaNanopubsQuery =
 		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasPublicationInfo ?info . " +
 		"graph ?info { ?p dc:created ?d } ." +
