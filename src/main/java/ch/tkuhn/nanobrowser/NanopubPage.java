@@ -28,6 +28,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import ch.tkuhn.hashuri.HashUriUtils;
+
 public class NanopubPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
@@ -81,7 +83,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
+		add(new ExternalLink("uri", pub.getURI(), HashUriUtils.getNiUri(pub.getTruncatedURI(), false)));
 		
 		add(new HList("typelist", pub.getTypes(), "Types"));
 		
