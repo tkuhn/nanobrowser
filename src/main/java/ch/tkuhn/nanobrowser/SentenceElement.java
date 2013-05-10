@@ -158,9 +158,9 @@ public class SentenceElement extends ThingElement {
 			String nanopubString = NanopubElement.getTemplate("sentencerel")
 					.replaceAll("@ROOT@", pubURI)
 					.replaceAll("@AGENT@", author.getURI())
-					.replaceAll("@SENTENCE1@", getURI())
+					.replaceAll("@SENTENCE1@", other.getURI())
 					.replaceAll("@RELATION@", rel.getURI())
-					.replaceAll("@SENTENCE2@", other.getURI())
+					.replaceAll("@SENTENCE2@", getURI())
 					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);

@@ -116,23 +116,28 @@ public class NanopubElement extends ThingElement {
 	}
 
 	public String getCreateDateString() {
+		if (nanopub == null) return null;
 		Calendar c = nanopub.getCreationTime();
-		if (c == null) return "";
+		if (c == null) return null;
 		return DateFormatUtils.format(c, DateFormatUtils.SMTP_DATETIME_FORMAT.getPattern());
 	}
 
 	public List<AgentElement> getAuthors() {
 		List<AgentElement> l = new ArrayList<AgentElement>();
-		for (URI uri : nanopub.getAuthors()) {
-			l.add(new AgentElement(uri.stringValue()));
+		if (nanopub != null) {
+			for (URI uri : nanopub.getAuthors()) {
+				l.add(new AgentElement(uri.stringValue()));
+			}
 		}
 		return l;
 	}
 
 	public List<AgentElement> getCreators() {
 		List<AgentElement> l = new ArrayList<AgentElement>();
-		for (URI uri : nanopub.getCreators()) {
-			l.add(new AgentElement(uri.stringValue()));
+		if (nanopub != null) {
+			for (URI uri : nanopub.getCreators()) {
+				l.add(new AgentElement(uri.stringValue()));
+			}
 		}
 		return l;
 	}
@@ -171,8 +176,10 @@ public class NanopubElement extends ThingElement {
 		"clear graph <@>";
 	
 	public void delete() {
-		for (URI g : nanopub.getGraphUris()) {
-			TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
+		if (nanopub != null) {
+			for (URI g : nanopub.getGraphUris()) {
+				TripleStoreAccess.runUpdateQuery(deleteGraphQuery.replaceAll("@", g.stringValue()));
+			}
 		}
 	}
 	

@@ -83,7 +83,8 @@ public class NanopubPage extends NanobrowserWebPage {
 			
 		});
 		
-		add(new ExternalLink("uri", pub.getURI(), HashUriUtils.getNiUri(pub.getTruncatedURI(), false)));
+		String niUri = HashUriUtils.getNiUri(pub.getURI(), false);
+		add(new ExternalLink("uri", niUri, niUri));
 		
 		add(new HList("typelist", pub.getTypes(), "Types"));
 		
