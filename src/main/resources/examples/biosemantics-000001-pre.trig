@@ -29,7 +29,7 @@
 }
 
 :Attribution {
-    <>  dcterms:created "2012-06-08T14:15:31.263073"^^xsd:dateTime;
+    <>  dcterms:created "2012-06-08T14:15:31.263073Z"^^xsd:dateTime;
         dcterms:isPartOf <http://rdf.biosemantics.org/nanopubs/gene_disease_associations>;
         dcterms:rightsHolder <http://biosemantics.org>;
         pav:authoredBy <http://www.researcherid.com/rid/B-5927-2012>,

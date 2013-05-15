@@ -21,7 +21,7 @@
                         and PARVB (Entrenz gene id 29780)."""@en .
  
     :Association_1_p_value a sio:probability-value ;
-        sio:has-value "0.0000656211037469712"^^xsd:float .
+        sio:has-value "6.56211e-05"^^xsd:float .
 }
 :NanoPub_1_Attribution {
     :NanoPub_1 dcterms:created "2012-03-28T11:32:30.758274Z"^^xsd:dateTime ;
