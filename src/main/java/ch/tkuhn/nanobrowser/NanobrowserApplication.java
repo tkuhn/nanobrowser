@@ -37,12 +37,17 @@ public class NanobrowserApplication extends WebApplication {
 			ex.printStackTrace();
 		}
 	}
+
+	private AgentElement user;
+
+	public NanobrowserApplication() {
+		String baseUri = getProperty("nanopub-server-baseuri");
+		user = new AgentElement(baseUri + "user/anonymous");
+	}
 	
 	public static String getProperty(String propertyName) {
 		return properties.getProperty(propertyName);
 	}
-	
-	private AgentElement user = new AgentElement("http://www.tkuhn.ch/nanobrowser/user/anonymous");
 	
 	public AgentElement getUser() {
 		return user;

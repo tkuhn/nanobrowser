@@ -83,7 +83,7 @@ public class Opinion implements Serializable {
 	
 	public void publish() {
 		try {
-			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
+			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "meta/";
 			String nanopubString = NanopubElement.getTemplate("opinion")
 					.replaceAll("@ROOT@", pubURI)
 					.replaceAll("@AGENT@", agent.getURI())

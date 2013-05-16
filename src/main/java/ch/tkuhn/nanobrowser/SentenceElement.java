@@ -154,7 +154,7 @@ public class SentenceElement extends ThingElement {
 	
 	public void publishSentenceRelation(SentenceRelation rel, SentenceElement other, AgentElement author) {
 		try {
-			String pubURI = "http://www.tkuhn.ch/nanobrowser/meta/";
+			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "meta/";
 			String nanopubString = NanopubElement.getTemplate("sentencerel")
 					.replaceAll("@ROOT@", pubURI)
 					.replaceAll("@AGENT@", author.getURI())
