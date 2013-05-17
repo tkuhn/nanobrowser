@@ -4,9 +4,18 @@
 
 <wicket:panel>
 <div id="navbar"><div id="navcontent">
-<p class="alignright" wicket:id="user"></p>
+<p class="alignright">
+<a class="user" wicket:id="userlink">
+<img src="icons/user.svg" alt="" height="16" width="16"/>
+<span wicket:id="user"></span></a>
+</p>
 <p class="alignleft"><a class="navlink" href=".">nanobrowser</a>
 <span class="hspace">
+<a href="#">
+<img wicket:id="publish" name="writebutton" src="icons/write.svg" onmouseover="writebutton.src='icons/write-h.svg'" onmouseout="writebutton.src='icons/write.svg'" alt=""/>
+</a>
+</span>
+<span class="smallhspace">
 <img src="icons/search.svg" alt="" height="16" width="16"/>
 <form wicket:id="searchform">
 <input wicket:id="searchtextfield" type="text" class="smalltextfield" size="20" />

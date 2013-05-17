@@ -14,8 +14,11 @@
 
 package ch.tkuhn.nanobrowser;
 
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -27,8 +30,16 @@ public class MenuBar extends ThingItem {
 
 	public MenuBar(String id) {
 		super(id);
+
+		BookmarkablePageLink<WebPage> link = new BookmarkablePageLink<WebPage>("publish", PublishPage.class);
+		add(link);
 		
-		add(new AgentItem("user", getNanobrowserApp().getUser()));
+		PageParameters params = new PageParameters();
+		params.add("uri", getNanobrowserApp().getUser().getURI());
+		BookmarkablePageLink<WebPage> userLink = new BookmarkablePageLink<WebPage>("userlink", AgentPage.class, params);
+		add(userLink);
+		
+		userLink.add(new Label("user", getNanobrowserApp().getUser().getName()));
 		
 		searchTextField = new TextField<String>("searchtextfield", Model.of(""));
 		

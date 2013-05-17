@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   width="16"
+   height="16"
+   version="1.1">
+  <defs>
+  </defs>
+  <g transform="scale(0.16)" >
+    <path
+       style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+       d="M 5,95 30,90 85,35 65,15 10,70 z"
+	/>
+    <path
+       style="fill:#fff;fill-opacity:1;stroke:#fff;stroke-width:3px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+       d="M 90,30 95,25 75,5 70,10 z"
+	/>
+  </g>
+</svg>

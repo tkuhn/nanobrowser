@@ -64,6 +64,7 @@ public class NanobrowserApplication extends WebApplication {
 		mountPage("/agent", AgentPage.class);
 		mountPage("/thing", ThingPage.class);
 		mountPage("/search", SearchPage.class);
+		mountPage("/publish", PublishPage.class);
 		getSharedResources().add("/trig", new RawNanopubPage(RDFFormat.TRIG));
 	    mountResource("/trig", new SharedResourceReference("/trig"));
 		getSharedResources().add("/xml", new RawNanopubPage(RDFFormat.TRIX));

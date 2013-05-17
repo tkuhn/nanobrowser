@@ -124,6 +124,10 @@ a.navlink:active {
 	color: #fff;
 }
 
+a.user:hover {
+	color: #fff;
+}
+
 td {
 	padding-right: 10px;
 	padding-bottom: 5px;
@@ -140,7 +144,7 @@ a.uri {
 a.button {
 	padding: 2px 6px;
 	margin: 0 2px;
-	font-size: 10pt;
+	font-size: 9pt;
 	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	background: -ms-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	background: -moz-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
@@ -185,6 +189,10 @@ a.smallbutton:hover {
 	background: -webkit-linear-gradient(#bbb, #999) repeat scroll 0 0 transparent;
 }
 
+img.writebutton:hover {
+	src: url(icons/write-h.svg);
+}
+
 span.predicate {
 	font-weight: bold;
 	padding: 0 5px;
@@ -218,6 +226,10 @@ span.hspace {
 	margin: 0 0 0 30px;
 }
 
+span.smallhspace {
+	margin: 0 0 0 8px;
+}
+
 strong {
 	color: black;
 	font-weight: bold;
@@ -235,7 +247,7 @@ input.button {
 	cursor:pointer;
 	padding: 2px 6px;
 	margin: 0 2px;
-	font-size: 10pt;
+	font-size: 9pt;
 	background: linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	background: -ms-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
 	background: -moz-linear-gradient(#999, #333) repeat scroll 0 0 transparent;
