@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.resource.SharedResourceReference;
 import org.openrdf.rio.RDFFormat;
@@ -36,6 +37,11 @@ public class NanobrowserApplication extends WebApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public static boolean isInDevelopmentMode() {
+		RuntimeConfigurationType dt = RuntimeConfigurationType.DEVELOPMENT;
+		return get().getConfigurationType().equals(dt);
 	}
 
 	private AgentElement user;

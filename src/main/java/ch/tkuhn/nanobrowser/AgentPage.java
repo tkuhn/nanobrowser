@@ -73,20 +73,27 @@ public class AgentPage extends NanobrowserWebPage {
 			}
 			
 		});
-		
-		Link<Object> thatsmeButton;
-		add(thatsmeButton = new Link<Object>("thatsme") {
-			
-			private static final long serialVersionUID = 8608371149183694875L;
 
-			public void onClick() {
-				AgentPage.this.getNanobrowserApp().setUser(agent);
-				update();
-				setResponsePage(AgentPage.class, getPageParameters());
-			}
-			
-		});
-		thatsmeButton.setVisible(!isBot);
+		WebMarkupContainer aa = new WebMarkupContainer("adminactions");
+		if (NanobrowserApplication.isInDevelopmentMode()) {
+			Link<Object> thatsmeButton;
+			aa.add(thatsmeButton = new Link<Object>("thatsme") {
+				
+				private static final long serialVersionUID = 8608371149183694875L;
+
+				public void onClick() {
+					AgentPage.this.getNanobrowserApp().setUser(agent);
+					update();
+					setResponsePage(AgentPage.class, getPageParameters());
+				}
+				
+			});
+			thatsmeButton.setVisible(!isBot);
+		} else {
+			aa.add(new AttributeModifier("class", new Model<String>("hidden")));
+			aa.add(new Label("thatsme", ""));
+		}
+		add(aa);
 		
 	}
 	

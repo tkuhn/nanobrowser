@@ -137,17 +137,24 @@ public class NanopubPage extends NanobrowserWebPage {
 			}
 			
 		});
-		
-		add(new Link<Object>("delete") {
-			
-			private static final long serialVersionUID = 8608371149183694875L;
 
-			public void onClick() {
-				pub.delete();
-				setResponsePage(MainPage.class);
-			}
-			
-		});
+		WebMarkupContainer aa = new WebMarkupContainer("adminactions");
+		if (NanobrowserApplication.isInDevelopmentMode()) {
+			aa.add(new Link<Object>("delete") {
+				
+				private static final long serialVersionUID = 8608371149183694875L;
+
+				public void onClick() {
+					pub.delete();
+					setResponsePage(MainPage.class);
+				}
+				
+			});
+		} else {
+			aa.add(new AttributeModifier("class", new Model<String>("hidden")));
+			aa.add(new Label("delete", ""));
+		}
+		add(aa);
 		
 	}
 

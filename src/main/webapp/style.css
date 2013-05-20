@@ -286,6 +286,6 @@ input.smalltextfield {
 	font-size: 9pt;
 }
 
-input.hidden {
+.hidden {
 	visibility:hidden;
 }

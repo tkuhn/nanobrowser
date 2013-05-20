@@ -14,7 +14,11 @@
 
 package ch.tkuhn.nanobrowser;
 
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -37,18 +41,25 @@ public class MainPage extends NanobrowserWebPage {
 		add(new VList("personlist", personModel, "Some Persons"));
 
 		add(new VList("sentencelist", sentenceModel, "Some Sentences"));
-		
-		add(new Link<Object>("deletemetapubs") {
-			
-			private static final long serialVersionUID = -3387170765807183435L;
 
-			public void onClick() {
-				NanopubElement.deleteAllNanopubsWithProperty("npx:opinionOn");
-				NanopubElement.deleteAllNanopubsWithProperty("npx:hasSameMeaning");
-				update();
-			}
-			
-		});
+		WebMarkupContainer aa = new WebMarkupContainer("adminactions");
+		if (NanobrowserApplication.isInDevelopmentMode()) {
+			aa.add(new Link<Object>("deletemetapubs") {
+				
+				private static final long serialVersionUID = -3387170765807183435L;
+
+				public void onClick() {
+					NanopubElement.deleteAllNanopubsWithProperty("npx:opinionOn");
+					NanopubElement.deleteAllNanopubsWithProperty("npx:hasSameMeaning");
+					update();
+				}
+				
+			});
+		} else {
+			aa.add(new AttributeModifier("class", new Model<String>("hidden")));
+			aa.add(new Label("deletemetapubs", ""));
+		}
+		add(aa);
 		
 	}
 	
