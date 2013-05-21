@@ -51,7 +51,7 @@ public class ThingItem extends Panel {
 	}
 	
 	public AgentElement getUser() {
-		return getNanobrowserApp().getUser();
+		return NanobrowserSession.get().getUser();
 	}
 
 }

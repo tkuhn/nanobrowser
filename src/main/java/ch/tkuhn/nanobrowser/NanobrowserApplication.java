@@ -21,12 +21,15 @@ import java.util.Properties;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 import org.apache.wicket.request.resource.SharedResourceReference;
 import org.openrdf.rio.RDFFormat;
 
 public class NanobrowserApplication extends WebApplication {
-	
+
 	private static Properties properties = new Properties();
 	
 	static {
@@ -39,28 +42,11 @@ public class NanobrowserApplication extends WebApplication {
 		}
 	}
 
-	public static boolean isInDevelopmentMode() {
-		RuntimeConfigurationType dt = RuntimeConfigurationType.DEVELOPMENT;
-		return get().getConfigurationType().equals(dt);
-	}
-
-	private AgentElement user;
-
 	public NanobrowserApplication() {
-		String baseUri = getProperty("nanopub-server-baseuri");
-		user = new AgentElement(baseUri + "user/anonymous");
 	}
 	
 	public static String getProperty(String propertyName) {
 		return properties.getProperty(propertyName);
-	}
-	
-	public AgentElement getUser() {
-		return user;
-	}
-	
-	public void setUser(AgentElement user) {
-		this.user = user;
 	}
 	
 	protected void internalInit() {
@@ -81,6 +67,16 @@ public class NanobrowserApplication extends WebApplication {
 
 	public Class<? extends Page> getHomePage() {
 		return MainPage.class;
+	}
+	
+	@Override
+	public Session newSession(Request request, Response response) {
+		return new NanobrowserSession(request);
+	}
+
+	public static boolean isInDevelopmentMode() {
+		RuntimeConfigurationType dt = RuntimeConfigurationType.DEVELOPMENT;
+		return get().getConfigurationType().equals(dt);
 	}
 	
 	public static String getTimestamp() {

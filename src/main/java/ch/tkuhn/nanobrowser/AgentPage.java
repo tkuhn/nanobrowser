@@ -82,7 +82,7 @@ public class AgentPage extends NanobrowserWebPage {
 				private static final long serialVersionUID = 8608371149183694875L;
 
 				public void onClick() {
-					AgentPage.this.getNanobrowserApp().setUser(agent);
+					NanobrowserSession.get().setUser(agent);
 					update();
 					setResponsePage(AgentPage.class, getPageParameters());
 				}

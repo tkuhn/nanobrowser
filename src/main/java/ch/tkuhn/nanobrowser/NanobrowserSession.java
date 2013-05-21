@@ -14,18 +14,36 @@
 
 package ch.tkuhn.nanobrowser;
 
-import org.apache.wicket.markup.html.WebPage;
+import java.util.Random;
 
-public class NanobrowserWebPage extends WebPage {
-	
-	private static final long serialVersionUID = -4339409513715269264L;
+import org.apache.wicket.Session;
+import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.request.Request;
 
-	public NanobrowserApplication getNanobrowserApp() {
-		return (NanobrowserApplication) getApplication();
+public class NanobrowserSession extends WebSession {
+
+	private static final long serialVersionUID = 1729283818728681884L;
+
+	private static Random random = new Random();
+
+	private AgentElement user;
+
+	public NanobrowserSession(Request request) {
+		super(request);
+		String baseUri = NanobrowserApplication.getProperty("nanopub-server-baseuri");
+		user = new AgentElement(baseUri + "user/anonymous-" + random.nextInt(100000000));
 	}
-	
+
 	public AgentElement getUser() {
-		return NanobrowserSession.get().getUser();
+		return user;
+	}
+
+	public void setUser(AgentElement user) {
+		this.user = user;
+	}
+
+	public static NanobrowserSession get() {
+		return (NanobrowserSession)Session.get();
 	}
 
 }

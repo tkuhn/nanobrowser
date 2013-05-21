@@ -35,11 +35,11 @@ public class MenuBar extends ThingItem {
 		add(link);
 		
 		PageParameters params = new PageParameters();
-		params.add("uri", getNanobrowserApp().getUser().getURI());
+		params.add("uri", NanobrowserSession.get().getUser().getURI());
 		BookmarkablePageLink<WebPage> userLink = new BookmarkablePageLink<WebPage>("userlink", AgentPage.class, params);
 		add(userLink);
 		
-		userLink.add(new Label("user", getNanobrowserApp().getUser().getName()));
+		userLink.add(new Label("user", NanobrowserSession.get().getUser().getName()));
 		
 		searchTextField = new TextField<String>("searchtextfield", Model.of(""));
 		

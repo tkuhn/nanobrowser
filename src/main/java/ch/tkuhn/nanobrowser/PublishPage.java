@@ -26,8 +26,8 @@ public class PublishPage extends NanobrowserWebPage {
 		
 		add(new MenuBar("menubar"));
 		
-		add(new Label("author", getNanobrowserApp().getUser().getName()));
-		add(new Label("creator", getNanobrowserApp().getUser().getName()));
+		add(new Label("author", NanobrowserSession.get().getUser().getName()));
+		add(new Label("creator", NanobrowserSession.get().getUser().getName()));
 		
 		add(new Link<Object>("publish") {
 			
