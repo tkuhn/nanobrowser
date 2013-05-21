@@ -10,6 +10,7 @@
 
 # Nanopub Types
 
+npx:ExampleNanopub rdfs:subClassOf np:Nanopublication .
 npx:MetaNanopub rdfs:subClassOf np:Nanopublication .
 npx:IntroNanopub rdfs:subClassOf np:Nanopublication .
 

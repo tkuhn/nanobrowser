@@ -19,17 +19,17 @@
 
 :Ass {
     : rdfs:label "Introduction of Tobias Kuhn" .
-    : npx:introduces <http://www.researcherid.com/rid/B-6810-2013> .
-    <http://www.researcherid.com/rid/B-6810-2013> a foaf:Person ;
+    : npx:introduces <http://orcid.org/0000-0002-1267-0234> .
+    <http://orcid.org/0000-0002-1267-0234> a foaf:Person ;
         rdfs:label "Tobias Kuhn" ;
-        owl:sameAs <http://orcid.org/0000-0002-1267-0234> .
+        owl:sameAs <http://www.researcherid.com/rid/B-6810-2013> .
 }
 
 :Prov {
 }
 
 :Info {
-    : pav:authoredBy <http://www.researcherid.com/rid/B-6810-2013> .
-    : pav:createdBy <http://www.researcherid.com/rid/B-6810-2013> .
+    : pav:authoredBy <http://orcid.org/0000-0002-1267-0234> .
+    : pav:createdBy <http://orcid.org/0000-0002-1267-0234> .
     : dc:created "2013-03-04T17:26:00Z"^^xsd:dateTime .
 }
