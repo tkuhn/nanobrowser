@@ -15,29 +15,50 @@
 package ch.tkuhn.nanobrowser;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class PublishPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4957600403501618983L;
 
+	private TextField<String> sentenceField;
+
 	public PublishPage(final PageParameters parameters) {
 		
 		add(new MenuBar("menubar"));
-		
-		add(new Label("author", NanobrowserSession.get().getUser().getName()));
-		add(new Label("creator", NanobrowserSession.get().getUser().getName()));
-		
-		add(new Link<Object>("publish") {
-			
-			private static final long serialVersionUID = 8608371149183694875L;
 
-			public void onClick() {
-				// TODO
+		Form<?> form = new Form<Void>("form") {
+
+			private static final long serialVersionUID = -6839390607867733448L;
+
+			protected void onSubmit() {
+				String s = sentenceField.getModelObject();
+				SentenceElement sentence = null;
+				if (s != null) {
+					if (SentenceElement.isSentenceURI(s)) {
+						sentence = new SentenceElement(s);
+					} else if (SentenceElement.isSentenceText(s)) {
+						sentence = SentenceElement.withText(s);
+					}
+				}
+				if (sentence != null) {
+					// TODO: publish!
+					//setResponsePage(SentencePage.class, getPageParameters());
+				} else {
+					// TODO
+				}
 			}
 			
-		});
+		};
+
+		add(form);
+
+		form.add(sentenceField = new TextField<String>("sentence", Model.of("")));
+		form.add(new Label("author", NanobrowserSession.get().getUser().getName()));
+		form.add(new Label("creator", NanobrowserSession.get().getUser().getName()));
 		
 	}
 

@@ -21,6 +21,8 @@ Publish
 
 <div id="content">
 
+<form wicket:id="form">
+
 <p><strong>Type:</strong> <span class="hlistitem">Nanopublication</span></p>
 
 <p><strong>Author:</strong> <span class="hlistitem"><img src="icons/person.svg" alt="" height="16" width="16"/> <span wicket:id="author"></span></span></p>
@@ -31,21 +33,17 @@ Publish
 
 <h4>Assertion as sentence</h4>
 
-...
-
-<hr/>
-
-<h4>Provenance</h4>
-
-...
+<input wicket:id="sentence" type="text" class="textfield" size="150" placeholder="add your sentence here" />
 
 <hr/>
 
 <p>
-<a href="#" wicket:id="publish" class="button">Publish</a>
+<input type="submit" class="button" href="#" value="Publish" />
 </p>
 
 <hr/>
+
+</form>
 
 </div>
 

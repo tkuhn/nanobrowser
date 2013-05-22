@@ -269,6 +269,11 @@ input.button:hover {
 }
 
 input.textfield {
+	background: linear-gradient(#f4f4f4, #fff) repeat scroll 0 0 transparent;
+	background: -ms-linear-gradient(#f4f4f4, #fff) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(#f4f4f4, #fff) repeat scroll 0 0 transparent;
+	background: -o-linear-gradient(#f4f4f4, #fff) repeat scroll 0 0 transparent;
+	background: -webkit-linear-gradient(#f4f4f4, #fff) repeat scroll 0 0 transparent;
 	border-style: solid;
 	border-color: #ccc;
 	border-width: 1px;
