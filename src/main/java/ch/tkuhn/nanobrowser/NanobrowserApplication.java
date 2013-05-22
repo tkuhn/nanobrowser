@@ -54,6 +54,7 @@ public class NanobrowserApplication extends WebApplication {
 		mountPage("/nanopub", NanopubPage.class);
 		mountPage("/sentence", SentencePage.class);
 		mountPage("/agent", AgentPage.class);
+		mountPage("/paper", PaperPage.class);
 		mountPage("/thing", ThingPage.class);
 		mountPage("/search", SearchPage.class);
 		mountPage("/publish", PublishPage.class);

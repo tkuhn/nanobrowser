@@ -38,6 +38,8 @@ public class ThingElement implements Serializable {
 	private final String uri;
 	
 	public static ThingElement getThing(String uri) {
+		if (uri.startsWith(SentenceElement.AIDA_URI_BASE)) return new SentenceElement(uri);
+		if (uri.startsWith(PaperElement.DOI_URI_BASE)) return new PaperElement(uri);
 		List<String> types = getTypes(uri);
 		if (types.contains(AgentElement.TYPE_URI)) return new AgentElement(uri);
 		if (types.contains(SentenceElement.TYPE_URI)) return new SentenceElement(uri);

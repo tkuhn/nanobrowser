@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<title>nanobrowser</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+
+<div wicket:id="menubar"></div>
+
+<div id="titlebar">
+
+<h1>
+<img src="icons/book.svg" alt="" height="22" width="22"/>
+<span wicket:id="title"></span>
+</h1>
+
+<p><a href="#" target="_new" class="uri" wicket:id="uri"></a></p>
+
+</div>
+
+<div id="content">
+
+<h4>Publisher's Page</h4>
+
+<p>
+This is an excerpt of the publisher's page on this paper (click to visit):
+</p>
+
+<div wicket:id="paperboxoverlay" class="paperboxoverlay"></div>
+<iframe wicket:id="paperbox" class="paperbox" scrolling="no"></iframe>
+
+<hr/>
+
+</div>
+
+</body>
+
+</html>

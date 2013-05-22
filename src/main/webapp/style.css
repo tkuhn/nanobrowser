@@ -289,3 +289,23 @@ input.smalltextfield {
 .hidden {
 	visibility:hidden;
 }
+
+iframe.paperbox {
+	width: 1000px;
+	height: 500px;
+	border: solid;
+	border-width: 1px;
+	overflow: hidden;
+}
+
+div.paperboxoverlay {
+	width: 1002px;
+	height: 502px;
+	position:absolute;
+	cursor:pointer;
+	background-color:rgba(127,127,127,0.2);
+}
+
+div.paperboxoverlay:hover {
+	background-color:rgba(223,223,223,0.2);
+}
