@@ -46,6 +46,7 @@ public class SentencePage extends NanobrowserWebPage {
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
 	private ListModel<Triple<SentenceElement,SentenceElement>> relationModel = new ListModel<Triple<SentenceElement,SentenceElement>>();
 	private TextField<String> otherSentenceField;
+	private Model<String> sentenceError;
 	private DropDownChoice<SentenceRelation> sentenceRelChoice;
 	private SentenceRelation selectedRelType = SentenceRelation.IS_IMPROVED_VERSION_OF;
 
@@ -137,18 +138,17 @@ public class SentencePage extends NanobrowserWebPage {
 			protected void onSubmit() {
 				String s = otherSentenceField.getModelObject();
 				SentenceElement other = null;
-				if (s != null) {
-					if (SentenceElement.isSentenceURI(s)) {
-						other = new SentenceElement(s);
-					} else if (SentenceElement.isSentenceText(s)) {
+				if (SentenceElement.isSentenceURI(s)) {
+					other = new SentenceElement(s);
+				} else {
+					try {
 						other = SentenceElement.withText(s);
+					} catch (AidaException ex) {
+						sentenceError.setObject("ERROR: " + ex.getMessage());
+						return;
 					}
 				}
-				if (other != null) {
-					sentence.publishSentenceRelation(selectedRelType, other, getUser());
-				} else {
-					// TODO
-				}
+				sentence.publishSentenceRelation(selectedRelType, other, getUser());
 				setResponsePage(SentencePage.class, getPageParameters());
 			}
 			
@@ -157,6 +157,8 @@ public class SentencePage extends NanobrowserWebPage {
 		add(newSentRelForm);
 		newSentRelForm.add(otherSentenceField);
 		newSentRelForm.add(sentenceRelChoice);
+		sentenceError = Model.of("");
+		newSentRelForm.add(new Label("sentenceerror", sentenceError));
 		
 	}
 	

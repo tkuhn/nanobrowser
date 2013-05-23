@@ -1,0 +1,36 @@
+@prefix : <@ROOT@> .
+@prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
+
+:Head {
+    : a np:Nanopublication @TYPES@ .
+
+    : np:hasAssertion :Ass .
+    : np:hasProvenance :Prov .
+    : np:hasPublicationInfo :Info .
+
+    :AssHead rdfg:subGraphOf :Ass .
+    :AssStatement rdfg:subGraphOf :Ass .
+}
+
+:AssHead {
+    :Ass
+        npx:asSentence <@SENTENCE@> ;
+        npx:asFormula :AssStatement .
+}
+
+:AssStatement {
+}
+
+:Prov {
+}
+
+:Info {
+	: pav:authoredBy <@AGENT@> .
+	: pav:createdBy <@AGENT@> .
+	: dc:created "@DATETIME@"^^xsd:dateTime .
+}

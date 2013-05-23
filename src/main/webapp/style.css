@@ -67,12 +67,28 @@ table {
 }
 
 p {
+	max-width: 1000px;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
 
 p.indented {
 	padding-left: 3em;
+}
+
+.note {
+	color: #666;
+	font-size: 9pt;
+}
+
+p.error {
+	color: #b00;
+}
+
+ul {
+	max-width: 1000px;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 img {
@@ -95,12 +111,16 @@ a {
 	background-color: transparent;
 }
 
+a.highlight {
+	color: #449;
+}
+
 a:hover {
-	color: #33f;
+	color: #66d;
 }
 
 a:active {
-	color: #33f;
+	color: #66d;
 }
 
 a.navlink {

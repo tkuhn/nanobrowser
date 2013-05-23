@@ -23,19 +23,31 @@ Publish
 
 <form wicket:id="form">
 
-<p><strong>Type:</strong> <span class="hlistitem">Nanopublication</span></p>
+<p>
+<strong>Types:</strong>
+<span class="hlistitem"><input type="checkbox" checked disabled>Nanopublication</input></span>
+<span class="hlistitem"><input wicket:id="examplenanopub" type="checkbox" >ExampleNanopub <span class="note">(for demonstration or testing)</span></input></span>
+</p>
 
 <p><strong>Author:</strong> <span class="hlistitem"><img src="icons/person.svg" alt="" height="16" width="16"/> <span wicket:id="author"></span></span></p>
-
-<p><strong>Creator:</strong> <span class="hlistitem"><img src="icons/person.svg" alt="" height="16" width="16"/> <span wicket:id="creator"></span></span></p>
 
 <hr/>
 
 <h4>Assertion as sentence</h4>
 
-<input wicket:id="sentence" type="text" class="textfield" size="150" placeholder="add your sentence here" />
+<p class="note">
+Make sure that the sentence is <a class="highlight" href="http://purl.org/aida/" target="_blank">AIDA: atomic, independent, declarative, and absolute</a>.
+</p>
+
+<input wicket:id="sentence" type="text" class="textfield" size="150" placeholder="add your sentence here" required /> <span class="note">*</span>
+
+<p wicket:id="sentenceerror" class="error"></p>
 
 <hr/>
+
+<p class="note">
+* required fields
+</p>
 
 <p>
 <input type="submit" class="button" href="#" value="Publish" />

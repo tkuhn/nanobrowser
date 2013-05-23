@@ -41,9 +41,26 @@ public class SentenceElement extends ThingElement {
 		super(uri);
 	}
 	
-	public static SentenceElement withText(String sentenceText) {
+	public static SentenceElement withText(String text) throws AidaException {
+		if (text == null) {
+			throw new AidaException("Empty sentence.");
+		}
+		text = text.replaceAll("\\s+", " ").replaceAll("^ ", "").replaceAll(" $", "");
+		if (text.isEmpty()) {
+			throw new AidaException("Empty sentence.");
+		} else if (text.matches(".*[a-z]+://.*")) {
+			throw new AidaException("The sentence may not contain URIs.");
+		} else if (text.indexOf(" ") == -1) {
+			throw new AidaException("The sentence must consist of at least two words.");
+		} else if (text.length() < 10) {
+			throw new AidaException("The sentence is too short: it needs at least ten characters.");
+		} else if (text.length() > 250) {
+			throw new AidaException("The sentence is too long: at most 250 characters are allowed.");
+		} else if (!text.substring(text.length()-1).equals(".")) {
+			throw new AidaException("The sentence has to end with a full stop.");
+		}
 		try {
-			return new SentenceElement(AIDA_URI_BASE + URLEncoder.encode(sentenceText, "UTF8"));
+			return new SentenceElement(AIDA_URI_BASE + URLEncoder.encode(text, "UTF8"));
 		} catch (UnsupportedEncodingException ex) {
 			ex.printStackTrace();
 		}
@@ -67,13 +84,6 @@ public class SentenceElement extends ThingElement {
 	
 	public static boolean isSentenceURI(String uri) {
 		return uri.startsWith(AIDA_URI_BASE);
-	}
-	
-	public static boolean isSentenceText(String text) {
-		if (text.indexOf("/") > -1) return false;
-		if (text.indexOf(" ") == -1) return false;
-		if (text.length() < 10 || text.length() > 500) return false;
-		return text.substring(text.length()-1).equals(".");
 	}
 	
 	private static final String nanopubsQuery =
@@ -151,7 +161,27 @@ public class SentenceElement extends ThingElement {
 		}
 		return new ArrayList<Triple<SentenceElement,SentenceElement>>(sentencesMap.values());
 	}
-	
+
+	public void publish(AgentElement author, boolean isExample) {
+		String types = "";
+		if (isExample) types = ", npx:ExampleNanopub";
+		try {
+			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "pub/";
+			String nanopubString = NanopubElement.getTemplate("publish")
+					.replaceAll("@ROOT@", pubURI)
+					.replaceAll("@TYPES@", types)
+					.replaceAll("@AGENT@", author.getURI())
+					.replaceAll("@SENTENCE@", getURI())
+					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
+			TripleStoreAccess.runUpdateQuery(query);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	public void publishSentenceRelation(SentenceRelation rel, SentenceElement other, AgentElement author) {
 		try {
 			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "meta/";

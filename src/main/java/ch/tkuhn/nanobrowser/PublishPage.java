@@ -15,6 +15,7 @@
 package ch.tkuhn.nanobrowser;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
@@ -25,6 +26,8 @@ public class PublishPage extends NanobrowserWebPage {
 	private static final long serialVersionUID = -4957600403501618983L;
 
 	private TextField<String> sentenceField;
+	private Model<String> sentenceError;
+	private CheckBox exampleNanopubCheckbox;
 
 	public PublishPage(final PageParameters parameters) {
 		
@@ -35,30 +38,34 @@ public class PublishPage extends NanobrowserWebPage {
 			private static final long serialVersionUID = -6839390607867733448L;
 
 			protected void onSubmit() {
+				sentenceError.setObject("");
 				String s = sentenceField.getModelObject();
 				SentenceElement sentence = null;
-				if (s != null) {
-					if (SentenceElement.isSentenceURI(s)) {
-						sentence = new SentenceElement(s);
-					} else if (SentenceElement.isSentenceText(s)) {
+				if (s != null && SentenceElement.isSentenceURI(s)) {
+					sentence = new SentenceElement(s);
+				} else {
+					try {
 						sentence = SentenceElement.withText(s);
+					} catch (AidaException ex) {
+						sentenceError.setObject("ERROR: " + ex.getMessage());
+						return;
 					}
 				}
-				if (sentence != null) {
-					// TODO: publish!
-					//setResponsePage(SentencePage.class, getPageParameters());
-				} else {
-					// TODO
-				}
+				sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject());
+				PageParameters params = new PageParameters();
+				params.add("uri", sentence.getURI());
+				setResponsePage(SentencePage.class, params);
 			}
 			
 		};
 
 		add(form);
 
+		form.add(exampleNanopubCheckbox = new CheckBox("examplenanopub", new Model<>(false)));
 		form.add(sentenceField = new TextField<String>("sentence", Model.of("")));
+		sentenceError = Model.of("");
+		form.add(new Label("sentenceerror", sentenceError));
 		form.add(new Label("author", NanobrowserSession.get().getUser().getName()));
-		form.add(new Label("creator", NanobrowserSession.get().getUser().getName()));
 		
 	}
 
