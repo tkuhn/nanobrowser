@@ -60,9 +60,11 @@
 </p>
 
 <form wicket:id="newrelform">
+<span class="nowrap">
 <select wicket:id="reltype"></select>
-<input wicket:id="othersentence" type="text" class="textfield" size="70" />
+<input wicket:id="othersentence" type="text" class="textfield" size="100" placeholder="add an AIDA sentence here" required />
 <input type="submit" class="button" href="#" value="add" />
+</span>
 <p wicket:id="sentenceerror" class="error"></p>
 </form>
 

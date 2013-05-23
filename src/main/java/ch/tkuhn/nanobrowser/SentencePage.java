@@ -138,7 +138,7 @@ public class SentencePage extends NanobrowserWebPage {
 			protected void onSubmit() {
 				String s = otherSentenceField.getModelObject();
 				SentenceElement other = null;
-				if (SentenceElement.isSentenceURI(s)) {
+				if (s != null && SentenceElement.isSentenceURI(s)) {
 					other = new SentenceElement(s);
 				} else {
 					try {

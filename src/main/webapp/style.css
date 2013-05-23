@@ -250,6 +250,10 @@ span.smallhspace {
 	margin: 0 0 0 8px;
 }
 
+span.nowrap {
+	white-space: nowrap;
+}
+
 strong {
 	color: black;
 	font-weight: bold;
