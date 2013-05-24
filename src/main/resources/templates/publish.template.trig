@@ -3,6 +3,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix swan: <http://purl.org/swan/1.2/swan-commons/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 
@@ -27,10 +28,11 @@
 }
 
 :Prov {
+    @PROV@
 }
 
 :Info {
-	: pav:authoredBy <@AGENT@> .
-	: pav:createdBy <@AGENT@> .
-	: dc:created "@DATETIME@"^^xsd:dateTime .
+    : pav:authoredBy <@AGENT@> .
+    : pav:createdBy <@AGENT@> .
+    : dc:created "@DATETIME@"^^xsd:dateTime .
 }

@@ -36,12 +36,24 @@ Publish
 <h4>Assertion as sentence</h4>
 
 <p class="note">
-Make sure that the sentence is <a class="highlight" href="http://purl.org/aida/" target="_blank">AIDA: atomic, independent, declarative, and absolute</a>.
+Write down your scientific assertion as an English sentence. Make sure that it is <a class="highlight" href="http://purl.org/aida/" target="_blank">AIDA: atomic, independent, declarative, and absolute</a>.
 </p>
 
-<span class="nowrap"><input wicket:id="sentence" type="text" class="textfield" size="150" placeholder="add your sentence here" required /> <span class="note">*</span></span>
+<p class="nowrap"><input wicket:id="sentence" type="text" class="textfield" size="150" placeholder="you must add a sentence here" required /> <span class="note">*</span></p>
 
 <p wicket:id="sentenceerror" class="error"></p>
+
+<hr/>
+
+<h4>Provenance</h4>
+
+<p class="note">
+You can cite an existing scientific article here via a DOI identifier.
+</p>
+
+<p class="nowrap"><strong>citesAsSupportiveEvidence:</strong> <input wicket:id="doi" type="text" class="textfield" size="30" placeholder="you may add a DOI here" /></p>
+
+<p wicket:id="doierror" class="error"></p>
 
 <hr/>
 

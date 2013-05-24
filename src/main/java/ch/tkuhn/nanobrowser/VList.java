@@ -26,8 +26,16 @@ public class VList extends Panel {
 	
 	private static final long serialVersionUID = -5284668164342258059L;
 
+	private String thisUri;
+
 	public VList(String id, List<? extends Object> items, String title) {
+		this(id, items, title, null);
+	}
+
+	public VList(String id, List<? extends Object> items, String title, String thisUri) {
 		super(id);
+
+		this.thisUri = thisUri;
 
 		add(new Label("title", title));
 
@@ -45,7 +53,13 @@ public class VList extends Panel {
 	}
 
 	public VList(String id, IModel<? extends List<? extends Object>> items, String title) {
+		this(id, items, title, null);
+	}
+
+	public VList(String id, IModel<? extends List<? extends Object>> items, String title, String thisUri) {
 		super(id);
+
+		this.thisUri = thisUri;
 
 		add(new Label("title", title));
 
@@ -67,7 +81,10 @@ public class VList extends Panel {
 		if (obj instanceof ThingElement) {
 			item.add(((ThingElement) obj).createGUIItem("item", ThingElement.LONG_GUI_ITEM));
 		} else if (obj instanceof Triple<?,?>) {
-			item.add(new TriplePanel("item", (Triple<?,?>) obj));
+			Triple<?,?> t = (Triple<?,?>) obj;
+			int s = TriplePanel.SHOW_ALL;
+			if (t.getSubject().toString().equals(thisUri)) s = TriplePanel.PREDICATE_OBJECT;
+			item.add(new TriplePanel("item", t, s));
 		} else {
 			item.add(new Label("item", obj.toString()));
 		}

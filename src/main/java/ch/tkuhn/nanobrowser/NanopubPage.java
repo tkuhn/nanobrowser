@@ -28,8 +28,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import ch.tkuhn.hashuri.HashUriUtils;
-
 public class NanopubPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4673886567380719848L;
@@ -83,12 +81,7 @@ public class NanopubPage extends NanobrowserWebPage {
 			
 		});
 		
-		if (pub.isValid()) {
-			String niUri = HashUriUtils.getNiUri(pub.getURI(), false);
-			add(new ExternalLink("uri", niUri, niUri));
-		} else {
-			add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
-		}
+		add(new ExternalLink("uri", pub.getURI(), pub.getTruncatedURI()));
 		
 		add(new HList("typelist", pub.getTypes(), "Types"));
 		
@@ -121,7 +114,7 @@ public class NanopubPage extends NanobrowserWebPage {
 
 		List<Triple<?,?>> prov = pub.getProvenanceTriples();
 		if (prov.size() > 0) {
-			add(new VList("provlist", TripleStoreAccess.sortTriples(prov), "Provenance"));
+			add(new VList("provlist", TripleStoreAccess.sortTriples(prov), "Provenance", pub.getURI()));
 		} else {
 			add(new Label("provlist", ""));
 		}

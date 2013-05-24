@@ -20,14 +20,17 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.openrdf.model.URI;
 
 public class PublishPage extends NanobrowserWebPage {
 
 	private static final long serialVersionUID = -4957600403501618983L;
 
+	private CheckBox exampleNanopubCheckbox;
 	private TextField<String> sentenceField;
 	private Model<String> sentenceError;
-	private CheckBox exampleNanopubCheckbox;
+	private TextField<String> doiField;
+	private Model<String> doiError;
 
 	public PublishPage(final PageParameters parameters) {
 		
@@ -39,6 +42,7 @@ public class PublishPage extends NanobrowserWebPage {
 
 			protected void onSubmit() {
 				sentenceError.setObject("");
+				doiError.setObject("");
 				String s = sentenceField.getModelObject();
 				SentenceElement sentence = null;
 				if (s != null && SentenceElement.isSentenceURI(s)) {
@@ -51,22 +55,39 @@ public class PublishPage extends NanobrowserWebPage {
 						return;
 					}
 				}
-				sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject());
+				String d = doiField.getModelObject();
+				PaperElement paper = null;
+				if (d != null && !d.isEmpty()) {
+					try {
+						paper = PaperElement.forDoi(d);
+					} catch (IllegalArgumentException ex) {
+						doiError.setObject("ERROR: Invalid DOI");
+						return;
+					}
+				}
+				String prov = "";
+				if (paper != null) {
+					prov = ": swan:citesAsSupportiveEvidence <" + paper.getURI() + "> .";
+				}
+				URI nanopubUri = sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject(), prov);
 				PageParameters params = new PageParameters();
-				params.add("uri", sentence.getURI());
-				setResponsePage(SentencePage.class, params);
+				params.add("uri", nanopubUri.stringValue());
+				setResponsePage(NanopubPage.class, params);
 			}
 			
 		};
 
 		add(form);
 
+		form.add(new Label("author", NanobrowserSession.get().getUser().getName()));
 		form.add(exampleNanopubCheckbox = new CheckBox("examplenanopub", new Model<>(false)));
 		form.add(sentenceField = new TextField<String>("sentence", Model.of("")));
 		sentenceError = Model.of("");
 		form.add(new Label("sentenceerror", sentenceError));
-		form.add(new Label("author", NanobrowserSession.get().getUser().getName()));
-		
+		form.add(doiField = new TextField<String>("doi", Model.of("")));
+		doiError = Model.of("");
+		form.add(new Label("doierror", doiError));
+
 	}
 
 }

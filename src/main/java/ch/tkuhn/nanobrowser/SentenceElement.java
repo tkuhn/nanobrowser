@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openrdf.model.BNode;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
@@ -179,8 +180,9 @@ public class SentenceElement extends ThingElement {
 		return new ArrayList<Triple<SentenceElement,SentenceElement>>(sentencesMap.values());
 	}
 
-	public void publish(AgentElement author, boolean isExample) {
+	public URI publish(AgentElement author, boolean isExample, String provenance) {
 		String types = "";
+		URI uri = null;
 		if (isExample) types = ", npx:ExampleNanopub";
 		try {
 			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "pub/";
@@ -189,14 +191,16 @@ public class SentenceElement extends ThingElement {
 					.replaceAll("@TYPES@", types)
 					.replaceAll("@AGENT@", author.getURI())
 					.replaceAll("@SENTENCE@", getURI())
-					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
+					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp())
+					.replaceAll("@PROV@", provenance);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			uri = TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		return uri;
 	}
 
 	public void publishSentenceRelation(SentenceRelation rel, SentenceElement other, AgentElement author) {
