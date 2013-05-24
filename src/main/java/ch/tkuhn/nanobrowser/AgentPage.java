@@ -61,7 +61,9 @@ public class AgentPage extends NanobrowserWebPage {
 		}
 
 		add(new VList("nanopublist", nanopubModel, "Nanopublications"));
-		
+
+		add(new Label("emptyopinions", opinionModel.getObject().isEmpty() ? "(nothing)" : ""));
+
 		add(new ListView<Opinion>("opinions", opinionModel) {
 			
 			private static final long serialVersionUID = -4257147575068849793L;

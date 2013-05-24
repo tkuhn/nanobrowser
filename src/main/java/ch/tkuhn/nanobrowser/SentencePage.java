@@ -44,7 +44,9 @@ public class SentencePage extends NanobrowserWebPage {
 
 	private SentenceElement sentence;
 	private ListModel<Opinion> opinionModel = new ListModel<Opinion>();
+	private Model<String> opinionsEmptyModel = new Model<String>();
 	private ListModel<Triple<SentenceElement,SentenceElement>> relationModel = new ListModel<Triple<SentenceElement,SentenceElement>>();
+	private Model<String> relationsEmptyModel = new Model<String>();
 	private TextField<String> otherSentenceField;
 	private Model<String> sentenceError;
 	private DropDownChoice<SentenceRelation> sentenceRelChoice;
@@ -61,16 +63,8 @@ public class SentencePage extends NanobrowserWebPage {
 		add(new Label("title", sentence.getSentenceText()));
 		
 		add(new ExternalLink("uri", sentence.getURI(), sentence.getTruncatedURI()));
-		
-		add(new ListView<NanopubElement>("nanopubs", sentence.getNanopubs()) {
-			
-			private static final long serialVersionUID = 3911519757128281636L;
 
-			protected void populateItem(ListItem<NanopubElement> item) {
-				item.add(new NanopubItem("nanopub", item.getModelObject(), ThingElement.LONG_GUI_ITEM));
-			}
-			
-		});
+		add(new VList("nanopublist", sentence.getNanopubs(), "Nanopublications"));
 		
 		add(new Link<Object>("agree") {
 			
@@ -104,6 +98,8 @@ public class SentencePage extends NanobrowserWebPage {
 			}
 			
 		});
+
+		add(new Label("emptyopinions", opinionsEmptyModel));
 		
 		add(new ListView<Opinion>("opinions", opinionModel) {
 			
@@ -116,6 +112,8 @@ public class SentencePage extends NanobrowserWebPage {
 			}
 			
 		});
+
+		add(new Label("emptyrelations", relationsEmptyModel));
 		
 		add(new ListView<Triple<SentenceElement,SentenceElement>>("relations", relationModel) {
 			
@@ -164,7 +162,9 @@ public class SentencePage extends NanobrowserWebPage {
 	
 	private void update() {
 		opinionModel.setObject(sentence.getOpinions(true));
+		opinionsEmptyModel.setObject(opinionModel.getObject().isEmpty() ? "(nothing)" : "");
 		relationModel.setObject(sentence.getRelatedSentences());
+		relationsEmptyModel.setObject(relationModel.getObject().isEmpty() ? "(nothing)" : "");
 	}
 
 }

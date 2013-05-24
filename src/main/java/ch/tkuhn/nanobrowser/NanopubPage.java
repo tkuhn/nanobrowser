@@ -125,8 +125,12 @@ public class NanopubPage extends NanobrowserWebPage {
 		} else {
 			add(new Label("provlist", ""));
 		}
+
+		List<Opinion> opinions = pub.getOpinions(true);
+
+		add(new Label("emptyopinions", opinions.isEmpty() ? "(nothing)" : ""));
 		
-		add(new ListView<Opinion>("opinions", pub.getOpinions(true)) {
+		add(new ListView<Opinion>("opinions", opinions) {
 			
 			private static final long serialVersionUID = 6804591967140101102L;
 

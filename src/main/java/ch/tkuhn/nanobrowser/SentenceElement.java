@@ -28,6 +28,8 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
+import com.google.common.collect.ImmutableList;
+
 import ch.tkuhn.hashuri.rdf.TransformNanopub;
 
 public class SentenceElement extends ThingElement {
@@ -36,6 +38,18 @@ public class SentenceElement extends ThingElement {
 	
 	public static final String TYPE_URI = "http://purl.org/nanopub/x/AIDA-Sentence";
 	public static final String AIDA_URI_BASE = "http://purl.org/aida/";
+
+	// TODO: express this in OWL
+	private static final List<String> symmetricRelations = ImmutableList.of(
+		"http://purl.org/nanopub/x/hasSameMeaning",
+		"http://purl.org/nanopub/x/hasDifferentMeaning",
+		"http://purl.org/nanopub/x/hasOppositeMeaning",
+		"http://purl.org/nanopub/x/hasNonoppositeMeaning",
+		"http://purl.org/nanopub/x/hasConflictingMeaning",
+		"http://purl.org/nanopub/x/hasConsistentMeaning",
+		"http://purl.org/nanopub/x/hasRelatedMeaning",
+		"http://purl.org/nanopub/x/hasUnrelatedMeaning"
+	);
 	
 	public SentenceElement(String uri) {
 		super(uri);
@@ -68,7 +82,8 @@ public class SentenceElement extends ThingElement {
 	}
 	
 	private static final String allSentencesQuery =
-		"select distinct ?s where {?a npx:asSentence ?s}";
+		"select distinct ?s where { { {?s ?p ?e} union {?e ?p ?s} } " +
+		"filter regex(str(?s), \"^http://purl.org/aida/\", \"i\") }";
 	
 	public static List<SentenceElement> getAllSentences(int limit) {
 		String lm = (limit >= 0) ? " limit " + limit : "";
@@ -106,9 +121,7 @@ public class SentenceElement extends ThingElement {
 		"select ?p ?t ?pub where { " +
 		"?pub np:hasAssertion ?ass . ?pub np:hasPublicationInfo ?info . " +
 		"graph ?info { ?pub dc:created ?d } . " +
-		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn ?s } ." +
-		"{ ?ass2 npx:asSentence <@> . ?ass2 npx:asSentence ?s } union " +
-		"{ <@> npx:hasSameMeaning ?s } union { ?s npx:hasSameMeaning <@> } " +
+		"graph ?ass { ?p npx:hasOpinion ?o . ?o rdf:type ?t . ?o npx:opinionOn <@> } " +
 		"} order by asc(?d)";
 	
 	public List<Opinion> getOpinions(boolean excludeNullOpinions) {
@@ -131,11 +144,10 @@ public class SentenceElement extends ThingElement {
 		}
 		return new ArrayList<Opinion>(opinionMap.values());
 	}
-	
-	// TODO: not all relations are symmetric
+
 	private static final String relatedSentencesQuery =
-		"select ?s ?pub ?r where { { " +
-		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?s } } union " +
+		"select ?s ?r ?o ?pub where { { " +
+		"{ ?pub np:hasAssertion ?ass . graph ?ass { <@> ?r ?o } } union " +
 		"{ ?pub np:hasAssertion ?ass . graph ?ass { ?s ?r <@> } } " +
 		"} . ?pub np:hasPublicationInfo ?info. graph ?info { ?pub dc:created ?d } . " +
 		"filter regex(str(?r), \"^http://purl.org/nanopub/x/(isImprovedVersionOf|has.*Meaning)\", \"i\") " +
@@ -147,13 +159,18 @@ public class SentenceElement extends ThingElement {
 		Map<String, Triple<SentenceElement,SentenceElement>> sentencesMap = new HashMap<String, Triple<SentenceElement,SentenceElement>>();
 		for (BindingSet bs : result) {
 			Value s = bs.getValue("s");
+			String r = bs.getValue("r").stringValue();
+			if (s == null) {
+				if (!symmetricRelations.contains(r)) continue;
+				s = bs.getValue("o");
+			}
 			Value pub = bs.getValue("pub");
-			if (s instanceof BNode || pub instanceof BNode) continue;
+			if (s instanceof BNode || s instanceof BNode || pub instanceof BNode) continue;
 			if (!s.stringValue().equals(getURI())) {
 				SentenceElement sentence = new SentenceElement(s.stringValue());
 				Triple<SentenceElement,SentenceElement> t = new Triple<SentenceElement,SentenceElement>(
 						sentence,
-						new ThingElement(bs.getValue("r").stringValue()),
+						new ThingElement(r),
 						this,
 						new NanopubElement(pub.stringValue()));
 				sentencesMap.put(sentence.getURI(), t);

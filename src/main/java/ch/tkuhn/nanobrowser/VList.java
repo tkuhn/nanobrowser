@@ -31,6 +31,8 @@ public class VList extends Panel {
 
 		add(new Label("title", title));
 
+		add(new Label("emptylabel", items.isEmpty() ? "(nothing)" : ""));
+
 		add(new ListView<Object>("items", items) {
 
 			private static final long serialVersionUID = 41253459622515487L;
@@ -46,6 +48,8 @@ public class VList extends Panel {
 		super(id);
 
 		add(new Label("title", title));
+
+		add(new Label("emptylabel", items.getObject().isEmpty() ? "(nothing)" : ""));
 
 		add(new ListView<Object>("items", items) {
 
