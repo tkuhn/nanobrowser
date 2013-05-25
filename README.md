@@ -32,7 +32,9 @@ Some screenshots of the browser interface:
 Virtuoso
 --------
 
-Nanobrowser uses the Virtuoso triple store via its SPARQL endpoint.
+Nanobrowser uses the Virtuoso triple store via its SPARQL endpoint. You should
+use a separate Virtuoso instance for nanobrowser. Make sure that the SPARQL
+endpoint is accessible to nanobrowser but not directly to web users.
 
 The following commands have to be executed to configure the Virtuoso triple
 store:

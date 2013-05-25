@@ -2,7 +2,7 @@ body {
 	color: #222;
 	background-color: white;
 	font-family: Verdana, Helvetica, sans-serif;
-	font-size: 11pt;
+	font-size: 10pt;
 	margin: 0px;
 }
 
@@ -57,7 +57,7 @@ h1 {
 }
 
 h4 {
-	font-size: 110%;
+	font-size: 120%;
 	margin-top: 15px;
 	margin-bottom: 15px;
 }

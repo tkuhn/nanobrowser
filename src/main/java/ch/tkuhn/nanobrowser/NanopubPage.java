@@ -107,7 +107,8 @@ public class NanopubPage extends NanobrowserWebPage {
 
 		List<Triple<?,?>> ass = pub.getAssertionTriples();
 		if (ass.size() > 0) {
-			add(new VList("asslist", TripleStoreAccess.sortTriples(ass), "Assertion as formula"));
+			String assUri = pub.getNanopub().getAssertionUri().stringValue();
+			add(new VList("asslist", TripleStoreAccess.sortTriples(ass), "Assertion as formula", assUri));
 		} else {
 			add(new Label("asslist", ""));
 		}
