@@ -29,17 +29,19 @@ public class VList extends Panel {
 	private String thisUri;
 
 	public VList(String id, List<? extends Object> items, String title) {
-		this(id, items, title, null);
+		this(id, items, title, null, null);
 	}
 
 	public VList(String id, List<? extends Object> items, String title, String thisUri) {
+		this(id, items, title, thisUri, null);
+	}
+
+	public VList(String id, List<? extends Object> items, String title, String thisUri, String note) {
 		super(id);
 
 		this.thisUri = thisUri;
 
 		add(new Label("title", title));
-
-		add(new Label("emptylabel", items.isEmpty() ? "(nothing)" : ""));
 
 		add(new ListView<Object>("items", items) {
 
@@ -50,20 +52,30 @@ public class VList extends Panel {
 			}
 			
 		});
+
+		if (note != null) {
+			add(new Label("note", note));
+		} else if (items.isEmpty()) {
+			add(new Label("(nothing)", note));
+		} else {
+			add(new Label("note", ""));
+		}
 	}
 
 	public VList(String id, IModel<? extends List<? extends Object>> items, String title) {
-		this(id, items, title, null);
+		this(id, items, title, null, null);
 	}
 
 	public VList(String id, IModel<? extends List<? extends Object>> items, String title, String thisUri) {
+		this(id, items, title, thisUri, null);
+	}
+
+	public VList(String id, IModel<? extends List<? extends Object>> items, String title, String thisUri, String note) {
 		super(id);
 
 		this.thisUri = thisUri;
 
 		add(new Label("title", title));
-
-		add(new Label("emptylabel", items.getObject().isEmpty() ? "(nothing)" : ""));
 
 		add(new ListView<Object>("items", items) {
 
@@ -74,8 +86,16 @@ public class VList extends Panel {
 			}
 			
 		});
+
+		if (note != null) {
+			add(new Label("note", note));
+		} else if (items.getObject().isEmpty()) {
+			add(new Label("(nothing)", note));
+		} else {
+			add(new Label("note", ""));
+		}
 	}
-	
+
 	private void populateItem(ListItem<Object> item) {
 		Object obj = item.getModelObject();
 		if (obj instanceof ThingElement) {

@@ -213,14 +213,22 @@ img.writebutton:hover {
 	src: url(icons/write-h.svg);
 }
 
+span.subject {
+	padding: 0 7px 0 0;
+}
+
+span.object {
+	padding: 0 7px 0 0;
+}
+
 span.predicate {
 	font-weight: bold;
-	padding: 0 5px;
+	padding: 0 7px 0 0;
 }
 
 span.predicatefirst {
 	font-weight: bold;
-	padding: 0 5px 0 0;
+	padding: 0 7px 0 0;
 }
 
 span.hlistitem {
