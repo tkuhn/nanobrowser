@@ -83,7 +83,7 @@ public class SentenceElement extends ThingElement {
 	}
 	
 	private static final String allSentencesQuery =
-		"select distinct ?s where { { {?s ?p ?e} union {?e ?p ?s} } " +
+		"select distinct ?s where { {?a npx:asSentence ?s} " +
 		"filter regex(str(?s), \"^http://purl.org/aida/\", \"i\") }";
 	
 	public static List<SentenceElement> getAllSentences(int limit) {

@@ -100,7 +100,7 @@ public class AgentPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(agent.getAuthoredNanopubs());
+		nanopubModel.setObject(agent.getAuthoredNanopubs(20));
 		opinionModel.setObject(agent.getOpinions(true));
 	}
 

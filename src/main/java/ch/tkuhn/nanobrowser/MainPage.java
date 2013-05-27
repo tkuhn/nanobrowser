@@ -14,6 +14,8 @@
 
 package ch.tkuhn.nanobrowser;
 
+import java.util.List;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -27,8 +29,11 @@ public class MainPage extends NanobrowserWebPage {
 	private static final long serialVersionUID = 6634220350799250923L;
 
 	private ListModel<NanopubElement> nanopubModel = new ListModel<NanopubElement>();
+	private static List<NanopubElement> nanopubList = null;
 	private ListModel<AgentElement> personModel = new ListModel<AgentElement>();
+	private static List<AgentElement> personList = null;
 	private ListModel<SentenceElement> sentenceModel = new ListModel<SentenceElement>();
+	private static List<SentenceElement> sentenceList = null;
 
 	public MainPage(final PageParameters parameters) {
 		
@@ -64,9 +69,48 @@ public class MainPage extends NanobrowserWebPage {
 	}
 	
 	private void update() {
-		nanopubModel.setObject(NanopubElement.getNonmetaNanopubs(10));
-		personModel.setObject(AgentElement.getAllPersons(10));
-		sentenceModel.setObject(SentenceElement.getAllSentences(10));
+		if (nanopubList == null) {
+			nanopubList = NanopubElement.getNonmetaNanopubs(10);
+		}
+		nanopubModel.setObject(nanopubList);
+		if (personList == null) {
+			personList = AgentElement.getAllPersons(10);
+		}
+		personModel.setObject(personList);
+		if (sentenceList == null) {
+			sentenceList = SentenceElement.getAllSentences(10);
+		}
+		sentenceModel.setObject(sentenceList);
+	}
+
+	public static void addToList(ThingElement el) {
+		if (el instanceof NanopubElement) {
+			nanopubList.add(0, (NanopubElement) el);
+			while (nanopubList.size() > 10) {
+				nanopubList.remove(10);
+			}
+		} else if (el instanceof AgentElement) {
+			AgentElement agent = (AgentElement) el;
+			if (personList.contains(agent)) return;
+			if (agent.isBot()) return;
+			personList.add(0, agent);
+			while (personList.size() > 10) {
+				personList.remove(10);
+			}
+		} else if (el instanceof SentenceElement) {
+			SentenceElement sentence = (SentenceElement) el;
+			if (sentenceList.contains(sentence)) return;
+			sentenceList.add(0, sentence);
+			while (sentenceList.size() > 10) {
+				sentenceList.remove(10);
+			}
+		}
+	}
+
+	public static void resetLists() {
+		nanopubList = null;
+		personList = null;
+		sentenceList = null;
 	}
 
 }

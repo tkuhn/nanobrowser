@@ -62,8 +62,9 @@ public class AgentElement extends ThingElement {
 		"graph ?info { ?pub pav:authoredBy <@> . ?pub dc:created ?d } " +
 		"filter not exists { ?pub a npx:MetaNanopub } } order by desc(?d)";
 	
-	public List<NanopubElement> getAuthoredNanopubs() {
-		String query = authoredNanopubsQuery.replaceAll("@", getURI());
+	public List<NanopubElement> getAuthoredNanopubs(int limit) {
+		String lm = (limit >= 0) ? " limit " + limit : "";
+		String query = authoredNanopubsQuery.replaceAll("@", getURI()) + lm;
 		List<BindingSet> result = TripleStoreAccess.getTuples(query);
 		List<NanopubElement> l = new ArrayList<NanopubElement>();
 		for (BindingSet bs : result) {

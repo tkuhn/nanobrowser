@@ -144,6 +144,7 @@ public class NanopubPage extends NanobrowserWebPage {
 
 				public void onClick() {
 					pub.delete();
+					MainPage.resetLists();
 					setResponsePage(MainPage.class);
 				}
 				

@@ -72,6 +72,9 @@ public class PublishPage extends NanobrowserWebPage {
 				URI nanopubUri = sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject(), prov);
 				PageParameters params = new PageParameters();
 				params.add("uri", nanopubUri.stringValue());
+				MainPage.addToList(new NanopubElement(nanopubUri.stringValue()));
+				MainPage.addToList(getUser());
+				MainPage.addToList(sentence);
 				setResponsePage(NanopubPage.class, params);
 			}
 			
