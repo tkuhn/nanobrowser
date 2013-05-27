@@ -60,9 +60,20 @@ public class MainPage extends NanobrowserWebPage {
 				}
 				
 			});
+			aa.add(new Link<Object>("refreshlists") {
+
+				private static final long serialVersionUID = -3427880218133619145L;
+
+				public void onClick() {
+					resetLists();
+					update();
+				}
+				
+			});
 		} else {
 			aa.add(new AttributeModifier("class", new Model<String>("hidden")));
 			aa.add(new Label("deletemetapubs", ""));
+			aa.add(new Label("refreshlists", ""));
 		}
 		add(aa);
 		
