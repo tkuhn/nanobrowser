@@ -56,7 +56,7 @@ public class VList extends Panel {
 		if (note != null) {
 			add(new Label("note", note));
 		} else if (items.isEmpty()) {
-			add(new Label("(nothing)", note));
+			add(new Label("note", "(nothing)"));
 		} else {
 			add(new Label("note", ""));
 		}
@@ -90,7 +90,7 @@ public class VList extends Panel {
 		if (note != null) {
 			add(new Label("note", note));
 		} else if (items.getObject().isEmpty()) {
-			add(new Label("(nothing)", note));
+			add(new Label("note", "(nothing)"));
 		} else {
 			add(new Label("note", ""));
 		}
