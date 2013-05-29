@@ -1,9 +1,9 @@
 nanobrowser
 ===========
 
-A browser for nanopublications.
+A browser for nanopublications. Under construction...
 
-Under construction...
+See the [public demo](http://nanobrowser.inn.ac/).
 
 The code is available under the LGPL license. See LICENSE.txt for the details.
 
