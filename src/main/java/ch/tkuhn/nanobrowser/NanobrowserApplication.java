@@ -63,7 +63,7 @@ public class NanobrowserApplication extends WebApplication {
 		getSharedResources().add("/xml", new RawNanopubPage(RDFFormat.TRIX));
 	    mountResource("/xml", new SharedResourceReference("/xml"));
 		getSharedResources().add("/nq", new RawNanopubPage(RDFFormat.NQUADS));
-	    mountResource("/nq", new SharedResourceReference("/nq"));
+		mountResource("/nq", new SharedResourceReference("/nq"));
 	}
 
 	public Class<? extends Page> getHomePage() {

@@ -6,7 +6,7 @@ import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.resource.IResource;
 import org.openrdf.rio.RDFFormat;
 
-import ch.tkuhn.nanopub.NanopubUtils;
+import ch.tkuhn.hashuri.rdf.RdfUtils;
 
 public class RawNanopubPage implements IResource {
 
@@ -26,7 +26,7 @@ public class RawNanopubPage implements IResource {
 		try {
 			pub = new NanopubElement(attributes.getParameters().get("uri").toString());
 			ByteArrayOutputStream b = new ByteArrayOutputStream();
-			NanopubUtils.writeToStream(pub.getNanopub(), b, format);
+			RdfUtils.writeNanopub(pub.getNanopub(), b, format);
 			b.close();
 			resp.write(b.toByteArray());
 		} catch (Exception ex) {}
