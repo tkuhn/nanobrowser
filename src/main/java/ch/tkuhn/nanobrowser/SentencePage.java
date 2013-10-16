@@ -39,7 +39,9 @@ public class SentencePage extends NanobrowserWebPage {
 			SentenceRelation.HAS_RELATED_MEANING,
 			SentenceRelation.HAS_SAME_MEANING,
 			SentenceRelation.HAS_OPPOSITE_MEANING,
-			SentenceRelation.HAS_CONFLICTING_MEANING
+			SentenceRelation.HAS_CONFLICTING_MEANING,
+			SentenceRelation.HAS_MORE_GENERAL_MEANING_THAN,
+			SentenceRelation.HAS_MORE_SPECIFIC_MEANING_THAN
 	});
 
 	private SentenceElement sentence;
