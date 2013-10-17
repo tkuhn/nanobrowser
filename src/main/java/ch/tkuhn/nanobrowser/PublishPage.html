@@ -23,14 +23,14 @@ Publish
 
 <form wicket:id="form">
 
-<p class="note">Here, you can publish your own nanopublication. Fill out the fields below and then press <em>Publish</em>.</p>
+<p class="note">Here, you can publish your own nanopublication.</p>
 
 <hr/>
 
 <p>
 <strong>Types:</strong>
 <span class="hlistitem"><input type="checkbox" checked disabled>Nanopublication</input></span>
-<span class="hlistitem"><input wicket:id="examplenanopub" type="checkbox" >ExampleNanopub <span class="note">(for demonstration or testing)</span></input></span>
+<span class="hlistitem"><input wicket:id="examplenanopub" type="checkbox" >Example (for demonstration or testing)</input></span>
 </p>
 
 <p><strong>Author:</strong> <span class="hlistitem"><img src="icons/person.svg" alt="" height="16" width="16"/> <span wicket:id="author"></span></span></p>
@@ -43,7 +43,7 @@ Publish
 Write down your scientific assertion as an English sentence. Make sure that it is <a class="highlight" href="http://purl.org/aida/" target="_blank">AIDA: atomic, independent, declarative, and absolute</a>.
 </p>
 
-<p class="nowrap"><input wicket:id="sentence" type="text" class="textfield" size="100" placeholder="you must add a sentence here" required /> <span class="note">*</span></p>
+<p class="nowrap"><input wicket:id="sentence" type="text" class="textfield" size="100" placeholder="you must add a sentence here" required /></p>
 
 <p wicket:id="sentenceerror" class="error"></p>
 
@@ -51,19 +51,11 @@ Write down your scientific assertion as an English sentence. Make sure that it i
 
 <h4>Provenance</h4>
 
-<p class="note">
-You can cite an existing scientific article here via a DOI identifier.
-</p>
-
-<p class="nowrap"><strong>citesAsSupportiveEvidence:</strong> <input wicket:id="doi" type="text" class="textfield" size="30" placeholder="you may add a DOI here" /></p>
+<p class="nowrap">Cites as supportive evidence: <input wicket:id="doi" type="text" class="textfield" size="30" placeholder="you may add a DOI here (optional)" /></p>
 
 <p wicket:id="doierror" class="error"></p>
 
 <hr/>
-
-<p class="note">
-* required
-</p>
 
 <p>
 <input type="submit" class="button" href="#" value="Publish" />
