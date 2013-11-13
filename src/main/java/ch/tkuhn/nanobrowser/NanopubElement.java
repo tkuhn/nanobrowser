@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.util.io.IOUtils;
+import org.nanopub.Nanopub;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -31,7 +32,6 @@ import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
 import ch.tkuhn.hashuri.rdf.CheckNanopub;
-import ch.tkuhn.nanopub.Nanopub;
 
 public class NanopubElement extends ThingElement {
 	
