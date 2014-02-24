@@ -31,7 +31,7 @@ import org.openrdf.query.BindingSet;
 
 import com.google.common.collect.ImmutableList;
 
-import ch.tkuhn.hashuri.rdf.TransformNanopub;
+import net.trustyuri.rdf.TransformNanopub;
 
 public class SentenceElement extends ThingElement {
 	

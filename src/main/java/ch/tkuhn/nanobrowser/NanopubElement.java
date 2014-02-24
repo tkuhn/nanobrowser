@@ -31,7 +31,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
 
-import ch.tkuhn.hashuri.rdf.CheckNanopub;
+import net.trustyuri.rdf.CheckNanopub;
 
 public class NanopubElement extends ThingElement {
 	

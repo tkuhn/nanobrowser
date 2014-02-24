@@ -6,7 +6,7 @@ import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.resource.IResource;
 import org.openrdf.rio.RDFFormat;
 
-import ch.tkuhn.hashuri.rdf.RdfUtils;
+import net.trustyuri.rdf.RdfUtils;
 
 public class RawNanopubPage implements IResource {
 
