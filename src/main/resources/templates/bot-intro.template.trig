@@ -3,21 +3,19 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix pav: <http://purl.org/pav/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 
 :Head {
-    : a npx:IntroNanopub .
-    : a npx:MetaNanopub .
     : a np:Nanopublication .
-    : np:hasAssertion :Ass .
-    : np:hasProvenance :Prov .
-    : np:hasPublicationInfo :Info .
+    : np:hasAssertion :assertion .
+    : np:hasProvenance :provenance .
+    : np:hasPublicationInfo :pubinfo .
 }
 
-:Ass {
+:assertion {
     : npx:introduces <@BOT@> .
     <@BOT@> a foaf:Agent ;
         a npx:Bot ;
@@ -25,11 +23,14 @@
     <@COMMANDER@> npx:commands <@BOT@> .
 }
 
-:Prov {
+:provenance {
+    :assertion pav:createdBy <@CREATOR@> .
 }
 
-:Info {
+:pubinfo {
     : pav:authoredBy <@CREATOR@> .
     : pav:createdBy <@CREATOR@> .
     : dc:created "@DATETIME@"^^xsd:dateTime .
+    : a npx:IntroNanopub .
+    : a npx:MetaNanopub .
 }

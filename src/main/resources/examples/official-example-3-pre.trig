@@ -34,6 +34,6 @@
                    dcterms:DOI  <http://dx.doi.org/10.1371/journal.pone.0007894>.
 }
 :NanoPub_1_Supporting {
-    :Association_1 opm:wasDerivedFrom <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_1980_2010> ;
+    :NanoPub_1_Assertion opm:wasDerivedFrom <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_1980_2010> ;
         opm:wasGeneratedBy <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_matching_1980_2010> .
 }

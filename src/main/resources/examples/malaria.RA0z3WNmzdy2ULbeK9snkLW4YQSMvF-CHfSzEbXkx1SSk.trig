@@ -1,0 +1,40 @@
+@prefix this: <http://purl.org/nanobrowser/examples/malaria.RA0z3WNmzdy2ULbeK9snkLW4YQSMvF-CHfSzEbXkx1SSk> .
+@prefix sub: <http://purl.org/nanobrowser/examples/malaria.RA0z3WNmzdy2ULbeK9snkLW4YQSMvF-CHfSzEbXkx1SSk#> .
+@prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
+
+sub:Head {
+	sub:assertionHead rdfg:subGraphOf sub:assertion .
+	
+	sub:assertionStatement rdfg:subGraphOf sub:assertion .
+	
+	this: np:hasAssertion sub:assertion ;
+		np:hasProvenance sub:provenance ;
+		np:hasPublicationInfo sub:pubinfo ;
+		a np:Nanopublication .
+}
+
+sub:assertionStatement {
+	<http://example.com/mosquito> <http://example.com/transmits> <http://example.com/malaria> .
+}
+
+sub:assertionHead {
+	sub:assertion npx:asFormula sub:assertionStatement ;
+		npx:asSentence <http://purl.org/aida/Malaria+is+transmitted+by+mosquitoes.> .
+}
+
+sub:provenance {
+	sub:assertion prov:hadPrimarySource <http://dx.doi.org/10.3233/ISU-2010-0613> .
+}
+
+sub:pubinfo {
+	this: dc:created "2013-03-04T17:24:00Z"^^xsd:dateTime ;
+		pav:authoredBy <http://orcid.org/0000-0002-1267-0234> ;
+		pav:createdBy <http://orcid.org/0000-0002-1267-0234> ;
+		a npx:ExampleNanopub .
+}

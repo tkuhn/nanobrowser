@@ -2,29 +2,30 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix pav: <http://purl.org/pav/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 
 :Head {
-	: a np:Nanopublication .
-	: a npx:MetaNanopub .
-	: np:hasAssertion :Ass .
-	: np:hasProvenance :Prov .
-	: np:hasPublicationInfo :Info .
+    : a np:Nanopublication .
+    : np:hasAssertion :assertion .
+    : np:hasProvenance :provenance .
+    : np:hasPublicationInfo :pubinfo .
 }
 
-:Ass {
+:assertion {
 	<@AGENT@> npx:hasOpinion :Op .
 	:Op rdf:type <@TYPE@> .
 	:Op npx:opinionOn <@OBJECT@> .
 }
 
-:Prov {
+:provenance {
+    :assertion pav:createdBy <@AGENT@> .
 }
 
-:Info {
+:pubinfo {
 	: pav:authoredBy <@AGENT@> .
 	: pav:createdBy <@AGENT@> .
 	: dc:created "@DATETIME@"^^xsd:dateTime .
+	: a npx:MetaNanopub .
 }

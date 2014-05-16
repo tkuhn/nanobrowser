@@ -24,14 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.trustyuri.rdf.TransformRdf;
+
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
+import org.openrdf.rio.RDFFormat;
 
 import com.google.common.collect.ImmutableList;
-
-import net.trustyuri.rdf.TransformNanopub;
 
 public class SentenceElement extends ThingElement {
 	
@@ -183,18 +184,18 @@ public class SentenceElement extends ThingElement {
 	public URI publish(AgentElement author, boolean isExample, String provenance) {
 		String types = "";
 		URI uri = null;
-		if (isExample) types = ", npx:ExampleNanopub";
+		if (isExample) types = ": a npx:ExampleNanopub .";
 		try {
 			String pubURI = NanobrowserApplication.getProperty("nanopub-server-baseuri") + "pub/";
 			String nanopubString = NanopubElement.getTemplate("publish")
 					.replaceAll("@ROOT@", pubURI)
-					.replaceAll("@TYPES@", types)
+					.replaceAll("@PUBINFO@", types)
 					.replaceAll("@AGENT@", author.getURI())
 					.replaceAll("@SENTENCE@", getURI())
 					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp())
 					.replaceAll("@PROV@", provenance);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			uri = TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			uri = TransformRdf.transform(new ByteArrayInputStream(nanopubString.getBytes()), RDFFormat.TRIG, out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
 		} catch (Exception ex) {
@@ -214,7 +215,7 @@ public class SentenceElement extends ThingElement {
 					.replaceAll("@SENTENCE2@", getURI())
 					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			TransformRdf.transform(new ByteArrayInputStream(nanopubString.getBytes()), RDFFormat.TRIG, out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
 		} catch (Exception ex) {

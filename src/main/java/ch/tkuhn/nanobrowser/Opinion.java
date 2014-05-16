@@ -18,9 +18,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
-import org.openrdf.model.URI;
+import net.trustyuri.rdf.TransformRdf;
 
-import net.trustyuri.rdf.TransformNanopub;
+import org.openrdf.model.URI;
+import org.openrdf.rio.RDFFormat;
 
 public class Opinion implements Serializable {
 
@@ -91,7 +92,7 @@ public class Opinion implements Serializable {
 					.replaceAll("@TYPE@", opinionType)
 					.replaceAll("@DATETIME@", NanobrowserApplication.getTimestamp());
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			URI trustyURI = TransformNanopub.transform(new ByteArrayInputStream(nanopubString.getBytes()), out, pubURI);
+			URI trustyURI = TransformRdf.transform(new ByteArrayInputStream(nanopubString.getBytes()), RDFFormat.TRIG, out, pubURI);
 			String query = TripleStoreAccess.getNanopublishQuery(new ByteArrayInputStream(out.toByteArray()));
 			TripleStoreAccess.runUpdateQuery(query);
 			setNanopub(new NanopubElement(trustyURI.toString()));

@@ -1,0 +1,37 @@
+@prefix this: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAVVHlDwWdbZmy1op1yimZMoPr0EhAVOXHi8xECoOQGE0> .
+@prefix sub: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAVVHlDwWdbZmy1op1yimZMoPr0EhAVOXHi8xECoOQGE0#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix pav: <http://purl.org/pav/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix np: <http://www.nanopub.org/nschema#> .
+@prefix npx: <http://purl.org/nanopub/x/> .
+
+sub:Head {
+	this: np:hasAssertion sub:assertion ;
+		np:hasProvenance sub:provenance ;
+		np:hasPublicationInfo sub:pubinfo ;
+		a np:Nanopublication .
+}
+
+sub:assertion {
+	<http://orcid.org/0000-0002-1267-0234> a foaf:Person ;
+		rdfs:label "Tobias Kuhn" ;
+		owl:sameAs <http://www.researcherid.com/rid/B-6810-2013> .
+	
+	this: npx:introduces <http://orcid.org/0000-0002-1267-0234> ;
+		rdfs:label "Introduction of Tobias Kuhn" .
+}
+
+sub:provenance {
+	sub:assertion pav:createdBy <http://orcid.org/0000-0002-1267-0234> .
+}
+
+sub:pubinfo {
+	this: dc:created "2013-03-04T17:26:00Z"^^xsd:dateTime ;
+		pav:authoredBy <http://orcid.org/0000-0002-1267-0234> ;
+		pav:createdBy <http://orcid.org/0000-0002-1267-0234> ;
+		a npx:IntroNanopub , npx:MetaNanopub .
+}

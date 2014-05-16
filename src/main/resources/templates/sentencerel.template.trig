@@ -1,27 +1,28 @@
 @prefix : <@ROOT@> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix pav: <http://purl.org/pav/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 
 :Head {
-	: a npx:MetaNanopub .
     : a np:Nanopublication .
-	: np:hasAssertion :Ass .
-	: np:hasProvenance :Prov .
-	: np:hasPublicationInfo :Info .
+    : np:hasAssertion :assertion .
+    : np:hasProvenance :provenance .
+    : np:hasPublicationInfo :pubinfo .
 }
 
-:Ass {
+:assertion {
 	<@SENTENCE1@> <@RELATION@> <@SENTENCE2@> .
 }
 
-:Prov {
+:provenance {
+    :assertion pav:createdBy <@AGENT@> .
 }
 
-:Info {
+:pubinfo {
 	: pav:authoredBy <@AGENT@> .
 	: pav:createdBy <@AGENT@> .
 	: dc:created "@DATETIME@"^^xsd:dateTime .
+	: a npx:MetaNanopub .
 }

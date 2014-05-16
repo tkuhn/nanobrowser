@@ -67,7 +67,7 @@ public class PublishPage extends NanobrowserWebPage {
 				}
 				String prov = "";
 				if (paper != null) {
-					prov = ": swan:citesAsSupportiveEvidence <" + paper.getURI() + "> .";
+					prov = ": prov:hadPrimarySource <" + paper.getURI() + "> .";
 				}
 				URI nanopubUri = sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject(), prov);
 				PageParameters params = new PageParameters();

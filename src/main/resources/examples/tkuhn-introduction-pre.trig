@@ -3,21 +3,19 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> .
+@prefix pav: <http://purl.org/pav/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix npx: <http://purl.org/nanopub/x/> .
 
 :Head {
-    : a npx:IntroNanopub .
-    : a npx:MetaNanopub .
     : a np:Nanopublication .
-    : np:hasAssertion :Ass .
-    : np:hasProvenance :Prov .
-    : np:hasPublicationInfo :Info .
+    : np:hasAssertion :assertion .
+    : np:hasProvenance :provenance .
+    : np:hasPublicationInfo :pubinfo .
 }
 
-:Ass {
+:assertion {
     : rdfs:label "Introduction of Tobias Kuhn" .
     : npx:introduces <http://orcid.org/0000-0002-1267-0234> .
     <http://orcid.org/0000-0002-1267-0234> a foaf:Person ;
@@ -25,11 +23,14 @@
         owl:sameAs <http://www.researcherid.com/rid/B-6810-2013> .
 }
 
-:Prov {
+:provenance {
+    :assertion pav:createdBy <http://orcid.org/0000-0002-1267-0234> .
 }
 
-:Info {
+:pubinfo {
     : pav:authoredBy <http://orcid.org/0000-0002-1267-0234> .
     : pav:createdBy <http://orcid.org/0000-0002-1267-0234> .
     : dc:created "2013-03-04T17:26:00Z"^^xsd:dateTime .
+    : a npx:IntroNanopub .
+    : a npx:MetaNanopub .
 }

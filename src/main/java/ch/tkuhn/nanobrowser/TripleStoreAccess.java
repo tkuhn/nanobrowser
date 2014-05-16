@@ -56,7 +56,8 @@ public class TripleStoreAccess {
 		"prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> " +
 		"prefix owl: <http://www.w3.org/2002/07/owl#> " +
 		"prefix dc: <http://purl.org/dc/terms/> " +
-		"prefix pav: <http://swan.mindinformatics.org/ontologies/1.2/pav/> " +
+		"prefix pav: <http://purl.org/pav/> " +
+		"prefix prov: <http://www.w3.org/ns/prov#> " +
 		"prefix foaf: <http://xmlns.com/foaf/0.1/> " +
 		"prefix np: <http://www.nanopub.org/nschema#> " +
 		"prefix npx: <http://purl.org/nanopub/x/> ";
