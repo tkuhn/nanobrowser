@@ -49,3 +49,7 @@ To allow for text indexing (not yet implemented):
 
     RDF_OBJ_FT_RULE_ADD(null, null, 'All');
     VT_INC_INDEX_DB_DBA_RDF_OBJ();
+
+To load a (large) file of nanopubs in N-Quads format to Virtuoso:
+
+    ttlp_mt (file_to_string_output ('file.nq'), '', 'http://example.org/foo', 512);
