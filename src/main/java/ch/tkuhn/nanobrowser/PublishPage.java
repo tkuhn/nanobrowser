@@ -67,7 +67,7 @@ public class PublishPage extends NanobrowserWebPage {
 				}
 				String prov = "";
 				if (paper != null) {
-					prov = ": prov:hadPrimarySource <" + paper.getURI() + "> .";
+					prov = ":assertion prov:hadPrimarySource <" + paper.getURI() + "> .";
 				}
 				URI nanopubUri = sentence.publish(getUser(), exampleNanopubCheckbox.getModel().getObject(), prov);
 				PageParameters params = new PageParameters();
