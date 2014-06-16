@@ -58,14 +58,6 @@ public class NanopubElement extends ThingElement {
 		return isValid;
 	}
 
-	private static final String hasCompleteFormalAssertionQuery =
-		"ask { graph <@> { ?s ?p ?o } }";
-	
-	public boolean hasCompleteFormalAssertionQuery() {
-		String query = hasCompleteFormalAssertionQuery.replaceAll("@", nanopub.getAssertionUri().stringValue());
-		return TripleStoreAccess.isTrue(query);
-	}
-
 	private static final String nonmetaNanopubsQuery =
 		"select distinct ?p where { ?p a np:Nanopublication . ?p np:hasPublicationInfo ?info . " +
 		"graph ?info { ?p dc:created ?d } ." +

@@ -105,14 +105,12 @@ public class NanopubPage extends NanobrowserWebPage {
 			add(new Label("sentencelist", ""));
 		}
 
-		List<Triple<?,?>> ass = pub.getAssertionTriples();
-		if (ass.size() > 0) {
-			String assUri = pub.getNanopub().getAssertionUri().stringValue();
-			String note = null;
-			if (!pub.hasCompleteFormalAssertionQuery()) note = "(incomplete)";
-			add(new VList("asslist", TripleStoreAccess.sortTriples(ass), "Assertion as formula", assUri, note));
+		List<Triple<?,?>> assertion = pub.getAssertionTriples();
+		if (assertion.size() > 0) {
+			String assertionUri = pub.getNanopub().getAssertionUri().stringValue();
+			add(new VList("assertionlist", TripleStoreAccess.sortTriples(assertion), "Assertion as formula", assertionUri));
 		} else {
-			add(new Label("asslist", ""));
+			add(new Label("assertionlist", ""));
 		}
 
 		List<Triple<?,?>> prov = pub.getProvenanceTriples();

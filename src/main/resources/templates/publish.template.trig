@@ -12,12 +12,11 @@
     : np:hasAssertion :assertion .
     : np:hasProvenance :provenance .
     : np:hasPublicationInfo :pubinfo .
-
-    :assertionHead rdfg:subGraphOf :assertion .
 }
 
-:assertionHead {
+:assertion {
     :assertion npx:asSentence <@SENTENCE@> .
+    :assertion a npx:UnderspecifiedAssertion .
 }
 
 :provenance {

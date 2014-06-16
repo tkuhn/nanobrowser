@@ -12,18 +12,10 @@
     : np:hasAssertion :assertion .
     : np:hasProvenance :provenance .
     : np:hasPublicationInfo :pubinfo .
-
-    :assertionHead rdfg:subGraphOf :assertion .
-    :assertionStatement rdfg:subGraphOf :assertion .
 }
 
-:assertionHead {
-    :assertion
-        npx:asSentence <http://purl.org/aida/Malaria+is+transmitted+by+mosquitoes.> ;
-        npx:asFormula :assertionStatement .
-}
-
-:assertionStatement {
+:assertion {
+    :assertion npx:asSentence <http://purl.org/aida/Malaria+is+transmitted+by+mosquitoes.> .
     <http://example.com/mosquito> <http://example.com/transmits> <http://example.com/malaria> .
 }
 

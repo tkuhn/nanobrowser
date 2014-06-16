@@ -23,13 +23,15 @@ npx:Formula rdfs:subClassOf rdfg:Graph .
 npx:Sentence rdfs:subClassOf npx:Statement .
 npx:AIDA-Sentence rdfs:subClassOf npx:Sentence .
 
-npx:asFormula rdfs:subPropertyOf [ owl:inverseOf rdfg:subGraphOf ] .
+npx:asFormula rdf:type rdf:Property .
 npx:asFormula rdfs:domain np:Assertion .
 npx:asFormula rdfs:range npx:Formula .
 
 npx:asSentence rdf:type rdf:Property .
 npx:asSentence rdfs:domain np:Assertion .
 npx:asSentence rdfs:range npx:Sentence .
+
+npx:UnderspecifiedAssertion rdfs:subClassOf np:Assertion .
 
 
 # Agents
