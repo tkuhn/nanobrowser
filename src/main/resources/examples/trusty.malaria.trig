@@ -1,6 +1,5 @@
 @prefix this: <http://purl.org/nanobrowser/examples/malaria.RAw6j0_bEpjVO_Ft5tvli7EKePCR4E0fHmO6i3N8i5KAQ> .
 @prefix sub: <http://purl.org/nanobrowser/examples/malaria.RAw6j0_bEpjVO_Ft5tvli7EKePCR4E0fHmO6i3N8i5KAQ#> .
-@prefix rdfg: <http://www.w3.org/2004/03/trix/rdfg-1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix pav: <http://purl.org/pav/> .

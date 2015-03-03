@@ -25,13 +25,12 @@ import java.util.Map;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.util.io.IOUtils;
 import org.nanopub.Nanopub;
+import org.nanopub.trusty.TrustyNanopubUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
-
-import net.trustyuri.rdf.CheckNanopub;
 
 public class NanopubElement extends ThingElement {
 	
@@ -54,7 +53,7 @@ public class NanopubElement extends ThingElement {
 	public boolean isValid() {
 		if (isValid != null) return isValid;
 		if (nanopub == null) return false;
-		isValid = CheckNanopub.isValid(nanopub);
+		isValid = TrustyNanopubUtils.isValidTrustyNanopub(nanopub);
 		return isValid;
 	}
 

@@ -1,5 +1,5 @@
-@prefix this: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAVVHlDwWdbZmy1op1yimZMoPr0EhAVOXHi8xECoOQGE0> .
-@prefix sub: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAVVHlDwWdbZmy1op1yimZMoPr0EhAVOXHi8xECoOQGE0#> .
+@prefix this: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAwtbhZH9MBA4cqSaVVRYve9xodC7ljGNT4wCySHxOSeA> .
+@prefix sub: <http://purl.org/nanobrowser/examples/tkuhn-introduction.RAwtbhZH9MBA4cqSaVVRYve9xodC7ljGNT4wCySHxOSeA#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

@@ -1,4 +1,4 @@
-@prefix : <http://rdf.biosemantics.org/vocabularies/gene_disease_nanopub_example#> .
+@prefix : <http://rdf.biosemantics.org/vocabularies/gene_disease_nanopub_example> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix np: <http://www.nanopub.org/nschema#> .
 @prefix opm: <http://purl.org/net/opmv/ns#> .
@@ -6,14 +6,13 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sio: <http://semanticscience.org/resource/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@base <http://rdf.biosemantics.org/vocabularies/gene_disease_nanopub_example#> .
-<> {
-    :NanoPub_1 a np:Nanopublication ;
-        np:hasAssertion :NanoPub_1_Assertion ;
-        np:hasProvenance :NanoPub_1_Supporting ;
-        np:hasPublicationInfo :NanoPub_1_Attribution .
+:Head {
+    : a np:Nanopublication ;
+        np:hasAssertion :Assertion ;
+        np:hasProvenance :Supporting ;
+        np:hasPublicationInfo :Attribution .
 }
-:NanoPub_1_Assertion {
+:Assertion {
     :Association_1 a sio:statistical-association ;
         sio:has-measurement-value :Association_1_p_value ;
         sio:refers-to <http://bio2rdf.org/geneid:825>, <http://bio2rdf.org/geneid:29780> ;
@@ -23,8 +22,8 @@
     :Association_1_p_value a sio:probability-value ;
         sio:has-value "6.56211e-05"^^xsd:float .
 }
-:NanoPub_1_Attribution {
-    :NanoPub_1 dcterms:created "2012-03-28T11:32:30.758274Z"^^xsd:dateTime ;
+:Attribution {
+    : dcterms:created "2012-03-28T11:32:30.758274Z"^^xsd:dateTime ;
         pav:authoredBy <http://www.researcherid.com/rid/B-6035-2012> ,
             <http://www.researcherid.com/rid/B-5927-2012> ;
         pav:createdBy <http://www.researcherid.com/rid/B-5852-2012> ;
@@ -33,7 +32,7 @@
         dcterms:rightsHolder <http://biosemantics.org> ;
                    dcterms:DOI  <http://dx.doi.org/10.1371/journal.pone.0007894>.
 }
-:NanoPub_1_Supporting {
-    :NanoPub_1_Assertion opm:wasDerivedFrom <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_1980_2010> ;
+:Supporting {
+    :Assertion opm:wasDerivedFrom <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_1980_2010> ;
         opm:wasGeneratedBy <http://rdf.biosemantics.org/vocabularies/text_mining/gene_disease_concept_profiles_matching_1980_2010> .
 }
