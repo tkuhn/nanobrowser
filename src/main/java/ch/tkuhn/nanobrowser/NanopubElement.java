@@ -46,7 +46,6 @@ public class NanopubElement extends ThingElement {
 		super(uri);
 		nanopub = TripleStoreAccess.getNanopub(uri);
 		if (nanopub == null) {
-			System.err.println(uri);
 			nanopub = GetNanopub.get(uri);
 		}
 	}
