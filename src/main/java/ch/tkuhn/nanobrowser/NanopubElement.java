@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.util.io.IOUtils;
 import org.nanopub.Nanopub;
+import org.nanopub.extra.server.GetNanopub;
 import org.nanopub.trusty.TrustyNanopubUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
@@ -44,6 +45,10 @@ public class NanopubElement extends ThingElement {
 	public NanopubElement(String uri) {
 		super(uri);
 		nanopub = TripleStoreAccess.getNanopub(uri);
+		if (nanopub == null) {
+			System.err.println(uri);
+			nanopub = GetNanopub.get(uri);
+		}
 	}
 
 	public Nanopub getNanopub() {
